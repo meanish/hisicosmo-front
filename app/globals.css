@@ -1,27 +1,4 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-.container {
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 4rem;
-}
-
-@media screen and (max-width: 1280px) {
-  .container {
-    padding: 0 2rem;
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .container {
-    padding: 0 1rem;
-  }
-}
+  
