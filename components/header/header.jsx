@@ -4,8 +4,7 @@ import logo from "@/public/images/logo.png";
 import { RxAvatar } from "react-icons/rx";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import { CiMenuBurger, CiSearch } from "react-icons/ci";
-import { IoIosArrowDown } from "react-icons/io";
+import { CiSearch } from "react-icons/ci";
 import Link from "next/link";
 
 const navLinks = [
@@ -84,7 +83,9 @@ export const Logo_Account_Section = () => {
             <RxAvatar size={40} color="gray" className="cursor-pointer" />
             <div className="flex justify-center flex-col">
               <p className="text-[10px] text-gray-500">Hello,Sign In</p>
-              <p className="text-sm font-semibold cursor-pointer">Your Account</p>
+              <p className="text-sm font-semibold cursor-pointer">
+                Your Account
+              </p>
             </div>
           </div>
           <div className="icons flex items-center gap-10 justify-between">

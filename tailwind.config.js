@@ -23,7 +23,9 @@ module.exports = {
         gradient_last: "#131137",
 
         primary_blue: "#110884",
-        primary_gold: "#E7B453"
+        primary_gold: "#E7B453",
+
+        text_gray: "#707B8A",
 
       },
       keyframes: {
