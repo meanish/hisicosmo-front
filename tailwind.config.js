@@ -24,6 +24,9 @@ module.exports = {
 
         primary_blue: "#110884",
         primary_gold: "#E7B453",
+        blue_gray: "#34466E",
+
+        bg_footer: "#011749",
 
         text_gray: "#707B8A",
 
