@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import logo from "@/public/images/logo.png";
+import logo from "@/public/images/Hisi-Logo.svg";
 import { RxAvatar } from "react-icons/rx";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
