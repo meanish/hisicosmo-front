@@ -15,7 +15,7 @@ export default Login_Container;
 
 export const Login_Form = () => {
   return (
-    <div className="w-1/2">
+    <form className="w-1/2">
       <h2 className="font-bold text-3xl mb-6">Login</h2>
       <div className="input_field w-full">
         <div className="flex flex-col gap-4">
@@ -42,7 +42,7 @@ export const Login_Form = () => {
           Forgot password ?
         </Link>
       </div>
-      <button className="my-5 w-full py-5 bg-primary_blue text-lg text-white max-w-[480px] rounded-md">
+      <button type="submit" className="my-5 w-full py-5 bg-primary_blue text-lg text-white max-w-[480px] rounded-md">
         Login
       </button>
 
@@ -52,7 +52,7 @@ export const Login_Form = () => {
           Register With Us
         </Link>
       </div>
-    </div>
+    </form>
   );
 };
 
