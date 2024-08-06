@@ -42,13 +42,19 @@ export const Login_Form = () => {
           Forgot password ?
         </Link>
       </div>
-      <button type="submit" className="my-5 w-full py-5 bg-primary_blue text-lg text-white max-w-[480px] rounded-md">
+      <button
+        type="submit"
+        className="my-5 w-full py-5 bg-primary_blue text-lg text-white max-w-[480px] rounded-md"
+      >
         Login
       </button>
 
       <div>
         <span className="text-sm font-bold">New To Hisi Cosmetic ? </span>
-        <Link className="text-sm font-bold text-primary_blue" href={"#"}>
+        <Link
+          className="text-sm hover:underline active:text-primary_gold font-bold text-primary_blue"
+          href={"/register"}
+        >
           Register With Us
         </Link>
       </div>

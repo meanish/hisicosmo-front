@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Children } from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 
 const list = [
@@ -103,7 +103,7 @@ export const Blue_Service_Section = () => {
               viewBox="0 0 78 78"
               fill="none"
             >
-              <g clip-path="url(#clip0_291_1217)">
+              <g clipPath="url(#clip0_291_1217)">
                 <path
                   d="M76.6375 38.2613C76.6375 17.2516 59.6059 0.219971 38.5962 0.219971C17.5866 0.219971 0.554932 17.2516 0.554932 38.2613C0.554932 59.2709 17.5866 76.3026 38.5962 76.3026C59.6059 76.3026 76.6375 59.2709 76.6375 38.2613Z"
                   fill="#FDEAF0"
@@ -137,4 +137,8 @@ export const Blue_Service_Section = () => {
       })}
     </ul>
   );
+};
+
+export const Input_Error_Text = ({ errors }) => {
+  return <p className="text-sm text-red-600 font-semibold">{errors}</p>;
 };
