@@ -35,6 +35,9 @@ const Footer = () => {
           <Image
             className="logo_image my-10 bg-white "
             src={logo}
+            style={{
+              width: "auto",
+            }}
             width={187}
             height={98}
             alt="logo"

@@ -73,6 +73,7 @@ export const Logo_Account_Section = () => {
             className="logo_image ml-auto "
             src={logo}
             width={106}
+            style={{ width: "auto" }}
             height={65}
             alt="logo"
           />
