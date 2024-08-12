@@ -1,5 +1,8 @@
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import Header from "@/components/header_and_footer/header";
+import Footer from "@/components/header_and_footer/footer";
+import { Toaster } from "react-hot-toast";
 import { Inter as FontSans } from "next/font/google"
 
 const fontSans = FontSans({
@@ -15,10 +18,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={cn(
-        "min-h-screen bg-background font-sans antialiased",
-        fontSans.variable
-      )}>{children}</body>
-    </html>
+      <body className={inter.className}>
+        <Toaster position="top-right" />
+        <Header />
+        <main>
+          {children}
+        </main>
+        <Footer />
+
+      </body>
+    </html >
+
   );
 }
