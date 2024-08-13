@@ -34,7 +34,7 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      <div className="ad-section flex justify-between bg-ad_bg_gray h-[98px] w-10/12 mx-auto my-10">
+      <div className="ad-section flex justify-between gap-3 bg-ad_bg_gray h-[98px] w-11/12 rounded mx-auto my-10 overflow-hidden">
         <div className="truck-image relative overflow-hidden px-[50px]">
           <Image src={truck} width={109} height={170} alt="truck-image" />
           <div className="rectangle-blue w-[112px] h-[112px] bg-ad_blue_circle rounded-full absolute -top-[60px] -left-[60px]">
@@ -47,21 +47,44 @@ export const HeroSection = () => {
           <div className="rectangle-ligh-blue"></div>
         </div>
 
-        <div className="truck-logo-text flex">
-          <Image src={truck_logo} width={40} height={40} alt="truck-image" />
+        <div className="truck-logo-text flex items-center gap-3">
+          <Image
+            src={truck_logo}
+            width={50}
+            height={50}
+            style={{ height: "50px" }}
+            alt="truck-image"
+          />
           <div>
-            <p>Free delivery on next day</p>
-            <span>Spend only $25 on your purchase</span>
+            <p className="font-semibold text-xl">Free delivery on next day</p>
+            <span className="text-text_gray text-sm font-normal">
+              Spend only $25 on your purchase
+            </span>
           </div>
         </div>
-        <div className="shop-now-btn">
-          <button>SHOP NOW</button>
-          <p>
-            We are available <span>24/7</span>{" "}
-          </p>
+        <div className="shop-now-btn flex items-center gap-3">
+          <button className="w-[89px] h-[31px] hover:bg-opacity-20 active:bg-opacity-100 active:scale-90 bg-white rounded-2xl shadow  text-[10px] font-semibold ">
+            SHOP NOW
+          </button>
+
+          <div className="flex items-center gap-1">
+            <p className="text-text_gray text-sm font-normal ">
+              We are available
+            </p>
+            <span className="text-black text-xl font-semibold">24/7</span>
+          </div>
         </div>
-        <div className="family-pic">
-          <Image src={family} width={100} height={100} alt="family-image" />
+        <div className="family-pic relative overflow-hidden pr-10 mr-5">
+          <Image
+            className="w-[209px] h-[98px] z-[2] relative"
+            src={family}
+            width={209}
+            height={98}
+            alt="family-image"
+          />
+          <div className="rectangle-blue w-[300px] z-[1] h-[300px] bg-cyan-200 rounded-full absolute top-[15px] -right-4">
+            {" "}
+          </div>
         </div>
       </div>
     </div>
