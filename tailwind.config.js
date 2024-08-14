@@ -18,6 +18,17 @@ module.exports = {
     },
     extend: {
       colors: {
+        gradient_first: "#020014",
+        gradient_middle: "#07051F",
+        gradient_last: "#131137",
+
+        primary_blue: "#110884",
+        primary_gold: "#E7B453",
+        blue_gray: "#34466E",
+
+        bg_footer: "#011749",
+
+        text_gray: "#707B8A",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
