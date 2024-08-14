@@ -4,11 +4,15 @@ import Image from "next/image";
 import truck from "@/public/images/Truck.png";
 import truck_logo from "@/public/images/truck-logo.png";
 import family from "@/public/images/family.png";
+import Best_Seller_Product from "./best_seller_product";
+import Flash_Sales from "./flash_sales";
 
 const HomePage = () => {
   return (
     <div>
       <HeroSection />
+      <Best_Seller_Product />
+      <Flash_Sales />
     </div>
   );
 };
