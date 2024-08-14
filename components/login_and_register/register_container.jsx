@@ -36,7 +36,7 @@ export const Register_Form = () => {
       onSubmit={async (values, { setSubmitting, setErrors }) => {
         try {
           const res = await fetch(
-            `http://localhost:8000/auth/register`,
+            `https://tranquilbytes.com/hisicosmetics/auth/register`,
             {
               method: "POST",
               headers: {
