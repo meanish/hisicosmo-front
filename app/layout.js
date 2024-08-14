@@ -5,7 +5,11 @@ import Footer from "@/components/header_and_footer/footer";
 import { Toaster } from "react-hot-toast";
 import { Inter as FontSans } from "next/font/google"
 
-const fontSans = FontSans({
+
+
+
+
+const inter = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 })
@@ -25,9 +29,8 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
-
       </body>
-    </html >
+    </html>
 
   );
 }

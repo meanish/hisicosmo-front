@@ -26,6 +26,7 @@ module.exports = {
         primary_gold: "#E7B453",
         blue_gray: "#34466E",
 
+
         ad_bg_gray: "#EFEFEF",
         ad_blue_circle:"#3C87B3",
         ad_blue_circle:"#3C87B3",
@@ -33,7 +34,6 @@ module.exports = {
         bg_footer: "#011749",
 
         text_gray: "#707B8A",
-
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -6,6 +6,7 @@ import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Input_Error_Text } from "./commonComponents";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Login_Container = () => {
   return (
@@ -20,30 +21,33 @@ export default Login_Container;
 
 export const Login_Form = () => {
   const initialValues = {
-    email: "",
-    password: "",
+    email: "test100@gmail.com",
+    password: "$Spider2002",
   };
+
+  const router = useRouter();
+
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={LoginvalidationSchema}
       onSubmit={async (values, { setSubmitting, setErrors }) => {
         try {
-          const res = await fetch(
-            `https://tranquilbytes.com/hisicosmetics/auth/login`,
-            {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "content-type": "application/json",
-              },
-              body: JSON.stringify(values),
-            }
-          );
+
+
+          const res = await fetch("/api/login", {
+            body: JSON.stringify({ ...values }),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            method: 'POST'
+          })
 
           const data = await res.json();
           if (res.status === 200) {
-            toast.success("Successfully Logged In !");
+            toast.success("Successfully Logged In!");
+            router.push("/")
           } else if (res.status === 400) {
             setErrors(data.errors);
           }
@@ -73,9 +77,8 @@ export const Login_Form = () => {
                   onChange={handleChange}
                   id="email"
                   placeholder="Email"
-                  className={` ${
-                    errors.email && touched.email && " border-red-600"
-                  } px-5 py-4 border rounded-md max-w-[480px] w-full`}
+                  className={` ${errors.email && touched.email && " border-red-600"
+                    } px-5 py-4 border rounded-md max-w-[480px] w-full`}
                 />
                 {errors.email && touched.email && (
                   <Input_Error_Text
@@ -92,9 +95,8 @@ export const Login_Form = () => {
                   onChange={handleChange}
                   id="password"
                   placeholder="Password"
-                  className={` ${
-                    errors.password && touched.password && " border-red-600"
-                  } px-5 py-4 border rounded-md max-w-[480px] w-full`}
+                  className={` ${errors.password && touched.password && " border-red-600"
+                    } px-5 py-4 border rounded-md max-w-[480px] w-full`}
                 />
                 {errors.password && touched.password && (
                   <Input_Error_Text

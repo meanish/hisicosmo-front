@@ -36,7 +36,7 @@ export const Register_Form = () => {
       onSubmit={async (values, { setSubmitting, setErrors }) => {
         try {
           const res = await fetch(
-            `https://tranquilbytes.com/hisicosmetics/auth/register`,
+            `http://localhost:8000/auth/register`,
             {
               method: "POST",
               headers: {
@@ -80,9 +80,8 @@ export const Register_Form = () => {
                   onChange={handleChange}
                   id="username"
                   placeholder="Full Name"
-                  className={` ${
-                    errors.username && touched.username && " border-red-600"
-                  } px-5 py-4 border rounded-md max-w-[480px] w-full`}
+                  className={` ${errors.username && touched.username && " border-red-600"
+                    } px-5 py-4 border rounded-md max-w-[480px] w-full`}
                 />
                 {errors.username && touched.username && (
                   <Input_Error_Text
@@ -99,9 +98,8 @@ export const Register_Form = () => {
                   onChange={handleChange}
                   id="email"
                   placeholder="Email"
-                  className={` ${
-                    errors.email && touched.email && " border-red-600"
-                  } px-5 py-4 border rounded-md max-w-[480px] w-full`}
+                  className={` ${errors.email && touched.email && " border-red-600"
+                    } px-5 py-4 border rounded-md max-w-[480px] w-full`}
                 />
                 {errors.email && touched.email && (
                   <Input_Error_Text
@@ -119,9 +117,8 @@ export const Register_Form = () => {
                   onChange={handleChange}
                   id="phone"
                   placeholder="Phone Number"
-                  className={` ${
-                    errors.phone && touched.phone && " border-red-600"
-                  } px-5 py-4 border rounded-md max-w-[480px] w-full`}
+                  className={` ${errors.phone && touched.phone && " border-red-600"
+                    } px-5 py-4 border rounded-md max-w-[480px] w-full`}
                 />
                 {errors.phone && touched.phone && (
                   <Input_Error_Text
@@ -139,9 +136,8 @@ export const Register_Form = () => {
                   onChange={handleChange}
                   id="password"
                   placeholder="Password"
-                  className={` ${
-                    errors.password && touched.password && " border-red-600"
-                  } px-5 py-4 border rounded-md max-w-[480px] w-full`}
+                  className={` ${errors.password && touched.password && " border-red-600"
+                    } px-5 py-4 border rounded-md max-w-[480px] w-full`}
                 />
                 {errors.password && touched.password && (
                   <Input_Error_Text
@@ -159,11 +155,10 @@ export const Register_Form = () => {
                   onChange={handleChange}
                   id="confirm_password"
                   placeholder="Confirm Password"
-                  className={` ${
-                    errors.confirm_password &&
+                  className={` ${errors.confirm_password &&
                     touched.confirm_password &&
                     " border-red-600"
-                  } px-5 py-4 border rounded-md max-w-[480px] w-full`}
+                    } px-5 py-4 border rounded-md max-w-[480px] w-full`}
                 />
                 {errors.confirm_password && touched.confirm_password && (
                   <Input_Error_Text
