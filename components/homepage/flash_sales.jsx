@@ -9,7 +9,7 @@ import { FaStar } from "react-icons/fa";
 
 const Flash_Sales = () => {
   return (
-    <div className="h-fit my-20">
+    <div className="container h-fit my-20">
       <div className="w-full container flex-col justify-start items-start gap-[4.99px] inline-flex relative">
         <div className=" top-section self-stretch w-full justify-center items-center inline-flex">
           <div className="flex justify-between w-1/2 items-center">
