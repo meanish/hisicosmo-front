@@ -21,22 +21,25 @@ export default HomePage;
 
 export const HeroSection = () => {
   return (
+    <div className="">
     <div className="container">
-      <div className="flex justify-between mb-14">
-        <div className="text-section w-[430px] my-auto flex items-end">
-          <h1 className="text-primary_blue font-bold text-4xl">
-            Care For Your Skin, Care For Your Beauty
-          </h1>
+        <div className="flex justify-between mb-2">
+          <div className="text-section w-[430px] my-auto flex items-end">
+            <h1 className="text-primary_blue font-bold text-4xl">
+              Care For Your Skin, Care For Your Beauty
+            </h1>
+          </div>
+          <div className="image-section w-[60%]">
+            <Image
+              src={hero_image}
+              width={914}
+              height={573}
+              alt="hero-section-image"
+            />
+          </div>
         </div>
-        <div className="image-section w-[60%]">
-          <Image
-            src={hero_image}
-            width={914}
-            height={573}
-            alt="hero-section-image"
-          />
-        </div>
-      </div>
+    </div>
+     
 
       <div className="ad-section flex justify-between gap-3 bg-ad_bg_gray h-[98px] w-11/12 rounded mx-auto my-10 overflow-hidden">
         <div className="truck-image relative overflow-hidden px-[50px]">
