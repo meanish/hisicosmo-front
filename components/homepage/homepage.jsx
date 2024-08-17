@@ -7,6 +7,7 @@ import family from "@/public/images/family.png";
 import Best_Seller_Product from "./best_seller_product";
 import Flash_Sales from "./flash_sales";
 import Price_varaint from "./price_variant";
+import Best_Deal_On_Brands from "./best_deal_on_brands";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
       <Best_Seller_Product />
       <Flash_Sales />
       <Price_varaint />
+      <Best_Deal_On_Brands />
     </div>
   );
 };

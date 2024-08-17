@@ -13,7 +13,7 @@ import { FiHeart } from "react-icons/fi";
 const Flash_Sales = () => {
   const [isFav, setIsFav] = useState(false);
   return (
-    <div className="container h-fit my-20">
+    <div className="h-fit my-20">
       <div className="w-full container flex-col justify-start items-start gap-3 inline-flex relative">
         <div className=" top-section w-full justify-start items-center inline-flex">
           <div className="flex justify-between items-center">

@@ -67,12 +67,12 @@ export const Dropdown = ({ subcategories, openSubCat }) => {
     <ul
       className={`${
         openSubCat ? "block" : "hidden"
-      } absolute translate-x-1/2 right-1/2 border shadow top-6`}
+      } absolute translate-x-1/2 right-1/4 border shadow top-6`}
     >
       {subcategories.map((subLink, index) => (
         <li key={index}>
           <Link
-            className="p-2 bg-white w-40 block hover:bg-gray-100"
+            className="p-2 bg-white w-36 block text-wrap hover:bg-gray-100"
             href={subLink.slug}
           >
             {subLink.name}
