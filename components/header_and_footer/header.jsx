@@ -4,46 +4,17 @@ import logo from "@/public/images/Hisi-Logo.svg";
 import { RxAvatar } from "react-icons/rx";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import { CiSearch } from "react-icons/ci";
-import Link from "next/link";
+import { getNavCategory } from "@/app/api/nav_category/route";
+import { Nav_Content } from "./navbar";
 
-const navLinks = [
-  {
-    name: "Makeup",
-    url: "#",
-  },
-  {
-    name: "Skincare",
-    url: "#",
-  },
-  {
-    name: "Haircare",
-    url: "https://www.example.com/shop",
-  },
-  {
-    name: "Body",
-    url: "https://www.example.com/blog",
-  },
-  {
-    name: "Hand & Feet",
-    url: "https://www.example.com/contact-us",
-  },
-  {
-    name: "Personalized Packets",
-    url: "https://www.example.com/contact-us",
-  },
-  {
-    name: "Products",
-    url: "https://www.example.com/contact-us",
-  },
-];
+const Header = async () => {
+  const data = await getNavCategory();
 
-const Header = () => {
   return (
     <div>
       <Header_CTA />
       <Logo_Account_Section />
-      <Nav_Content />
+      <Nav_Content nav_category={data?.data} />
     </div>
   );
 };
@@ -102,40 +73,6 @@ export const Logo_Account_Section = () => {
                 0
               </span>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export const Nav_Content = () => {
-  return (
-    <div className="w-full  border-b-4">
-      <div className="nav-section container">
-        <div className="py-4 flex items-center justify-between">
-          <div className="nav_links">
-            <ul className="flex items-center gap-7">
-              {navLinks.map((link, index) => (
-                <li key={index}>
-                  <Link
-                    className="cursor-pointer hover:text-primary_gold focus:text-primary_blue focus:font-semibold text-sm"
-                    href={link.url}
-                  >
-                    {" "}
-                    {link.name}{" "}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="search_box relative max-w-[350px]">
-            <input
-              className="border text-sm w-full py-3 px-4 h-10 placeholder:text-gray-700 bg-gray-100"
-              type="text"
-              placeholder="Search products..."
-            />
-            <CiSearch size={20} className="absolute right-3 top-2" />
           </div>
         </div>
       </div>

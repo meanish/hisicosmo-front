@@ -6,6 +6,8 @@ import truck_logo from "@/public/images/truck-logo.png";
 import family from "@/public/images/family.png";
 import Best_Seller_Product from "./best_seller_product";
 import Flash_Sales from "./flash_sales";
+import Price_varaint from "./price_variant";
+import Best_Deal_On_Brands from "./best_deal_on_brands";
 
 const HomePage = () => {
   return (
@@ -13,6 +15,8 @@ const HomePage = () => {
       <HeroSection />
       <Best_Seller_Product />
       <Flash_Sales />
+      <Price_varaint />
+      <Best_Deal_On_Brands />
     </div>
   );
 };
@@ -22,7 +26,7 @@ export default HomePage;
 export const HeroSection = () => {
   return (
     <div className="">
-    <div className="container">
+      <div className="container">
         <div className="flex justify-between mb-2">
           <div className="text-section w-[430px] my-auto flex items-end">
             <h1 className="text-primary_blue font-bold text-4xl">
@@ -38,8 +42,7 @@ export const HeroSection = () => {
             />
           </div>
         </div>
-    </div>
-     
+      </div>
 
       <div className="ad-section flex justify-between gap-3 bg-ad_bg_gray h-[98px] w-11/12 rounded mx-auto my-10 overflow-hidden">
         <div className="truck-image relative overflow-hidden px-[50px]">
