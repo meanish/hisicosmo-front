@@ -15,7 +15,7 @@ const Flash_Sales = () => {
   return (
     <div className="h-fit my-20">
       <div className="w-full container flex-col justify-start items-start gap-3 inline-flex relative">
-        <div className=" top-section w-full justify-start items-center inline-flex">
+        {/* <div className=" top-section w-full justify-start items-center inline-flex">
           <div className="flex justify-between items-center">
             <h3 className="text-bg_footer text-nowrap text-xl font-bold">
               Flash Sale
@@ -70,7 +70,7 @@ const Flash_Sales = () => {
             </span>
             <FaArrowRightLong className="text-bg_footer peer-hover:text-primary_gold" />
           </Link>
-        </div>
+        </div> */}
 
         <div className="cards-container w-full overflow-hidden h-fit justify-start items-start gap-[19px] inline-flex">
           {Array(6)
