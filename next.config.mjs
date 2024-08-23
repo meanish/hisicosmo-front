@@ -2,7 +2,13 @@
 const nextConfig = {
 
     images: {
-        domains: ['tranquilbytes.com']
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'tranquilbytes.com',
+                port: '',
+            },
+        ],
     }
 };
 

@@ -16,6 +16,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { ImageWithFallback } from "../ui/imageWithFallBack";
+import Link from "next/link";
 
 const Flash_Sales = () => {
   const [isFav, setIsFav] = useState(false);
@@ -62,14 +63,16 @@ const Flash_Sales = () => {
                     height={40}
                     alt="delivery-logo"
                   />
+                  <Link  href={`/product/${id}`}>
+                    <ImageWithFallback
+                      src={featured_image}
+                      width={175}
+                      className="w-[175px] h-[200px] justify-self-center cursor-pointer"
+                      height={200}
+                      alt="product-image"
+                    />
+                  </Link>
 
-                  <ImageWithFallback
-                    src={featured_image}
-                    width={175}
-                    className="w-[175px] h-[200px] justify-self-center"
-                    height={200}
-                    alt="product-image"
-                  />
                   <div className="rating flex items-center gap-1 text-text_gray mt-4">
                     <span>5</span>
                     <FaStar className="text-primary_blue" />
