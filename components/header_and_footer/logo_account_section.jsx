@@ -3,11 +3,13 @@
 import logo from "@/public/images/Hisi-Logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 
 export const Logo_Account_Section = () => {
+  const router = useRouter();
   return (
     <div className="bg-white shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist">
       <div className="container w-full flex items-center">
@@ -26,12 +28,20 @@ export const Logo_Account_Section = () => {
 
         <div className="account-avatar w-1/2 flex items-center gap-10 justify-end">
           <div className="account_icon flex items-center gap-1">
-            <RxAvatar size={40} color="gray" className="cursor-pointer" />
+            <RxAvatar
+              onClick={() => router.push("/auth/login")}
+              size={40}
+              color="gray"
+              className="cursor-pointer"
+            />
             <div className="flex justify-center flex-col">
               <p className="text-[10px] text-gray-500">Hello,Sign In</p>
-              <p className="text-sm font-semibold cursor-pointer">
+              <Link
+                href={"/auth/login"}
+                className="text-sm font-semibold cursor-pointer"
+              >
                 Your Account
-              </p>
+              </Link>
             </div>
           </div>
           <div className="icons flex items-center gap-10 justify-between">

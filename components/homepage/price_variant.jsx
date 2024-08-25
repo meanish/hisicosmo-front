@@ -2,7 +2,7 @@ import React from "react";
 
 const Price_varaint = () => {
   return (
-    <div className="container w-full my-20 h-[172.87px] justify-center items-start gap-[15px] inline-flex">
+    <div className="container w-full my-20 h-[172.87px] justify-center items-start gap-[15px] flex">
       <div className="w-[398.33px] self-stretch flex-col justify-start items-start inline-flex">
         <div className="self-stretch h-[52.88px] py-[14.94px] flex-col justify-start items-start flex">
           <div className="self-stretch h-[23px] px-[86.53px] flex-col justify-start items-center flex">
