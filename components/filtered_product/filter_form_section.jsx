@@ -1,3 +1,4 @@
+"use client ";
 import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
 
@@ -8,7 +9,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-export const Filter_Form_Section = () => {
+export const Filter_Form_Section = ({ brandData, categoryData }) => {
   return (
     <div className="w-1/4 p-4">
       <div className="head-section mb-5 flex justify-between items-center">
@@ -19,39 +20,18 @@ export const Filter_Form_Section = () => {
       </div>
 
       <div className="filter-by-brand">
-        <Accordion type="single" collapsible>
-          <AccordionItem value="item-1 " className="border-b-0">
-            <AccordionTrigger className="font-bold text-xl  text-black/70">
-              Filter by Brand
-            </AccordionTrigger>
-            <AccordionContent>
-              <Circular_Search_Box />
-              <div>
-                {Array(4)
-                  .fill(null)
-                  .map((brand, index) => {
-                    return (
-                      <label
-                        key={index}
-                        htmlFor={index}
-                        className="flex items-center hover:bg-gray-200 justify-between px-1 py-4 border-t-2 w-full cursor-pointer "
-                      >
-                        Alzibda
-                        <input
-                          type="checkbox"
-                          id={index}
-                          className="size-5 text-text_gray hover:cursor-pointer"
-                        />
-                      </label>
-                    );
-                  })}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        <BrandAccordianContainer
+          title={"Filter by Brand"}
+          itemLists={brandData}
+        />
       </div>
 
-      <div className="filter-by-category"></div>
+      <div className="filter-by-category">
+        <CategoryAccordianContainer
+          title={"Filter by category"}
+          categoryData={categoryData}
+        />
+      </div>
       <div className="price-range"></div>
     </div>
   );
@@ -68,5 +48,91 @@ export const Circular_Search_Box = () => {
         placeholder="Search"
       />
     </div>
+  );
+};
+
+export const BrandAccordianContainer = ({ title, itemLists }) => {
+  return (
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1 " className="border-b-0">
+        <AccordionTrigger className="font-bold text-xl  text-black/70">
+          {title}
+        </AccordionTrigger>
+        <AccordionContent>
+          <Circular_Search_Box />
+          <div>
+            {itemLists.data.map((item, index) => {
+              const { name, id } = item;
+              return (
+                <label
+                  key={id}
+                  htmlFor={id}
+                  className="flex items-center hover:bg-gray-200 justify-between px-1 py-4 border-t-2 w-full cursor-pointer "
+                >
+                  {name}
+                  <input
+                    type="checkbox"
+                    id={id}
+                    className="size-5 text-text_gray hover:cursor-pointer"
+                  />
+                </label>
+              );
+            })}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+};
+
+export const CategoryAccordianContainer = ({ title, categoryData }) => {
+  return (
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1 " className="border-b-0">
+        <AccordionTrigger className="font-bold text-xl  text-black/70">
+          {title}
+        </AccordionTrigger>
+        <AccordionContent>
+          <Circular_Search_Box />
+
+          <div>
+            {categoryData.data.map((item, index) => {
+              const { name, id, subcategories } = item;
+              console.log(item.subcategories, "sub");
+              return (
+                <Accordion key={id} type="single" collapsible>
+                  <AccordionItem value="item-1 " className="border-b-0">
+                    <AccordionTrigger className="font-semibold text-base  text-black">
+                      {name}
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div>
+                        {subcategories.map((item, index) => {
+                          const { name, id } = item;
+                          return (
+                            <label
+                              key={id}
+                              htmlFor={id}
+                              className="flex items-center hover:bg-gray-200 justify-between px-1 py-4 border-t-2 w-full cursor-pointer "
+                            >
+                              {name}
+                              <input
+                                type="checkbox"
+                                id={id}
+                                className="size-5 text-text_gray hover:cursor-pointer"
+                              />
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              );
+            })}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
 };
