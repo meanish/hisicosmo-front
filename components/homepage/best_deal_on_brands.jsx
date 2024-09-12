@@ -25,7 +25,7 @@ const Best_Deal_On_Brands = () => {
             Best Deals On The Brands
           </h3>
           <Link
-            href={"#"}
+            href={"/filtered_product"}
             className="flex ml-auto gap-2 justify-end items-center"
           >
             <span className="text-bg_footer font-normal peer hover:text-primary_gold">
