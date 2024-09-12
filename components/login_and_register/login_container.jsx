@@ -22,7 +22,7 @@ export default Login_Container;
 export const Login_Form = () => {
   const initialValues = {
     email: "test100@gmail.com",
-    password: "$Spider2002",
+    password: "",
   };
 
   const router = useRouter();
