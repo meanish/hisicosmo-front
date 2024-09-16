@@ -4,6 +4,7 @@ import Header from "@/components/header_and_footer/header";
 import Footer from "@/components/header_and_footer/footer";
 import { Toaster } from "react-hot-toast";
 import { Inter as FontSans } from "next/font/google"
+import AuthContextProvider from "../context/AuthContext";
 
 
 
@@ -24,11 +25,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Toaster position="top-right" />
-        <Header />
-        <main>
-          {children}
-        </main>
-        <Footer />
+        <AuthContextProvider>
+          <Header />
+          <main>
+            {children}
+          </main>
+        </AuthContextProvider>
+          <Footer />
       </body>
     </html>
 

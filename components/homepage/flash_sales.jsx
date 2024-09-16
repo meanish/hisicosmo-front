@@ -41,7 +41,7 @@ const Flash_Sales = () => {
         className="container  px-8"
       >
         <CarouselContent>
-          {allProducts?.map((item, index) => {
+          {allProducts?.slice(0, 9).map((item, index) => {
             const {
               featured_image,
               name,
@@ -63,7 +63,7 @@ const Flash_Sales = () => {
                     height={40}
                     alt="delivery-logo"
                   />
-                  <Link  href={`/product/${id}`}>
+                  <Link href={`/product/${id}`}>
                     <ImageWithFallback
                       src={featured_image}
                       width={175}

@@ -1,4 +1,5 @@
 import { getSingleProduct } from '@/app/api/all_products/route'
+import { auth } from '@/auth'
 import SingleProductPage from '@/components/product/singleProductPage'
 import React from 'react'
 
@@ -7,8 +8,13 @@ const page = async ({ params }) => {
     const { id } = params
     const data = await getSingleProduct(id)
 
+    const session = await auth()
+    console.log(session)
+    const { token } = session.user
+
+
     return (
-        <SingleProductPage data={data?.data} />
+        <SingleProductPage data={data?.data} token={token} />
     )
 }
 

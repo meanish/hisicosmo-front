@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image";
 import {
   Carousel,
@@ -7,9 +9,12 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation";
 
-export const ProductImageSection = ({ data }) => {
+
+export const ProductImageSection = ({ data, token }) => {
   const {
     name,
     id,
@@ -23,6 +28,48 @@ export const ProductImageSection = ({ data }) => {
   const [displayImage, setDisplayImage] = useState(featured_image);
   console.log(data, "product-data");
   console.log(displayImage, "index-display");
+
+
+  const [quantity, setQuantity] = useState("1")
+
+  // const { data: session } = useSession();
+  // console.log("Session", session)
+
+  const increaseHandler = () => {
+    if (quantity < 10)
+      setQuantity(+quantity + 1)
+  }
+
+  const decreaseHandler = () => {
+    if (quantity > 1)
+      setQuantity(+quantity - 1)
+  }
+
+
+  const router = useRouter()
+
+
+  const addHandler = async () => {
+    if (!token) {
+      router.push("/auth/login")
+    }
+    else {
+      try {
+
+        const res = await fetch("/api/cart/store", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ id, quantity })
+        })
+      }
+      catch (e) {
+        alert("Eror in adding cart", e.message)
+      }
+    }
+  }
+
 
   return (
     <div className="container">
@@ -120,11 +167,11 @@ export const ProductImageSection = ({ data }) => {
           <div className="quantity flex items-center gap-3">
             <span className="text-text_gray">Quantity</span>
             <div className="flex border items-center">
-              <button className="h-8 w-8 bg-gray-200">-</button>
+              <button className="h-8 w-8 bg-gray-200" onClick={decreaseHandler}>-</button>
               <span className="h-8 w-8 bg-gray-200 grid place-items-center">
-                0
+                {quantity}
               </span>
-              <button className="h-8 w-8 bg-gray-200">+</button>
+              <button className="h-8 w-8 bg-gray-200" onClick={increaseHandler}>+</button>
             </div>
             <span className="text-orange-500">Out of stock</span>
           </div>
@@ -133,7 +180,7 @@ export const ProductImageSection = ({ data }) => {
             <button className="text-center text-xl font-bold rounded  border-primary_blue text-primary_blue border h-[61px] w-[233px]">
               Buy Now
             </button>
-            <button className="text-center text-xl font-bold rounded  bg-primary_blue text-white  h-[61px] w-[233px]">
+            <button className="text-center text-xl font-bold rounded  bg-primary_blue text-white  h-[61px] w-[233px] " onClick={addHandler}>
               Add To Cart
             </button>
           </div>

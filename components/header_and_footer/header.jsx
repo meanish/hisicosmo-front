@@ -2,9 +2,14 @@ import React from "react";
 import { getNavCategory } from "@/app/api/nav_category/route";
 import { Nav_Content } from "./navbar";
 import { Logo_Account_Section } from "./logo_account_section";
+import { auth } from "@/auth";
 
 const Header = async () => {
   const data = await getNavCategory();
+  const session = await auth();
+
+
+  console.log("Session in the header is", session)
 
   return (
     <div>
