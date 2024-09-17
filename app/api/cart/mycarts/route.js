@@ -33,8 +33,8 @@ export async function GET(req) {
         return NextResponse.json({ data: allCart.data, status: 200 })
 
     }
-    catch {
-        return NextResponse.json({ message: "Error in Loggin in", status: 500, errors: error })
+    catch (error) {
+        return NextResponse.json({ message: "Error in geting my cart data", status: 500, errors: error })
 
     }
 }
