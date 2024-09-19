@@ -21,24 +21,27 @@ const ActiveCart = () => {
     return (
         <>
             <h1>Cart to process</h1>
-
+            {/* add shiiping modal here */}
             <div className="active_carts">
 
                 {
                     activeCart ? <>
                         {
                             activeCart.map((currCart) => {
-                                const { quantity, product_id } = currCart
+                                const { quantity, product_id, totalprice } = currCart
                                 console.log(currCart.product)
                                 return (
                                     <>
+
                                         {currCart.product_id} {currCart.product.name}
                                         <div className="quantity">
                                             {quantity}
                                         </div>
+                                        <div className="amount">Amount:{totalprice}</div>
                                         <div className="remove_active">
                                             <button onClick={() => removeHandler(currCart.product_id)}>Delete</button>
                                         </div>
+
                                     </>
                                 )
                             })
@@ -46,6 +49,8 @@ const ActiveCart = () => {
                     </> : <span>Nothing to show</span>
                 }
             </div>
+            <div className="total_billing"></div>
+            {/* chekout layout here */}
         </>
     )
 }

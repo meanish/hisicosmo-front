@@ -13,7 +13,7 @@ export const Nav_Content = ({ nav_category }) => {
         <div className="py-4 flex items-center justify-between">
           <div className="nav_links">
             <ul className="flex items-center gap-7">
-              {nav_category.map((category, index) => (
+              {nav_category?.map((category, index) => (
                 <MenuItem key={index} category={category} />
               ))}
             </ul>
