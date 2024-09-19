@@ -72,7 +72,7 @@ export const BrandAccordionContainer = ({ title, itemLists }) => {
   };
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion type="single" collapsible defaultValue="item-1">
       <AccordionItem value="item-1" className="border-b-0">
         <AccordionTrigger className="font-bold text-xl text-black/70">
           {title}
@@ -119,7 +119,7 @@ export const CategoryAccordionContainer = ({ title, categoryData }) => {
   };
 
   return (
-    <Accordion type="single" collapsible>
+    <Accordion type="single" collapsible defaultValue="item-1">
       <AccordionItem value="item-1" className="border-b-0">
         <AccordionTrigger className="font-bold text-xl text-black/70">
           {title}

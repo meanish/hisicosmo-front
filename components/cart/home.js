@@ -76,7 +76,7 @@ const CartHome = ({ token }) => {
                 return (
                     <div className="border-2 p-5 bg-gray-100 shadow-md my-12 hover:bg-gray-200" >
                         <div className="isActive" onClick={() => addHandler(id)}>{
-                            isActive ? <div className="p-2 bg-green-300">.</div> : <div className="p-2 bg-red-300">.</div>
+                            <div className={`p-2 ${isActive ? " bg-green-300" : " bg-red-300"}`}>Click to Checkout</div>
                         }</div>
                         <div className="featured_image">
                             <Image src={featured_image} alt="image" width={200} height={200} />
@@ -92,7 +92,7 @@ const CartHome = ({ token }) => {
                     </div>
                 )
             })
-        }</div>
+        }</div >
     )
 }
 
