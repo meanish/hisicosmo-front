@@ -14,8 +14,6 @@ export async function POST(req) {
 
     }
     catch (error) {
-        console.log("Error", error)
-
         if (error instanceof AuthError) {
             switch (error.type) {
                 case "CredentialsSignin":

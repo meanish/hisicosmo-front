@@ -52,10 +52,12 @@ export const Logo_Account_Section = () => {
               </span>
             </div>
             <div className="shopping_bag relative cursor-pointer">
-              <HiOutlineShoppingBag size={30} color="gray" />
-              <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
-                0
-              </span>
+              <Link href="/add_cart">
+                <HiOutlineShoppingBag size={30} color="gray" />
+                <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
+                  0
+                </span>
+              </Link>
             </div>
           </div>
         </div>

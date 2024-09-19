@@ -2,8 +2,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 
 
-
-
 export default {
 
     // https://next-auth.js.org/configuration/providers
@@ -77,11 +75,13 @@ export default {
             if (token.sub && session.user) {
                 session.user.token = token.id_token || token.token;
                 session.user.role = token.role;
-                session.userr.email = token.email;
+                session.user.email = token.email;
                 session.user.isVerified = true; // Make sure to use the correct property name from the token
                 session.user.user_id = token.id
-   
+
             }
+
+            console.log("efore login token", session)
             return session;
         },
 
