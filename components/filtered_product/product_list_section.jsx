@@ -1,7 +1,13 @@
 import Image from "next/image";
 import deal_product_image from "@/public/images/best-deal-brand.png";
+import { useSelector } from "react-redux";
+import Link from "next/link";
 
 export const Product_List_Section = () => {
+  const filteredProductList = useSelector(
+    (state) => state.manageFilterSlice.filteredProductList
+  );
+
   return (
     <div className="w-full">
       <div className="head-section  w-full flex justify-between gap-3 items-center">
@@ -27,41 +33,54 @@ export const Product_List_Section = () => {
         </div>
       </div>
 
-      <div className="productList py-4 flex flex-wrap justify-between gap-2 overflow-y-auto">
-        {Array(20)
-          .fill(null)
-          .map((item, index) => {
-            return (
-              <div key={index} className="card-item border rounded-md ">
-                <div className="w-[231px] h-[312px] bg-white relative overflow-hidden rounded-t-lg">
-                  <Image
-                    src={deal_product_image}
-                    fill
-                    size="100vw"
-                    style={{ objectFit: "cover" }}
-                    alt="deal-product-image"
-                  />
-                </div>
-                <div className="text-title p-5 bg-white rounded-b-lg w-[231px] h-fit">
-                  <p className="text-primary_blue font-base leading-snug tracking-wide line-clamp-2  mb-2">
-                    Alziba VITAMIN C foaming Facewash 150ml
+      <div className="productList py-4 flex flex-wrap gap-2 overflow-y-auto">
+        {filteredProductList.map((item, index) => {
+          const {
+            brand_id,
+            createdAt,
+            description,
+            discount,
+            id,
+            name,
+            price,
+            product_description,
+            slug,
+            status,
+            updatedAt,
+          } = item;
+          return (
+            <div key={index} className="card-item border rounded-md ">
+              <div className="w-[231px] h-[312px] bg-white relative overflow-hidden rounded-t-lg">
+                <Image
+                  src={deal_product_image}
+                  fill
+                  size="100vw"
+                  style={{ objectFit: "cover" }}
+                  alt="deal-product-image"
+                />
+              </div>
+              <div className="text-title p-5 bg-white rounded-b-lg w-[231px] h-fit">
+                <Link href={`/product/${id}`}>
+                  <p className="text-primary_blue font-base leading-snug tracking-wide line-clamp-2  mb-2 hover:underline">
+                    {name}
                   </p>
-                  <p className="text-xl font-normal  tracking-wide leading-tight text-primary_blue line-clamp-2">
-                    NPR. 959
-                  </p>
+                </Link>
+                <p className="text-xl font-normal  tracking-wide leading-tight text-primary_blue line-clamp-2">
+                  {price}
+                </p>
 
-                  <div className="discount flex gap-2">
-                    <span className="line-through leading-none tracking-wide text-xs">
-                      NPR. 638.4
-                    </span>
-                    <span className="leading-none tracking-wide text-xs">
-                      Save NPR. 70.22
-                    </span>
-                  </div>
+                <div className="discount flex gap-2">
+                  <span className="line-through leading-none tracking-wide text-xs">
+                    NPR. 638.4
+                  </span>
+                  <span className="leading-none tracking-wide text-xs">
+                    Save NPR. 70.22
+                  </span>
                 </div>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
