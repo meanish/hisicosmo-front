@@ -32,7 +32,7 @@ export async function POST(req) {
         console.log("Request options", requestOptions)
 
 
-        const response = await fetch(`${process.env.HiSi_Server}/cart/async`, requestOptions)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/cart/async`, requestOptions)
         const cartResponse = await response.json();
         console.log("rreponser", cartResponse)
 

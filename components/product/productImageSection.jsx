@@ -12,6 +12,7 @@ import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 
 export const ProductImageSection = ({ data, token }) => {
@@ -63,9 +64,20 @@ export const ProductImageSection = ({ data, token }) => {
           },
           body: JSON.stringify({ id, quantity })
         })
+
+        const response = await res.json()
+        console.log(response)
+
+        if (response?.status === 200) {
+          console.log("Called")
+          toast.success(response?.message)
+        }
+        else {
+          toast.error(response?.message)
+        }
       }
       catch (e) {
-        alert("Eror in adding cart", e.message)
+        toast.error("Eror in adding cart", e.message)
       }
     }
   }

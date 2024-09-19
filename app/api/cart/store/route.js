@@ -32,15 +32,18 @@ export async function POST(req) {
         console.log("Request options", requestOptions)
 
 
-        const response = await fetch(`${process.env.HiSi_Server}/cart/store`, requestOptions)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/cart/store`, requestOptions)
         const cartResponse = await response.json();
+
+
+        console.log("cart Respisebn", cartResponse)
 
         if (cartResponse.success) {
 
-            return NextResponse.json({ message: cartResponse.message, status: 200 })
+            return NextResponse.json({ message: cartResponse?.message, status: 200 })
         }
         else {
-            return NextResponse.json({ message: "failed to save on the cart", status: 500 })
+            return NextResponse.json({ message: cartResponse?.message, status: 500 })
 
         }
     }

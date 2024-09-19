@@ -23,14 +23,10 @@ export async function GET(req) {
         }
 
         console.log("Request options", requestOptions)
-        const response = await fetch(`${process.env.HiSi_Server}/cart`, requestOptions, { cache: "no-store" })
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/cart`, requestOptions, { cache: "no-store" })
         const allCart = await response.json();
-
-
-        // console.log("participate respojse data", cartResponse)
-
-
-        return NextResponse.json({ data: allCart.data, status: 200 })
+  
+        return NextResponse.json({ data: allCart?.data, status: 200 })
 
     }
     catch (error) {

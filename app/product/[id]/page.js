@@ -10,7 +10,7 @@ const page = async ({ params }) => {
 
     const session = await auth()
     console.log(session)
-    const { token } = session.user
+    const token = session?.user?.token
 
 
     return (

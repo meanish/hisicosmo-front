@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -67,4 +66,18 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* TopLoader styles */
+.custom-top-loader {
+  background: linear-gradient(to right, #df0303b2, #ffa600);
+  height: 4px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1600;
+  box-shadow:
+    0 0 10px #e70303b2,
+    0 0 5px #430464b2;
 }

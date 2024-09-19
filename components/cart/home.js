@@ -3,6 +3,8 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Trash2 } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { modifyCart, storeCartDetails } from '@/lib/store/slices/cartSlices';
 
 
 
@@ -10,7 +12,10 @@ const CartHome = ({ token }) => {
 
 
     const [myCarts, setMyCarts] = useState()
+    const dispatch = useDispatch()
 
+
+    const MyCartData = useSelector((state) => state.cartData.cartData)
 
     useEffect(() => {
         const getMyCart = async () => {
@@ -26,12 +31,13 @@ const CartHome = ({ token }) => {
                 console.log("Carts Data", res, cartData)
                 if (res.status === 200)
                     setMyCarts(cartData.data)
+                dispatch(storeCartDetails({ data: cartData.data }))
             } catch (e) {
                 alert("Error", e)
             }
         }
         getMyCart()
-    }, [token])
+    }, [])
 
 
 
@@ -62,16 +68,24 @@ const CartHome = ({ token }) => {
         }
     }
 
+
+    const addHandler = (id) => {
+        dispatch(modifyCart({ id }))
+    }
+
     return (
         <div>{
-            myCarts?.length > 0 && myCarts.map((currData) => {
-                const { quantity } = currData
+            MyCartData?.length > 0 && MyCartData.map((currData) => {
+                const { quantity, isActive } = currData
                 const { name, price, featured_image, id } = currData.product;
 
-                console.log(currData.product)
+                console.log(currData.product.isActive)
 
                 return (
-                    <>
+                    <div className="border-2 p-5 bg-gray-100 shadow-md my-12 hover:bg-gray-200" >
+                        <div className="isActive" onClick={() => addHandler(id)}>{
+                            isActive ? <div className="p-2 bg-green-300">.</div> : <div className="p-2 bg-red-300">.</div>
+                        }</div>
                         <div className="featured_image">
                             <Image src={featured_image} alt="image" width={200} height={200} />
                         </div>
@@ -83,7 +97,7 @@ const CartHome = ({ token }) => {
                         <button className="delete_item" onClick={() => deleteHandler(id)}>
                             <Trash2 />
                         </button>
-                    </>
+                    </div>
                 )
             })
         }</div>
