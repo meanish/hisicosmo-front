@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Trash2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { modifyCart, storeCartDetails } from '@/lib/store/slices/cartSlices';
+import { fetchCartData, modifyCart, modifyQuantity, storeCartDetails } from '@/lib/store/slices/cartSlices';
 
 
 
@@ -15,30 +15,21 @@ const CartHome = ({ token }) => {
     const dispatch = useDispatch()
 
 
-    const MyCartData = useSelector((state) => state.cartData.cartData)
+
 
     useEffect(() => {
-        const getMyCart = async () => {
-            try {
-                const res = await fetch("/api/cart/mycarts", {
-                    method: "GET",
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                })
+        dispatch(fetchCartData(token));
+    }, [dispatch, token]);
 
-                const cartData = await res.json()
-                console.log("Carts Data", res, cartData)
-                if (res.status === 200)
-                    setMyCarts(cartData.data)
-                dispatch(storeCartDetails({ data: cartData.data }))
-            } catch (e) {
-                alert("Error", e)
-            }
-        }
-        getMyCart()
-    }, [])
+    const { cartData, status, error } = useSelector((state) => state.cartData);
 
+    if (status === "loading") {
+        return <p>Loading...</p>;
+    }
+
+    if (status === "failed") {
+        return <p>Error: {error}</p>;
+    }
 
 
     // const { data: session } = useSession();
@@ -59,6 +50,7 @@ const CartHome = ({ token }) => {
             if (res.status === 200) {
                 const filterItem = myCarts.filter((currData) => currData.id != id)
                 setMyCarts(filterItem)
+                dispatch(removeCartItem({ id }))
             }
 
         }
@@ -75,7 +67,7 @@ const CartHome = ({ token }) => {
 
     return (
         <div>{
-            MyCartData?.length > 0 && MyCartData.map((currData) => {
+            cartData?.length > 0 && cartData.map((currData) => {
                 const { quantity, isActive } = currData
                 const { name, price, featured_image, id } = currData.product;
 
@@ -93,7 +85,7 @@ const CartHome = ({ token }) => {
                             {name} {price}
                         </div>
 
-                        <ItemsQuantity Iquantity={quantity} id={id} token={token} />
+                        <ItemsQuantity quantity={quantity} id={id} token={token} />
                         <button className="delete_item" onClick={() => deleteHandler(id)}>
                             <Trash2 />
                         </button>
@@ -106,18 +98,15 @@ const CartHome = ({ token }) => {
 
 
 
-const ItemsQuantity = ({ Iquantity, id, token }) => {
+const ItemsQuantity = ({ quantity, id, token }) => {
 
-    const [quantity, setQuantity] = useState(Iquantity)
+    const dispatch = useDispatch()
 
 
     const increaseHandler = async () => {
         if (quantity < 10) {
             const count = +quantity + 1
-            setQuantity(count)
-
-            console.log(id, Iquantity)
-
+            dispatch(modifyQuantity({ id, quantity: count }))
             try {
                 let method = "update"
                 const res = await fetch("/api/cart/async", {
@@ -139,8 +128,7 @@ const ItemsQuantity = ({ Iquantity, id, token }) => {
     const decreaseHandler = async () => {
         if (quantity > 1) {
             const count = +quantity - 1
-
-            setQuantity(count)
+            dispatch(modifyQuantity({ id, quantity: count }))
             try {
                 let method = "update"
 
