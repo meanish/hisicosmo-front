@@ -4,7 +4,6 @@ import { CiSearch } from "react-icons/ci";
 import Link from "next/link";
 import Image from "next/image";
 import { useClickOutside } from "@/utils/useClickOutside";
-import { X } from "lucide-react";
 
 export const Nav_Content = ({ nav_category }) => {
   return (
@@ -67,9 +66,12 @@ export const MenuItem = ({ category }) => {
           />
         </div>
       ) : (
-        <button className="hover:text-primary_gold focus:text-primary_blue">
+        <Link
+          href={category.slug}
+          className="hover:text-primary_blue pb-1 hover:font-medium border-b-2 border-transparent hover:border-primary_blue "
+        >
           {category.name}
-        </button>
+        </Link>
       )}
     </li>
   );
