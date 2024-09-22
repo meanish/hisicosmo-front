@@ -66,12 +66,14 @@ export const MenuItem = ({ category }) => {
           />
         </div>
       ) : (
-        <Link
-          href={category.slug}
-          className="hover:text-primary_blue pb-1 hover:font-medium border-b-2 border-transparent hover:border-primary_blue "
-        >
-          {category.name}
-        </Link>
+        <div>
+          <Link
+            href={category.slug}
+            className="hover:text-primary_blue pb-1 hover:font-medium border-b-2 border-transparent hover:border-primary_blue "
+          >
+            {category.name}
+          </Link>
+        </div>
       )}
     </li>
   );
