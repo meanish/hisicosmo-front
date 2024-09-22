@@ -42,7 +42,6 @@ const Filtered_Product_Home = ({ brandData, categoryData }) => {
     getFilteredProducts();
   }, [selectedBrandIds, selectedCategoryIds, min, max]); // Run the effect when any filter changes
 
-  console.log(filteredProductList, "filtered-products");
   return (
     <div className="bg-ad_bg_gray py-5">
       <div className="container">

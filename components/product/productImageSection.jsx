@@ -27,14 +27,12 @@ export const ProductImageSection = ({ data, token }) => {
   } = data;
 
   const [displayImage, setDisplayImage] = useState(featured_image);
-  console.log(data, "product-data");
-  console.log(displayImage, "index-display");
+  
 
 
   const [quantity, setQuantity] = useState("1")
 
   // const { data: session } = useSession();
-  // console.log("Session", session)
 
   const increaseHandler = () => {
     if (quantity < 10)
@@ -66,10 +64,8 @@ export const ProductImageSection = ({ data, token }) => {
         })
 
         const response = await res.json()
-        console.log(response)
 
         if (response?.status === 200) {
-          console.log("Called")
           toast.success(response?.message)
         }
         else {
