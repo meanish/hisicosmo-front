@@ -21,7 +21,7 @@ export default {
 
 
                 // const res = await fetch(`${process.env.HiSi_Server}/auth/login`, {
-                const res = await fetch(`${process.env.HiSi_Server}/auth/login`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/auth/login`, {
                     method: 'POST',
                     body: JSON.stringify(credentials),
                     headers: { "Content-Type": "application/json" }
@@ -98,7 +98,7 @@ export default {
 
     session: {
         strategy: "jwt",
-        maxAge: 50 * 24 * 60 * 60
+        maxAge: 30 * 24 * 60 * 60
     },
 
 

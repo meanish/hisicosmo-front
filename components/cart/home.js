@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Trash2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCartData, modifyCart, modifyQuantity, storeCartDetails } from '@/lib/store/slices/cartSlices';
+import { fetchCartData, modifyCart, modifyQuantity, removeCartItems, storeCartDetails } from '@/lib/store/slices/cartSlices';
 
 
 
@@ -46,11 +46,13 @@ const CartHome = ({ token }) => {
                 body: JSON.stringify({ id, method })
             })
 
-            const response = res.json()
-            if (res.status === 200) {
+            const response = await res.json()
+
+            console.log(response)
+            if (response.status === 200) {
                 const filterItem = myCarts.filter((currData) => currData.id != id)
                 setMyCarts(filterItem)
-                dispatch(removeCartItem({ id }))
+                dispatch(removeCartItems({ id }))
             }
 
         }

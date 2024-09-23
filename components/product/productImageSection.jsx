@@ -9,8 +9,8 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Star } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react"
+import { useState } from "react";
+
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -66,7 +66,6 @@ export const ProductImageSection = ({ data, token }) => {
         })
 
         const response = await res.json()
-        console.log(response)
 
         if (response?.status === 200) {
           console.log("Called")
