@@ -7,21 +7,22 @@ import {
 import { toggleCategory } from "@/lib/store/slices/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Circular_Search_Box } from "./filter_form_section";
-import { useEffect, useRef, useState } from "react";
-import { SearchResults } from "../header_and_footer/navbar";
-import { useClickOutside } from "@/utils/useClickOutside";
+import { useState } from "react";
+import { storeCategoryData } from "@/lib/store/slices/brand_category_slice";
+import { getNavCategory } from "@/app/api/nav_category/route";
 
-export const CategoryAccordionContainer = ({ title, categoryData }) => {
+export const CategoryAccordionContainer = ({ title }) => {
   const dispatch = useDispatch();
+
+  const CategoryList = useSelector(
+    (state) => state.manage_brand_category_list.categoryList
+  );
+
   const selectedCategoryIds = useSelector(
     (state) => state.manageFilterSlice.selectedCategoryIds
   ); // Get selected category IDs
 
   const [userInput, setUserInput] = useState("");
-  const [searchedProduct, setSearchedProduct] = useState(null);
-  const [openSearchBox, setOpenSearchBox] = useState(false);
-  const searchRef = useRef();
-  useClickOutside(searchRef, () => setOpenSearchBox(false));
 
   const handleSearch = async (e) => {
     const query = e.target.value;
@@ -33,20 +34,16 @@ export const CategoryAccordionContainer = ({ title, categoryData }) => {
           `http://tranquilbytes.com/hisicosmetics/category/search?text=${query}`
         );
         const data = await response.json();
-        setSearchedProduct(data.data);
-        console.log("Search Results:", data); // Do something with the search results
+        // setSearchedProduct(data.data);
+        dispatch(storeCategoryData(data?.data));
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
+    } else {
+      const categoryData = await getNavCategory();
+      dispatch(storeCategoryData(categoryData?.data));
     }
   };
-  useEffect(() => {
-    if (userInput.length > 0) {
-      setOpenSearchBox(true);
-    } else {
-      setOpenSearchBox(false);
-    }
-  }, [userInput]);
 
   const handleCategoryChange = (id) => {
     dispatch(toggleCategory(id)); // Dispatch toggleCategory action
@@ -59,14 +56,10 @@ export const CategoryAccordionContainer = ({ title, categoryData }) => {
           {title}
         </AccordionTrigger>
         <AccordionContent>
-          <div ref={searchRef} className="relative w-full">
-            <Circular_Search_Box value={userInput} onChange={handleSearch} />
-            {openSearchBox && (
-              <SearchResults searchedProduct={searchedProduct} />
-            )}
-          </div>
+          <Circular_Search_Box value={userInput} onChange={handleSearch} />
+
           <div>
-            {categoryData.data.map((item, index) => {
+            {CategoryList?.map((item, index) => {
               const { name, id, subcategories } = item;
               const isCategoryChecked = selectedCategoryIds.includes(id); // Check if category is selected
 
@@ -78,7 +71,7 @@ export const CategoryAccordionContainer = ({ title, categoryData }) => {
                     </AccordionTrigger>
                     <AccordionContent>
                       <div>
-                        {subcategories.map((subItem, subIndex) => {
+                        {subcategories?.map((subItem, subIndex) => {
                           const { name, id } = subItem;
                           const isSubCategoryChecked =
                             selectedCategoryIds.includes(id); // Check if subcategory is selected

@@ -23,7 +23,6 @@ export const Nav_Content = ({ nav_category }) => {
         );
         const data = await response.json();
         setSearchedProduct(data.data);
-        console.log("Search Results:", data); // Do something with the search results
       } catch (error) {
         console.error("Error fetching search results:", error);
       }

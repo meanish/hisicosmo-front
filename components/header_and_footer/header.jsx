@@ -9,7 +9,6 @@ const Header = async () => {
   const session = await auth();
 
 
-  console.log("Session in the header is", session)
 
   return (
     <div>

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,8 +11,33 @@ import {
 import { Range } from "react-range";
 import { BrandAccordionContainer } from "./brandAccordion";
 import { CategoryAccordionContainer } from "./categoryAccordion";
+import {
+  storeBrandData,
+  storeCategoryData,
+} from "@/lib/store/slices/brand_category_slice";
+import { getBrandBasedProducts } from "@/app/api/brands/route";
+import { getNavCategory } from "@/app/api/nav_category/route";
 
-export const Filter_Form_Section = ({ brandData, categoryData }) => {
+export const Filter_Form_Section = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleGetData = async () => {
+      try {
+        const [brandData, categoryData] = await Promise.all([
+          getBrandBasedProducts(),
+          getNavCategory(),
+        ]);
+        dispatch(storeBrandData(brandData.data));
+        dispatch(storeCategoryData(categoryData.data));
+      } catch (err) {
+        throw new Error(err, "error to fetch brand and category data");
+      }
+    };
+
+    handleGetData();
+  }, [dispatch]);
+
   return (
     <div className="w-1/4 p-4">
       <div className="head-section mb-5 flex justify-between items-center">
@@ -23,17 +48,11 @@ export const Filter_Form_Section = ({ brandData, categoryData }) => {
       </div>
 
       <div className="filter-by-brand">
-        <BrandAccordionContainer
-          title={"Filter by Brand"}
-          itemLists={brandData}
-        />
+        <BrandAccordionContainer title={"Filter by Brand"} />
       </div>
 
       <div className="filter-by-category">
-        <CategoryAccordionContainer
-          title={"Filter by category"}
-          categoryData={categoryData}
-        />
+        <CategoryAccordionContainer title={"Filter by category"} />
       </div>
       <div className="price-range">
         <PriceRangeSlider />

@@ -7,21 +7,22 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { Circular_Search_Box } from "./filter_form_section";
-import { useEffect, useRef, useState } from "react";
-import { useClickOutside } from "@/utils/useClickOutside";
-import { SearchResults } from "../header_and_footer/navbar";
+import { useState } from "react";
+import { storeBrandData } from "@/lib/store/slices/brand_category_slice";
+import { getBrandBasedProducts } from "@/app/api/brands/route";
 
 export const BrandAccordionContainer = ({ title, itemLists }) => {
   const dispatch = useDispatch();
+
+  const BrandList = useSelector(
+    (state) => state.manage_brand_category_list.brandList
+  );
+
   const selectedBrandIds = useSelector(
     (state) => state.manageFilterSlice.selectedBrandIds
   ); // Get selected brand IDs
 
   const [userInput, setUserInput] = useState("");
-  const [searchedProduct, setSearchedProduct] = useState(null);
-  const [openSearchBox, setOpenSearchBox] = useState(false);
-  const searchRef = useRef();
-  useClickOutside(searchRef, () => setOpenSearchBox(false));
 
   const handleSearch = async (e) => {
     const query = e.target.value;
@@ -33,20 +34,15 @@ export const BrandAccordionContainer = ({ title, itemLists }) => {
           `http://tranquilbytes.com/hisicosmetics/brand/search?text=${query}`
         );
         const data = await response.json();
-        setSearchedProduct(data.data);
-        console.log("Search Results:", data); // Do something with the search results
+        dispatch(storeBrandData(data?.data));
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
+    } else {
+      const brandData = await getBrandBasedProducts();
+      dispatch(storeBrandData(brandData?.data));
     }
   };
-  useEffect(() => {
-    if (userInput.length > 0) {
-      setOpenSearchBox(true);
-    } else {
-      setOpenSearchBox(false);
-    }
-  }, [userInput]);
 
   const handleCheckboxChange = (id) => {
     dispatch(toggleBrand(id)); // Dispatch toggleBrand action
@@ -59,15 +55,10 @@ export const BrandAccordionContainer = ({ title, itemLists }) => {
           {title}
         </AccordionTrigger>
         <AccordionContent>
-          <div ref={searchRef} className="relative w-full">
-            <Circular_Search_Box value={userInput} onChange={handleSearch} />
-            {openSearchBox && (
-              <SearchResults searchedProduct={searchedProduct} />
-            )}
-          </div>
+          <Circular_Search_Box value={userInput} onChange={handleSearch} />
 
           <div>
-            {itemLists.data.map((item, index) => {
+            {BrandList?.map((item, index) => {
               const { name, id } = item;
               const isChecked = selectedBrandIds.includes(id); // Check if brand ID is selected
 

@@ -29,7 +29,6 @@ const ActiveCart = () => {
                         {
                             activeCart.map((currCart) => {
                                 const { quantity, product_id, totalprice } = currCart
-                                console.log(currCart.product)
                                 return (
                                     <>
 

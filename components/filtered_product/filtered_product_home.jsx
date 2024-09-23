@@ -1,14 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BreadCrumb } from "./filterPage_breadCrumb";
 import { Filter_Form_Section } from "./filter_form_section";
 import { Product_List_Section } from "./product_list_section";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFilteredProducts } from "@/helper/buildFilterQuery";
 import { storeFilteredProductList } from "@/lib/store/slices/filterSlice";
 import { useRouter } from "next/navigation";
 
-const Filtered_Product_Home = ({ brandData, categoryData }) => {
+const Filtered_Product_Home = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -21,48 +20,47 @@ const Filtered_Product_Home = ({ brandData, categoryData }) => {
   const { min, max } = useSelector(
     (state) => state.manageFilterSlice.priceRange
   );
-  const filteredProductList = useSelector(
-    (state) => state.manageFilterSlice.filteredProductList
-  );
 
   const updateURLWithFilters = () => {
-    // Build the query string manually
     const query = new URLSearchParams();
 
-    if (selectedBrandIds.length) {
+    if (selectedBrandIds.length > 0) {
       query.append("brand", selectedBrandIds.join(","));
     }
-    if (selectedCategoryIds.length) {
+    if (selectedCategoryIds.length > 0) {
       query.append("category", selectedCategoryIds.join(","));
     }
+
     query.append("minPrice", min);
     query.append("maxPrice", max);
 
-    // Construct the full URL
     const fullPath = `/filters?${query.toString()}`;
-
-    // Use router.push to navigate with the query string
-    router.push(fullPath);
+    router.replace(fullPath, { scroll: false });
   };
+
   useEffect(() => {
     // Update the URL when any filter changes
     updateURLWithFilters();
-    // Function to fetch the products when filters change
-    const getFilteredProducts = async () => {
+
+    const fetchProductsFromAPI = async () => {
       try {
-        const filteredData = await fetchFilteredProducts(
-          selectedBrandIds,
-          selectedCategoryIds,
-          min,
-          max
+        // Fetch data from the API route
+        const response = await fetch(
+          `/api/filters?brand=${selectedBrandIds.join(
+            ","
+          )}&category=${selectedCategoryIds.join(
+            ","
+          )}&minPrice=${min}&maxPrice=${max}`
         );
-        dispatch(storeFilteredProductList(filteredData?.data)); // Set the fetched data to state
+        const data = await response.json();
+        console.log(data, "filter-data in compo")
+        dispatch(storeFilteredProductList(data?.data)); // Set the fetched data to state
       } catch (error) {
         console.error("Failed to fetch filtered products:", error);
       }
     };
 
-    getFilteredProducts();
+    fetchProductsFromAPI();
   }, [selectedBrandIds, selectedCategoryIds, min, max]); // Run the effect when any filter changes
 
   return (
@@ -70,10 +68,7 @@ const Filtered_Product_Home = ({ brandData, categoryData }) => {
       <div className="container">
         <BreadCrumb />
         <div className="my-5 bg-white p-5 flex gap-6">
-          <Filter_Form_Section
-            brandData={brandData}
-            categoryData={categoryData}
-          />
+          <Filter_Form_Section />
           <Product_List_Section />
         </div>
       </div>
