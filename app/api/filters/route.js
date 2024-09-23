@@ -24,7 +24,6 @@ export async function GET(request) {
         params.append('maxPrice', maxPrice);
     }
 
-    console.log(params, "params in route")
     try {
         // Fetch data from an external API using only valid params
         const res = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/filters?${params.toString()}`, {
@@ -36,7 +35,6 @@ export async function GET(request) {
         }
 
         const filteredData = await res.json();
-        console.log(filteredData, "filter data in route")
         return NextResponse.json(filteredData);
     } catch (error) {
         return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });

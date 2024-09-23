@@ -49,6 +49,8 @@ export const CategoryAccordionContainer = ({ title }) => {
     dispatch(toggleCategory(id)); // Dispatch toggleCategory action
   };
 
+  console.log(CategoryList, "cate-list");
+
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1" className="border-b-0">
@@ -64,39 +66,61 @@ export const CategoryAccordionContainer = ({ title }) => {
               const isCategoryChecked = selectedCategoryIds.includes(id); // Check if category is selected
 
               return (
-                <Accordion key={id} type="single" collapsible>
-                  <AccordionItem value={`item-${id}`} className="border-b-0">
-                    <AccordionTrigger className="font-semibold text-base text-black">
-                      {name}
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div>
-                        {subcategories?.map((subItem, subIndex) => {
-                          const { name, id } = subItem;
-                          const isSubCategoryChecked =
-                            selectedCategoryIds.includes(id); // Check if subcategory is selected
+                <>
+                  {item?.subcategories?.length ? (
+                    <Accordion key={id} type="single" collapsible>
+                      <AccordionItem
+                        value={`item-${id}`}
+                        className="border-b-0"
+                      >
+                        <AccordionTrigger className="font-semibold text-base text-black">
+                          {name}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div>
+                            {subcategories?.map((subItem, subIndex) => {
+                              const { name, id } = subItem;
+                              const isSubCategoryChecked =
+                                selectedCategoryIds.includes(id); // Check if subcategory is selected
 
-                          return (
-                            <label
-                              key={subIndex}
-                              htmlFor={id}
-                              className="flex items-center hover:bg-gray-200 justify-between px-1 py-4 border-t-2 w-full cursor-pointer"
-                            >
-                              {name}
-                              <input
-                                type="checkbox"
-                                id={id}
-                                checked={isSubCategoryChecked}
-                                onChange={() => handleCategoryChange(id)} // Handle checkbox change
-                                className="size-5 text-text_gray hover:cursor-pointer"
-                              />
-                            </label>
-                          );
-                        })}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
+                              return (
+                                <label
+                                  key={subIndex}
+                                  htmlFor={id}
+                                  className="flex items-center hover:bg-gray-200 justify-between px-1 py-4 border-t-2 w-full cursor-pointer"
+                                >
+                                  {name}
+                                  <input
+                                    type="checkbox"
+                                    id={id}
+                                    checked={isSubCategoryChecked}
+                                    onChange={() => handleCategoryChange(id)} // Handle checkbox change
+                                    className="size-5 text-text_gray hover:cursor-pointer"
+                                  />
+                                </label>
+                              );
+                            })}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  ) : (
+                    <label
+                      key={index}
+                      htmlFor={id}
+                      className="flex items-center hover:bg-gray-200 justify-between px-1 py-4 border-t-2 w-full cursor-pointer"
+                    >
+                      {name}
+                      <input
+                        type="checkbox"
+                        id={id}
+                        checked={isCategoryChecked}
+                        onChange={() => handleCategoryChange(id)} // Handle checkbox change
+                        className="size-5 text-text_gray hover:cursor-pointer"
+                      />
+                    </label>
+                  )}
+                </>
               );
             })}
           </div>

@@ -53,7 +53,6 @@ const Filtered_Product_Home = () => {
           )}&minPrice=${min}&maxPrice=${max}`
         );
         const data = await response.json();
-        console.log(data, "filter-data in compo")
         dispatch(storeFilteredProductList(data?.data)); // Set the fetched data to state
       } catch (error) {
         console.error("Failed to fetch filtered products:", error);

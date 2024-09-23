@@ -54,7 +54,6 @@ const CartHome = ({ token }) => {
 
         }
         catch (e) {
-            console.log("Whaterror", e)
             alert("Error", e)
         }
     }

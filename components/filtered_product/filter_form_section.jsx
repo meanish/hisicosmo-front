@@ -3,11 +3,7 @@ import React, { useEffect } from "react";
 import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setPriceRange,
-  toggleBrand,
-  toggleCategory,
-} from "@/lib/store/slices/filterSlice";
+import { resetFilters, setPriceRange } from "@/lib/store/slices/filterSlice";
 import { Range } from "react-range";
 import { BrandAccordionContainer } from "./brandAccordion";
 import { CategoryAccordionContainer } from "./categoryAccordion";
@@ -17,9 +13,16 @@ import {
 } from "@/lib/store/slices/brand_category_slice";
 import { getBrandBasedProducts } from "@/app/api/brands/route";
 import { getNavCategory } from "@/app/api/nav_category/route";
+import { useRouter } from "next/navigation";
 
 export const Filter_Form_Section = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleReset = () => {
+    dispatch(resetFilters());
+    router.replace("/filters", { scroll: false });
+  };
 
   useEffect(() => {
     const handleGetData = async () => {
@@ -42,7 +45,10 @@ export const Filter_Form_Section = () => {
     <div className="w-1/4 p-4">
       <div className="head-section mb-5 flex justify-between items-center">
         <p className="font-medium text-base">Filter</p>
-        <button className="text-primary_blue text-sm flex items-center gap-1">
+        <button
+          onClick={handleReset}
+          className="text-primary_blue text-sm flex items-center gap-1 hover:text-primary_gold"
+        >
           Reset <GrPowerReset />
         </button>
       </div>
