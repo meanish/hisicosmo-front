@@ -5,7 +5,6 @@ import { FaRegCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { resetFilters, setPriceRange } from "@/lib/store/slices/filterSlice";
 import { Range } from "react-range";
-import { BrandAccordionContainer } from "./brandAccordion";
 import { CategoryAccordionContainer } from "./categoryAccordion";
 import {
   storeBrandData,
