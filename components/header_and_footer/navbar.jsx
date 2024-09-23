@@ -71,7 +71,7 @@ export const SearchResults = ({ searchedProduct }) => {
   return (
     <div
       style={{ scrollbarWidth: "thin" }}
-      className="absolute z-40 top-full max-h-96 h-auto border overflow-y-scroll overflow-x-hidden  bg-white p-4 w-full"
+      className="absolute z-40 top-full max-h-96 h-auto border overflow-y-auto  overflow-x-hidden  bg-white p-4 w-full"
     >
       {searchedProduct?.length ? (
         <ul className="grid gap-2 w-full ">
@@ -81,7 +81,7 @@ export const SearchResults = ({ searchedProduct }) => {
               <li key={index} className="w-full">
                 <Link
                   href={`product/${id}`}
-                  className="block overflow-x-clip text-nowrap w-full border-b p-2"
+                  className="block overflow-x-clip hover:text-primary_gold text-nowrap w-full border-b p-2"
                 >
                   {name}
                 </Link>
