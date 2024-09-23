@@ -1,44 +1,64 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setPriceRange,
-  toggleBrand,
-  toggleCategory,
-} from "@/lib/store/slices/filterSlice";
+import { resetFilters, setPriceRange } from "@/lib/store/slices/filterSlice";
 import { Range } from "react-range";
+import { BrandAccordionContainer } from "./brandAccordion";
+import { CategoryAccordionContainer } from "./categoryAccordion";
+import {
+  storeBrandData,
+  storeCategoryData,
+} from "@/lib/store/slices/brand_category_slice";
+import { getBrandBasedProducts } from "@/app/api/brands/route";
+import { getNavCategory } from "@/app/api/nav_category/route";
+import { useRouter } from "next/navigation";
 
-export const Filter_Form_Section = ({ brandData, categoryData }) => {
+export const Filter_Form_Section = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleReset = () => {
+    dispatch(resetFilters());
+    router.replace("/filters", { scroll: false });
+  };
+
+  useEffect(() => {
+    const handleGetData = async () => {
+      try {
+        const [brandData, categoryData] = await Promise.all([
+          getBrandBasedProducts(),
+          getNavCategory(),
+        ]);
+        dispatch(storeBrandData(brandData.data));
+        dispatch(storeCategoryData(categoryData.data));
+      } catch (err) {
+        throw new Error(err, "error to fetch brand and category data");
+      }
+    };
+
+    handleGetData();
+  }, [dispatch]);
+
   return (
     <div className="w-1/4 p-4">
       <div className="head-section mb-5 flex justify-between items-center">
         <p className="font-medium text-base">Filter</p>
-        <button className="text-primary_blue text-sm flex items-center gap-1">
+        <button
+          onClick={handleReset}
+          className="text-primary_blue text-sm flex items-center gap-1 hover:text-primary_gold"
+        >
           Reset <GrPowerReset />
         </button>
       </div>
 
       <div className="filter-by-brand">
-        <BrandAccordionContainer
-          title={"Filter by Brand"}
-          itemLists={brandData}
-        />
+        <BrandAccordionContainer title={"Filter by Brand"} />
       </div>
 
       <div className="filter-by-category">
-        <CategoryAccordionContainer
-          title={"Filter by category"}
-          categoryData={categoryData}
-        />
+        <CategoryAccordionContainer title={"Filter by category"} />
       </div>
       <div className="price-range">
         <PriceRangeSlider />
@@ -47,12 +67,14 @@ export const Filter_Form_Section = ({ brandData, categoryData }) => {
   );
 };
 
-export const Circular_Search_Box = () => {
+export const Circular_Search_Box = ({ value, onChange }) => {
   return (
     <div className=" my-4 flex rounded-full px-6 gap-2 items-center border focus-within:border-black bg-gray-100">
       <FaRegCircle className="" />
       <input
         type="text"
+        onChange={onChange}
+        value={value}
         name="search-box"
         className="w-full py-4 px-1 placeholder-gray-400 rounded-full border-none outline-none bg-gray-100 h-full "
         placeholder="Search"
@@ -173,6 +195,7 @@ export const CategoryAccordionContainer = ({ title, categoryData }) => {
     </Accordion>
   );
 };
+
 
 export const PriceRangeSlider = () => {
   const dispatch = useDispatch();

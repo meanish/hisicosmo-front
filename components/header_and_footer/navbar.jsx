@@ -1,12 +1,40 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import Link from "next/link";
 import Image from "next/image";
 import { useClickOutside } from "@/utils/useClickOutside";
-import { X } from "lucide-react";
 
 export const Nav_Content = ({ nav_category }) => {
+  const [userInput, setUserInput] = useState("");
+  const [searchedProduct, setSearchedProduct] = useState(null);
+  const [openSearchBox, setOpenSearchBox] = useState(false);
+  const searhRef = useRef();
+  useClickOutside(searhRef, () => setOpenSearchBox(false));
+
+  const handleSearch = async (e) => {
+    const query = e.target.value;
+    setUserInput(query);
+
+    if (query.length > 0) {
+      try {
+        const response = await fetch(
+          `https://tranquilbytes.com/hisicosmetics/product/search?text=${query}`
+        );
+        const data = await response.json();
+        setSearchedProduct(data.data);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
+    }
+  };
+  useEffect(() => {
+    if (userInput.length > 0) {
+      setOpenSearchBox(true);
+    } else {
+      setOpenSearchBox(false);
+    }
+  }, [userInput]);
   return (
     <div className="w-full  border-b-4">
       <div className="nav-section container">
@@ -18,13 +46,19 @@ export const Nav_Content = ({ nav_category }) => {
               ))}
             </ul>
           </div>
-          <div className="search_box relative max-w-[350px]">
+          <div ref={searhRef} className="search_box relative max-w-[350px]">
             <input
+              value={userInput}
+              name="userInput"
+              onChange={handleSearch}
               className="border text-sm w-full py-3 px-4 h-10 placeholder:text-gray-700 bg-gray-100"
               type="text"
               placeholder="Search products..."
             />
             <CiSearch size={20} className="absolute right-3 top-2" />
+            {openSearchBox && (
+              <SearchResults searchedProduct={searchedProduct} />
+            )}
           </div>
         </div>
       </div>
@@ -32,6 +66,34 @@ export const Nav_Content = ({ nav_category }) => {
   );
 };
 
+export const SearchResults = ({ searchedProduct }) => {
+  return (
+    <div
+      style={{ scrollbarWidth: "thin" }}
+      className="absolute z-40 top-full max-h-96 h-auto border overflow-y-auto  overflow-x-hidden  bg-white p-4 w-full"
+    >
+      {searchedProduct?.length ? (
+        <ul className="grid gap-2 w-full ">
+          {searchedProduct?.map((product, index) => {
+            const { name, id } = product;
+            return (
+              <li key={index} className="w-full">
+                <Link
+                  href={`product/${id}`}
+                  className="block overflow-x-clip hover:text-primary_gold text-nowrap w-full border-b p-2"
+                >
+                  {name}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="w-full text-center font-semibold">No Results</p>
+      )}
+    </div>
+  );
+};
 export const MenuItem = ({ category }) => {
   const [openSubCat, setOpenSubCat] = useState(false);
   const dropDownRef = useRef();
@@ -67,9 +129,14 @@ export const MenuItem = ({ category }) => {
           />
         </div>
       ) : (
-        <button className="hover:text-primary_gold focus:text-primary_blue">
-          {category.name}
-        </button>
+        <div>
+          <Link
+            href={category.slug}
+            className="hover:text-primary_blue pb-1 hover:font-medium border-b-2 border-transparent hover:border-primary_blue "
+          >
+            {category.name}
+          </Link>
+        </div>
       )}
     </li>
   );

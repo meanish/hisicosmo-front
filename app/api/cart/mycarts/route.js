@@ -11,7 +11,6 @@ export async function GET(req) {
 
         const myHeaders = new Headers();
         const BearerToken = req.headers.get("Authorization");
-        console.log("Token ", BearerToken)
 
         myHeaders.append("Authorization", BearerToken)
 
@@ -22,7 +21,6 @@ export async function GET(req) {
             redirect: 'follow',
         }
 
-        console.log("Request options", requestOptions)
         const response = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/cart`, requestOptions, { cache: "no-store" })
         const allCart = await response.json();
   
