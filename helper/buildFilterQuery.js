@@ -1,4 +1,4 @@
-const { getFilteredProduct } = require("@/app/api/filtered_product/route");
+const { getFilteredProduct } = require("@/app/api/filters/route");
 
 // Helper function to build query string from parameters
 const buildFilterQuery = (brandIds, categoryIds, minPrice, maxPrice) => {

@@ -31,7 +31,6 @@ const Flash_Sales = () => {
     getProductLists();
   }, []);
 
-  console.log(allProducts, "allproduct");
   return (
     <div className="my-20">
       <Carousel

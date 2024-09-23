@@ -1,44 +1,64 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setPriceRange,
-  toggleBrand,
-  toggleCategory,
-} from "@/lib/store/slices/filterSlice";
+import { resetFilters, setPriceRange } from "@/lib/store/slices/filterSlice";
 import { Range } from "react-range";
+import { BrandAccordionContainer } from "./brandAccordion";
+import { CategoryAccordionContainer } from "./categoryAccordion";
+import {
+  storeBrandData,
+  storeCategoryData,
+} from "@/lib/store/slices/brand_category_slice";
+import { getBrandBasedProducts } from "@/app/api/brands/route";
+import { getNavCategory } from "@/app/api/nav_category/route";
+import { useRouter } from "next/navigation";
 
-export const Filter_Form_Section = ({ brandData, categoryData }) => {
+export const Filter_Form_Section = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handleReset = () => {
+    dispatch(resetFilters());
+    router.replace("/filters", { scroll: false });
+  };
+
+  useEffect(() => {
+    const handleGetData = async () => {
+      try {
+        const [brandData, categoryData] = await Promise.all([
+          getBrandBasedProducts(),
+          getNavCategory(),
+        ]);
+        dispatch(storeBrandData(brandData.data));
+        dispatch(storeCategoryData(categoryData.data));
+      } catch (err) {
+        throw new Error(err, "error to fetch brand and category data");
+      }
+    };
+
+    handleGetData();
+  }, [dispatch]);
+
   return (
     <div className="w-1/4 p-4">
       <div className="head-section mb-5 flex justify-between items-center">
         <p className="font-medium text-base">Filter</p>
-        <button className="text-primary_blue text-sm flex items-center gap-1">
+        <button
+          onClick={handleReset}
+          className="text-primary_blue text-sm flex items-center gap-1 hover:text-primary_gold"
+        >
           Reset <GrPowerReset />
         </button>
       </div>
 
       <div className="filter-by-brand">
-        <BrandAccordionContainer
-          title={"Filter by Brand"}
-          itemLists={brandData}
-        />
+        <BrandAccordionContainer title={"Filter by Brand"} />
       </div>
 
       <div className="filter-by-category">
-        <CategoryAccordionContainer
-          title={"Filter by category"}
-          categoryData={categoryData}
-        />
+        <CategoryAccordionContainer title={"Filter by category"} />
       </div>
       <div className="price-range">
         <PriceRangeSlider />
@@ -47,130 +67,19 @@ export const Filter_Form_Section = ({ brandData, categoryData }) => {
   );
 };
 
-export const Circular_Search_Box = () => {
+export const Circular_Search_Box = ({ value, onChange }) => {
   return (
     <div className=" my-4 flex rounded-full px-6 gap-2 items-center border focus-within:border-black bg-gray-100">
       <FaRegCircle className="" />
       <input
         type="text"
+        onChange={onChange}
+        value={value}
         name="search-box"
         className="w-full py-4 px-1 placeholder-gray-400 rounded-full border-none outline-none bg-gray-100 h-full "
         placeholder="Search"
       />
     </div>
-  );
-};
-
-export const BrandAccordionContainer = ({ title, itemLists }) => {
-  const dispatch = useDispatch();
-  const selectedBrandIds = useSelector(
-    (state) => state.manageFilterSlice.selectedBrandIds
-  ); // Get selected brand IDs
-
-  const handleCheckboxChange = (id) => {
-    dispatch(toggleBrand(id)); // Dispatch toggleBrand action
-  };
-
-  return (
-    <Accordion type="single" collapsible>
-      <AccordionItem value="item-1" className="border-b-0">
-        <AccordionTrigger className="font-bold text-xl text-black/70">
-          {title}
-        </AccordionTrigger>
-        <AccordionContent>
-          <Circular_Search_Box />
-          <div>
-            {itemLists.data.map((item, index) => {
-              const { name, id } = item;
-              const isChecked = selectedBrandIds.includes(id); // Check if brand ID is selected
-
-              return (
-                <label
-                  key={index}
-                  htmlFor={id}
-                  className="flex items-center hover:bg-gray-200 justify-between px-1 py-4 border-t-2 w-full cursor-pointer"
-                >
-                  {name}
-                  <input
-                    type="checkbox"
-                    id={id}
-                    checked={isChecked}
-                    onChange={() => handleCheckboxChange(id)} // Handle checkbox change
-                    className="size-5 text-text_gray hover:cursor-pointer"
-                  />
-                </label>
-              );
-            })}
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  );
-};
-
-export const CategoryAccordionContainer = ({ title, categoryData }) => {
-  const dispatch = useDispatch();
-  const selectedCategoryIds = useSelector(
-    (state) => state.manageFilterSlice.selectedCategoryIds
-  ); // Get selected category IDs
-
-  const handleCategoryChange = (id) => {
-    dispatch(toggleCategory(id)); // Dispatch toggleCategory action
-  };
-
-  return (
-    <Accordion type="single" collapsible>
-      <AccordionItem value="item-1" className="border-b-0">
-        <AccordionTrigger className="font-bold text-xl text-black/70">
-          {title}
-        </AccordionTrigger>
-        <AccordionContent>
-          <Circular_Search_Box />
-          <div>
-            {categoryData.data.map((item, index) => {
-              const { name, id, subcategories } = item;
-              const isCategoryChecked = selectedCategoryIds.includes(id); // Check if category is selected
-
-              return (
-                <Accordion key={id} type="single" collapsible>
-                  <AccordionItem value={`item-${id}`} className="border-b-0">
-                    <AccordionTrigger className="font-semibold text-base text-black">
-                      {name}
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div>
-                        {subcategories.map((subItem, subIndex) => {
-                          const { name, id } = subItem;
-                          const isSubCategoryChecked =
-                            selectedCategoryIds.includes(id); // Check if subcategory is selected
-
-                          return (
-                            <label
-                              key={subIndex}
-                              htmlFor={id}
-                              className="flex items-center hover:bg-gray-200 justify-between px-1 py-4 border-t-2 w-full cursor-pointer"
-                            >
-                              {name}
-                              <input
-                                type="checkbox"
-                                id={id}
-                                checked={isSubCategoryChecked}
-                                onChange={() => handleCategoryChange(id)} // Handle checkbox change
-                                className="size-5 text-text_gray hover:cursor-pointer"
-                              />
-                            </label>
-                          );
-                        })}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
-              );
-            })}
-          </div>
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
   );
 };
 

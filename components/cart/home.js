@@ -33,7 +33,6 @@ const CartHome = ({ token }) => {
 
 
     // const { data: session } = useSession();
-    // console.log("Session", session)
 
     const deleteHandler = async (id) => {
         try {
@@ -55,7 +54,6 @@ const CartHome = ({ token }) => {
 
         }
         catch (e) {
-            console.log("Whaterror", e)
             alert("Error", e)
         }
     }
@@ -71,7 +69,6 @@ const CartHome = ({ token }) => {
                 const { quantity, isActive } = currData
                 const { name, price, featured_image, id } = currData.product;
 
-                console.log(currData.product.isActive)
 
                 return (
                     <div className="border-2 p-5 bg-gray-100 shadow-md my-12 hover:bg-gray-200" >

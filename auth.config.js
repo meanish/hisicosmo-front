@@ -17,7 +17,6 @@ export default {
             async authorize(credentials, req) {
 
 
-                console.log("credentials in the logi account", credentials)
 
 
                 // const res = await fetch(`${process.env.HiSi_Server}/auth/login`, {
@@ -28,7 +27,6 @@ export default {
                 });
 
                 const response = await res.json();
-                console.log("Respomnse of login", response)
 
                 if (!response.success) {
                     return null
@@ -69,7 +67,6 @@ export default {
 
         async session({ session, token }) {
 
-            console.log("Usrs and tokemn", session, token)
 
 
             if (token.sub && session.user) {
@@ -81,12 +78,10 @@ export default {
 
             }
 
-            console.log("efore login token", session)
             return session;
         },
 
         async jwt({ token, account, user }) {
-            console.log("Token uin the jwt ", token, user)
             token = { ...token, ...user };
             return token;
         },
