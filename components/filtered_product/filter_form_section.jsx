@@ -15,6 +15,7 @@ import {
   toggleBrand,
   toggleCategory,
 } from "@/lib/store/slices/filterSlice";
+
 import { Range } from "react-range";
 
 export const Filter_Form_Section = ({ brandData, categoryData }) => {
