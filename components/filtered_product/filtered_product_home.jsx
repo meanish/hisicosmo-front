@@ -6,9 +6,11 @@ import { Product_List_Section } from "./product_list_section";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFilteredProducts } from "@/helper/buildFilterQuery";
 import { storeFilteredProductList } from "@/lib/store/slices/filterSlice";
+import { useRouter } from "next/navigation";
 
 const Filtered_Product_Home = ({ brandData, categoryData }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const selectedBrandIds = useSelector(
     (state) => state.manageFilterSlice.selectedBrandIds
@@ -23,7 +25,28 @@ const Filtered_Product_Home = ({ brandData, categoryData }) => {
     (state) => state.manageFilterSlice.filteredProductList
   );
 
+  const updateURLWithFilters = () => {
+    // Build the query string manually
+    const query = new URLSearchParams();
+
+    if (selectedBrandIds.length) {
+      query.append("brand", selectedBrandIds.join(","));
+    }
+    if (selectedCategoryIds.length) {
+      query.append("category", selectedCategoryIds.join(","));
+    }
+    query.append("minPrice", min);
+    query.append("maxPrice", max);
+
+    // Construct the full URL
+    const fullPath = `/filters?${query.toString()}`;
+
+    // Use router.push to navigate with the query string
+    router.push(fullPath);
+  };
   useEffect(() => {
+    // Update the URL when any filter changes
+    updateURLWithFilters();
     // Function to fetch the products when filters change
     const getFilteredProducts = async () => {
       try {
@@ -51,7 +74,7 @@ const Filtered_Product_Home = ({ brandData, categoryData }) => {
             brandData={brandData}
             categoryData={categoryData}
           />
-          <Product_List_Section  />
+          <Product_List_Section />
         </div>
       </div>
     </div>
