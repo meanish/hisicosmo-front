@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Trash2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCartData, modifyCart, modifyQuantity, storeCartDetails } from '@/lib/store/slices/cartSlices';
+import { fetchCartData, modifyCart, modifyQuantity, removeCartItems, storeCartDetails } from '@/lib/store/slices/cartSlices';
 
 
 
@@ -45,11 +45,13 @@ const CartHome = ({ token }) => {
                 body: JSON.stringify({ id, method })
             })
 
-            const response = res.json()
-            if (res.status === 200) {
+            const response = await res.json()
+
+            console.log(response)
+            if (response.status === 200) {
                 const filterItem = myCarts.filter((currData) => currData.id != id)
                 setMyCarts(filterItem)
-                dispatch(removeCartItem({ id }))
+                dispatch(removeCartItems({ id }))
             }
 
         }
@@ -73,7 +75,7 @@ const CartHome = ({ token }) => {
                 return (
                     <div className="border-2 p-5 bg-gray-100 shadow-md my-12 hover:bg-gray-200" >
                         <div className="isActive" onClick={() => addHandler(id)}>{
-                            isActive ? <div className="p-2 bg-green-300">.</div> : <div className="p-2 bg-red-300">.</div>
+                            <div className={`p-2 ${isActive ? " bg-green-300" : " bg-red-300"}`}>Click to Checkout</div>
                         }</div>
                         <div className="featured_image">
                             <Image src={featured_image} alt="image" width={200} height={200} />
@@ -89,7 +91,7 @@ const CartHome = ({ token }) => {
                     </div>
                 )
             })
-        }</div>
+        }</div >
     )
 }
 
