@@ -1,12 +1,63 @@
 import Image from "next/image";
 import deal_product_image from "@/public/images/best-deal-brand.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { storeFilteredProductList } from "@/lib/store/slices/filterSlice";
 
 export const Product_List_Section = () => {
+  const dispatch = useDispatch();
   const filteredProductList = useSelector(
     (state) => state.manageFilterSlice.filteredProductList
   );
+
+  const [sortByName, setSortByName] = useState("");
+  const [sortByPrice, setSortByPrice] = useState("");
+
+  // Natural sorting function
+  const handleSort = () => {
+    let sortedList = [...filteredProductList];
+
+    // Custom compare function for natural sorting
+    const naturalSort = (a, b) => {
+      return a.name.localeCompare(b.name, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      });
+    };
+
+    // Sort by name with natural sort (A-Z or Z-A)
+    if (sortByName === "A-Z") {
+      sortedList.sort(naturalSort); // Ascending (natural order)
+    } else if (sortByName === "Z-A") {
+      sortedList.sort((a, b) => naturalSort(b, a)); // Descending (natural order)
+    }
+
+    // Sort by price
+    if (sortByPrice === "low-to-high") {
+      sortedList.sort((a, b) => a.price - b.price); // Ascending price
+    } else if (sortByPrice === "high-to-low") {
+      sortedList.sort((a, b) => b.price - a.price); // Descending price
+    }
+
+    dispatch(storeFilteredProductList(sortedList)); // Dispatch sorted list
+  };
+
+  // useEffect(() => {
+  //   handleSort(); // Trigger sorting whenever sort option changes
+  // }, [sortByName, sortByPrice]);
+
+  // Handle changes for name sort
+  const handleSortByNameChange = (e) => {
+    setSortByName(e.target.value); // Update sort state
+    handleSort();
+  };
+
+  // Handle changes for price sort
+  const handleSortByPriceChange = (e) => {
+    setSortByPrice(e.target.value); // Update sort state
+    handleSort();
+  };
 
   return (
     <div className="w-full">
@@ -15,20 +66,33 @@ export const Product_List_Section = () => {
           <p>Categories</p>
           <h4 className="text-primary_blue  text-lg font-medium">Facewash</h4>
         </div>
-        <div className="sort-section">
+        <div className="sort-section flex gap-4">
           <select
-            value="sort"
-            name="sort"
-            id="sort"
-            className=" text-black p-4 w-48 border rounded-full"
+            value={sortByName}
+            onChange={handleSortByNameChange}
+            name="sortByName"
+            id="sortByName"
+            className=" text-center text-black py-2 w-48 border rounded-full"
           >
-            <option disabled className="text-black" value="sort">
-              Sort By
+            <option disabled selected className="text-black" value="">
+              Sort By Name
             </option>
-            <option value="name">Name</option>
-            <option value="date">Date</option>
-            <option value="price">Price</option>
-            <option value="rating">Rating</option>
+            <option value="A-Z">A-Z</option>
+            <option value="Z-A">Z-A</option>
+          </select>
+
+          <select
+            value={sortByPrice}
+            name="sortByPrice"
+            onChange={handleSortByPriceChange}
+            id="sortByPrice"
+            className="text-center text-black py-2 w-48 border rounded-full"
+          >
+            <option disabled selected className="text-black" value="">
+              Sort By Price
+            </option>
+            <option value="low-to-high">Low to High</option>
+            <option value="high-to-low">High to Low</option>
           </select>
         </div>
       </div>
@@ -50,7 +114,7 @@ export const Product_List_Section = () => {
           } = item;
           return (
             <div key={index} className="card-item border rounded-md ">
-              <div className="w-[231px] h-[312px] bg-white relative overflow-hidden rounded-t-lg">
+              <div className="max-w-60 w-auto h-[312px] bg-white relative overflow-hidden rounded-t-lg">
                 <Image
                   src={deal_product_image}
                   fill
@@ -85,3 +149,18 @@ export const Product_List_Section = () => {
     </div>
   );
 };
+
+const productList = [
+  {
+    name: "Aoduct 15",
+    price: 500,
+  },
+  {
+    name: "Boduct 15",
+    price: 1500,
+  },
+  {
+    name: "Poduct 15",
+    price: 100,
+  },
+];

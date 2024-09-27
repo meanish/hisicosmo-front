@@ -7,7 +7,7 @@ import {
 import { toggleCategory } from "@/lib/store/slices/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Circular_Search_Box } from "./filter_form_section";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { storeCategoryData } from "@/lib/store/slices/brand_category_slice";
 import { getNavCategory } from "@/app/api/nav_category/route";
 
@@ -49,8 +49,6 @@ export const CategoryAccordionContainer = ({ title }) => {
     dispatch(toggleCategory(id)); // Dispatch toggleCategory action
   };
 
-  console.log(CategoryList, "cate-list");
-
   return (
     <Accordion type="single" collapsible>
       <AccordionItem value="item-1" className="border-b-0">
@@ -66,7 +64,7 @@ export const CategoryAccordionContainer = ({ title }) => {
               const isCategoryChecked = selectedCategoryIds.includes(id); // Check if category is selected
 
               return (
-                <>
+                <Fragment key={index}>
                   {item?.subcategories?.length ? (
                     <Accordion key={id} type="single" collapsible>
                       <AccordionItem
@@ -120,7 +118,7 @@ export const CategoryAccordionContainer = ({ title }) => {
                       />
                     </label>
                   )}
-                </>
+                </Fragment>
               );
             })}
           </div>
