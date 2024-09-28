@@ -91,7 +91,7 @@ const CartHome = ({ token }) => {
                     </div>
                 )
             })
-        }</div >
+        }</div>
     )
 }
 
@@ -100,26 +100,33 @@ const CartHome = ({ token }) => {
 const ItemsQuantity = ({ quantity, id, token }) => {
 
     const dispatch = useDispatch()
+    let debounceTimeout;
 
-
-    const increaseHandler = async () => {
-        if (quantity < 10) {
-            const count = +quantity + 1
-            dispatch(modifyQuantity({ id, quantity: count }))
+    const debounceUpdateCart = (count) => {
+        clearTimeout(debounceTimeout);
+        debounceTimeout = setTimeout(async () => {
             try {
-                let method = "update"
+                const method = "update";
                 const res = await fetch("/api/cart/async", {
                     method: "POST",
                     headers: {
                         Authorization: `Bearer ${token}`
                     },
                     body: JSON.stringify({ id, count, method })
-                })
+                });
+                if (!res.ok) throw new Error("Failed to update cart");
+            } catch (e) {
+                alert("Error", e.message);
+            }
+        }, 3000); // Wait for 3 seconds before making the Aanother call for handling server ovveload
+    };
 
-            }
-            catch (e) {
-                alert("Error", e.message)
-            }
+
+    const increaseHandler = async () => {
+        if (quantity < 10) {
+            const count = +quantity + 1
+            dispatch(modifyQuantity({ id, quantity: count }))
+            debounceUpdateCart(count);
         }
 
     }
@@ -128,23 +135,7 @@ const ItemsQuantity = ({ quantity, id, token }) => {
         if (quantity > 1) {
             const count = +quantity - 1
             dispatch(modifyQuantity({ id, quantity: count }))
-            try {
-                let method = "update"
-
-                const res = await fetch("/api/cart/async", {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ id, count, method })
-
-                })
-
-
-            }
-            catch (e) {
-                alert("Error", e.message)
-            }
+            debounceUpdateCart(count);
         }
     }
 

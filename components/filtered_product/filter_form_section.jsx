@@ -4,7 +4,7 @@ import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  resetFilters, setPriceRange, setPriceRange,
+  resetFilters, setPriceRange, 
   toggleBrand,
   toggleCategory, } from "@/lib/store/slices/filterSlice";
 
