@@ -1,7 +1,7 @@
 "use client"
 
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Trash2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCartData, modifyCart, modifyQuantity, removeCartItems, storeCartDetails } from '@/lib/store/slices/cartSlices';
@@ -15,7 +15,7 @@ const CartHome = ({ token }) => {
     const dispatch = useDispatch()
 
 
-
+    console.log("My Token", token)
 
     useEffect(() => {
         dispatch(fetchCartData(token));
@@ -91,63 +91,58 @@ const CartHome = ({ token }) => {
                     </div>
                 )
             })
-        }</div >
+        }</div>
     )
 }
 
 
 
 const ItemsQuantity = ({ quantity, id, token }) => {
+    const dispatch = useDispatch();
+    const debounceTimeout = useRef(null); // Using useRef to store the timeout persistently
 
-    const dispatch = useDispatch()
+    const updateCartAPI = (newQuantity) => {
+        try {
+            const method = "update";
+            fetch("/api/cart/async", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ id, count: newQuantity, method })
+            });
+        } catch (e) {
+            alert("Error", e.message);
+        }
+    };
+
+    const handleQuantityChange = (newQuantity) => {
+
+        if (debounceTimeout.current) {
+            clearTimeout(debounceTimeout.current);
+        }
 
 
-    const increaseHandler = async () => {
+        debounceTimeout.current = setTimeout(() => {
+            updateCartAPI(newQuantity); //  only once, after the user stops even afgter multi click
+        }, 3000);
+    };
+
+    const increaseHandler = () => {
         if (quantity < 10) {
-            const count = +quantity + 1
-            dispatch(modifyQuantity({ id, quantity: count }))
-            try {
-                let method = "update"
-                const res = await fetch("/api/cart/async", {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ id, count, method })
-                })
-
-            }
-            catch (e) {
-                alert("Error", e.message)
-            }
+            const count = +quantity + 1;
+            dispatch(modifyQuantity({ id, quantity: count }));
+            handleQuantityChange(count);
         }
+    };
 
-    }
-
-    const decreaseHandler = async () => {
+    const decreaseHandler = () => {
         if (quantity > 1) {
-            const count = +quantity - 1
-            dispatch(modifyQuantity({ id, quantity: count }))
-            try {
-                let method = "update"
-
-                const res = await fetch("/api/cart/async", {
-                    method: "POST",
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ id, count, method })
-
-                })
-
-
-            }
-            catch (e) {
-                alert("Error", e.message)
-            }
+            const count = +quantity - 1;
+            dispatch(modifyQuantity({ id, quantity: count }));
+            handleQuantityChange(count);
         }
-    }
-
+    };
 
     return (
         <div className="quantity flex items-center gap-3">
@@ -161,8 +156,7 @@ const ItemsQuantity = ({ quantity, id, token }) => {
             </div>
             <span className="text-orange-500">Out of stock</span>
         </div>
-    )
+    );
+};
 
-
-}
 export default CartHome
