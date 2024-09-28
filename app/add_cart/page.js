@@ -9,9 +9,11 @@ const AddCart = async () => {
     const token = session?.user?.token
 
     return (
-        <div className="flex gap-4 container flex-row mx-auto">
-            <CartHome token={token} />
-            <ActiveCart />
+        <div className=" bg-ad_bg_gray min-h-[70vh]">
+            <div className="container grid grid-cols-1 md:grid-cols-3 gap-4 mx-auto py-16 ">
+                <CartHome token={token} />
+                <ActiveCart />
+            </div>
         </div>
     )
 }
