@@ -9,7 +9,6 @@ const page = async ({ params }) => {
     const data = await getSingleProduct(id)
 
     const session = await auth()
-    console.log(session)
     const token = session?.user?.token
 
 
