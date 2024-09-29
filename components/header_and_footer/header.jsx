@@ -7,13 +7,12 @@ import { auth } from "@/auth";
 const Header = async () => {
   const data = await getNavCategory();
   const session = await auth();
-
-
+  console.log(session, "sess in header");
 
   return (
     <div>
       <Header_CTA />
-      <Logo_Account_Section />
+      <Logo_Account_Section token={session?.user?.token} />
       <Nav_Content nav_category={data?.data} />
     </div>
   );

@@ -127,7 +127,7 @@ export const Login_Form = () => {
             <span className="text-sm font-bold">New To Hisi Cosmetic ? </span>
             <Link
               className="text-sm hover:underline active:text-primary_gold font-bold text-primary_blue"
-              href={"/register"}
+              href={"/auth/register"}
             >
               Register With Us
             </Link>
