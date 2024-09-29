@@ -1,9 +1,9 @@
-import ProfileHome from '@/components/profile/profileHome'
+import SettingsHome from '@/components/profile/settingsHome'
 import React from 'react'
 
 const page = () => {
     return (
-        <ProfileHome />
+        <SettingsHome />
     )
 }
 

@@ -8,6 +8,7 @@ import BasicProfile from "./basicProfile";
 import Orders from "./orders";
 import Wishlist from "./wishlist";
 import Contact_Us from "./contact_us";
+import { signOut } from "@/auth";
 
 export const tabs = [
   {
@@ -27,7 +28,7 @@ export const tabs = [
     icon: <FiPhoneCall size={24} />,
   },
 ];
-const ProfileHome = () => {
+const SettingsHome = () => {
   const [activeTab, setActiveTab] = useState(0);
   return (
     <div className="bg-gray-200 w-full py-8">
@@ -52,7 +53,10 @@ const ProfileHome = () => {
             })}
           </ul>
           <div className="logout">
-            <button className="py-3 px-5 flex gap-2 items-center text-red-500 w-full border-y-2 border-transparent hover:border-gray-200 active:text-primary_blue">
+            <button
+              onClick={() => signOut()}
+              className="py-3 px-5 flex gap-2 items-center text-red-500 w-full border-y-2 border-transparent hover:border-gray-200 active:text-primary_blue"
+            >
               <IoIosLogOut size={24} />
               Logout
             </button>
@@ -73,4 +77,4 @@ const ProfileHome = () => {
   );
 };
 
-export default ProfileHome;
+export default SettingsHome;

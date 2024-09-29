@@ -4,12 +4,36 @@ import logo from "@/public/images/Hisi-Logo.svg";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
 
-export const Logo_Account_Section = () => {
+export const Logo_Account_Section = ({ token }) => {
   const router = useRouter();
+  console.log(token, "token in logo");
+
+  useEffect(() => {
+    // https://tranquilbytes.com/hisicosmetics/user/mydata
+    const getUserData = async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_HiSi_Server}/user/mydata`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = res.json();
+      console.log(data, "userData");
+    };
+    if (token) {
+      getUserData();
+    }
+  }, [token]);
+
   return (
     <div className="bg-white shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist">
       <div className="container w-full flex items-center">
