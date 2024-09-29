@@ -1,5 +1,6 @@
 "use client";
 
+import { storeUserData } from "@/lib/store/slices/userDataSlice";
 import logo from "@/public/images/Hisi-Logo.svg";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,32 +9,31 @@ import { useEffect } from "react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { RxAvatar } from "react-icons/rx";
+import { useDispatch, useSelector } from "react-redux";
 
 export const Logo_Account_Section = ({ token }) => {
   const router = useRouter();
-  console.log(token, "token in logo");
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.manageUserData.userData);
 
   useEffect(() => {
-    // https://tranquilbytes.com/hisicosmetics/user/mydata
     const getUserData = async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_HiSi_Server}/user/mydata`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await fetch(`/api/userData`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      const data = res.json();
-      console.log(data, "userData");
+      const data = await res.json();
+      dispatch(storeUserData(data?.data));
     };
     if (token) {
       getUserData();
     }
   }, [token]);
 
+  console.log(userData, "userData slice");
   return (
     <div className="bg-white shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist">
       <div className="container w-full flex items-center">
@@ -64,7 +64,7 @@ export const Logo_Account_Section = ({ token }) => {
                 href={"/auth/login"}
                 className="text-sm font-semibold cursor-pointer"
               >
-                Your Account
+                {userData?.username}
               </Link>
             </div>
           </div>
