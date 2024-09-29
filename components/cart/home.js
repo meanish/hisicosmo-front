@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 
 
-const CartHome = ({ token }) => {
+const CartHome = ({ token, checkoutStatus }) => {
 
 
     const dispatch = useDispatch()
@@ -62,7 +62,7 @@ const CartHome = ({ token }) => {
         <div className="p-10 bg-white md:col-span-2">
             <h1 className="text-3xl font-bold mb-8">Your Hisi Shopping Cart</h1>
             {
-                status === "loading" ? <p className="text-gray-600">Loading your cart...</p> : <>
+                status === "loading" ? <p className="text-gray-600">Loading your cart...</p> : <fieldset disabled={checkoutStatus}>
                     {
                         cartData?.length > 0 ? (
                             <>
@@ -127,7 +127,7 @@ const CartHome = ({ token }) => {
                             </div>
                         )
                     }
-                </>
+                </fieldset>
             }
         </div>
 
