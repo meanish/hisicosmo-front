@@ -47,8 +47,8 @@ export const Login_Form = () => {
           const data = await res.json();
           if (data?.status === 200) {
             toast.success("Successfully Logged In!");
-            window.location.reload(false)
             router.push("/")
+            window.location.reload(false)
           } else if (res.status === 400) {
             setErrors(data.errors);
           }
