@@ -1,16 +1,20 @@
 "use client"
 
-import { removeActiveItem } from '@/lib/store/slices/cartSlices'
+import { removeActiveItem, setOrderPayment, storeOrderplacement } from '@/lib/store/slices/cartSlices'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import EsewaPayment from '../esewagateway/page'
 import { GrClose } from 'react-icons/gr'
 import Image from 'next/image'
 import { FaCheckCircle } from 'react-icons/fa'
+import esewa from "@/public/images/esewa.png";
+import cod from "@/public/images/cod.png";
+import toast from 'react-hot-toast'
 
 const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
     const activeCart = useSelector((state) => state.cartData.activeCart)
     const totalAmount = useSelector((state) => state.cartData?.totalAmount)
+    const orderPlacement = useSelector((state) => state.cartData.orderplacement)
     const [paymentType, setPaymentType] = useState()
     const dispatch = useDispatch()
 
@@ -25,24 +29,47 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
 
     const checkoutHandler = () => {
         setCheckoutStatus(!checkoutStatus)
-        dispatch(storeOrderplacement(activeCart, paymentType))
+        dispatch(storeOrderplacement({ activeCart, paymentType, totalAmount }))
     }
 
 
-    const orderHandler = () => {
-        return
+    const orderHandler = async () => {
+
+        if (!paymentType) {
+            toast.error("Please select a payment type")
+            return
+        }
+        try {
+            const res = await fetch("/api/order/new", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ ...orderPlacement })
+            })
+
+            const response = await res.json()
+            console.log(response)
+            if (response?.status === 200) {
+                toast.success(response?.message)
+            }
+        }
+        catch (e) {
+            toast.error("Failed", e.message)
+
+        }
     }
 
 
     const payementmethod = [
         {
-            imgsrc: "",
+            imgsrc: cod,
             id: 1,
             name: "cod",
 
         },
         {
-            imgsrc: "",
+            imgsrc: esewa,
             id: 2,
             name: "esewa"
 
@@ -50,8 +77,13 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
     ]
 
     const paymentHandler = (e) => {
+        console.log("Called", e.target.name)
+        const { name } = e.target
         setPaymentType(e.target.id)
+        dispatch(setOrderPayment({ name }))
     }
+
+    console.log(paymentType)
 
     return (
         <div className="md:col-span-1 bg-white p-4 ">
@@ -68,7 +100,7 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
                 activeCart?.length > 0 ? (
                     <>
                         {
-                            checkoutStatus ? <>
+                            !checkoutStatus ? <>
                                 <div className="top_amount border-t-2 border-b-2 flex flex-col gap-5">
                                     <div className="pricing flex justify-between">
                                         <div className="title">Total </div>
@@ -85,8 +117,8 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
                                     <button className="bg-primary_blue text-white py-3 w-full" onClick={checkoutHandler}>Checkout</button>
                                 </div>
                             </> : <>
-                                <div className="cancel_checkout" title="Cancel Checkout" onClick={checkoutHandler}>
-                                    <GrClose />
+                                <div className="cancel_checkout flex flex-end" title="Cancel Checkout" onClick={() => setCheckoutStatus(!checkoutStatus)}>
+                                    Cancel
                                 </div>
                                 {activeCart?.map((currCart) => {
                                     const { product_id, totalprice, quantity } = currCart;
@@ -136,57 +168,62 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
                                 </div>
 
                                 <div className="payment-methods py-4">
-                                    <h4 className="text-sm font-semibold mb-2">PAYMENT METHODS</h4>
-                                    {
-                                        payementmethod?.map((item, index) => {
-                                            return (
-                                                <div className="flex gap-4">
-                                                    {
-                                                        item.id === paymentType ? <label
-                                                            className="relative cursor-pointer w-full h-[120px] select-none  flex bg-white rounded-sm shadow-md"
-                                                            htmlFor={item.id}
-                                                            onClick={paymentHandler}
-                                                        >
-                                                            <img
-                                                                src={item.src}
-                                                                unoptimized={true}
-                                                                className="outline-4 outline overflow-hidden  rounded-sm  outline-primaryBtnBg"
-                                                                fill
-                                                                sizes="100vw"
-                                                                style={{ objectFit: "contain" }}
-                                                                alt="cod"
-                                                            />
+                                    <h4 className="text-sm font-semibold mb-6">PAYMENT METHODS</h4>
+                                    <div className="grid grid-cols-2 gap-4" >
+                                        {
+                                            payementmethod?.map((item, index) => {
+                                                return (
+                                                    <>
+                                                        {
+                                                            item.id === +paymentType ? <label
+                                                                className="relative cursor-pointer w-full h-[120px] select-none  flex bg-white rounded-sm shadow-md"
+                                                                htmlFor={item.id}
+                                                            >
+                                                                <Image
+                                                                    src={item.imgsrc}
+                                                                    unoptimized={true}
+                                                                    className="outline-4 outline overflow-hidden  rounded-sm  outline-primary_blue"
+                                                                    fill
+                                                                    name={item.name}
+                                                                    onClick={paymentHandler}
+                                                                    sizes="100vw"
+                                                                    style={{ objectFit: "contain" }}
+                                                                    alt={item.name}
+                                                                />
 
-                                                            <FaCheckCircle
-                                                                className="absolute top-2 right-2 bg-white rounded-full overflow-hidden"
-                                                                size={24}
-                                                                color={"green"}
-                                                            />
-                                                        </label> : <label
-                                                            className="relative w-full h-[120px] cursor-pointer select-none  flex bg-white rounded-sm shadow-md"
-                                                            key={index}
-                                                            htmlFor={item.id}
-                                                            onClick={paymentHandler}
-                                                        >
-                                                            <img
-                                                                src={item.src}
-                                                                unoptimized={true}
-                                                                fill
-                                                                sizes="100vw"
-                                                                style={{ objectFit: "contain" }}
-                                                                className="rounded-sm overflow-hidden"
-                                                                id={item.id}
-                                                                alt="esewa"
-                                                            />
-                                                        </label>
-                                                    }
+                                                                <FaCheckCircle
+                                                                    className="absolute top-2 right-2 bg-white rounded-full overflow-hidden"
+                                                                    size={24}
+                                                                    color={"#110884"}
+                                                                />
+                                                            </label> : <label
+                                                                className="relative w-full h-[120px] cursor-pointer select-none  flex bg-white rounded-sm shadow-md"
+                                                                key={index}
+                                                                htmlFor={item.id}
+                                                            >
+                                                                <Image
+                                                                    src={item.imgsrc}
+                                                                    unoptimized={true}
+                                                                    fill
+                                                                    sizes="100vw"
+                                                                    onClick={paymentHandler}
+                                                                    name={item.name}
+                                                                    style={{ objectFit: "contain" }}
+                                                                    className="rounded-sm overflow-hidden"
+                                                                    id={item.id}
+                                                                    alt={item.name}
+                                                                />
+                                                            </label>
+                                                        }
 
-                                                    {/* <img src="/path_to_khalti_logo" alt="Khalti" className="w-1/3" />
+                                                        {/* <img src="/path_to_khalti_logo" alt="Khalti" className="w-1/3" />
                                                     <img src="/path_to_cod_logo" alt="Cash on Delivery" className="w-1/3" /> */}
-                                                </div>
-                                            )
-                                        })
-                                    }
+                                                    </>
+                                                )
+                                            })
+                                        }
+
+                                    </div>
 
                                 </div>
 
