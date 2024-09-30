@@ -73,11 +73,11 @@ const router =useRouter()
                 if (response?.status === 200) {
                     toast.success(response?.message)
                     const favorites = JSON.parse(localStorage.getItem("Favorites")) || [];
+                    setAllproducts((currVal) => currVal.filter(fav => fav.id !== id))
 
-                    updatedFavorites = favorites.filter(fav => fav !== id);
+                    const updatedFavorites = favorites?.filter(fav => fav !== id);
                     localStorage.setItem("Favorites", JSON.stringify(updatedFavorites));
 
-                    setAllproducts((currVal) => currVal.filter(fav => fav.id !== id))
                 }
                 else {
                     toast.error(response?.message)
