@@ -102,13 +102,11 @@ const CartHome = ({ token, checkoutStatus }) => {
                                                     />
                                                 </div>
 
-                                                {/* Price Information */}
                                                 <div className="text-right mr-8">
                                                     <p className="text-blue-700 font-semibold">11% Off</p>
                                                     <p className="text-2xl font-bold text-gray-700">NPR {price}</p>
                                                 </div>
 
-                                                {/* Delete Button */}
                                                 <button
                                                     className="delete_item bg-transparent hover:bg-red-100 text-red-500 hover:text-red-700 p-2 rounded-full"
                                                     onClick={() => deleteHandler(id)}

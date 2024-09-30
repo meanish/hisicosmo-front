@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import product_image from "@/public/images/flash-sales.png";
 import express_delivery from "@/public/images/express-delivery.png";
 import Image from "next/image";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
@@ -17,10 +16,18 @@ import {
 } from "@/components/ui/carousel";
 import { ImageWithFallback } from "../ui/imageWithFallBack";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
-const Flash_Sales = () => {
-  const [isFav, setIsFav] = useState(false);
+
+const Flash_Sales = ({ token }) => {
+  const [isFav, setFav] = useState(JSON.parse(localStorage.getItem("Favorites")) || []);
+
+  console.log(isFav)
+
+
   const [allProducts, setAllProducts] = useState();
+const router =useRouter()
 
   useEffect(() => {
     const getProductLists = async () => {
@@ -30,6 +37,55 @@ const Flash_Sales = () => {
 
     getProductLists();
   }, []);
+
+
+
+
+
+  const setfavoriteHandler = (id) => {
+    const favorites = JSON.parse(localStorage.getItem("Favorites")) || [];
+    if (favorites.includes(id)) {
+      const updatedFavorites = favorites.filter(favId => favId !== id);
+      localStorage.setItem("Favorites", JSON.stringify(updatedFavorites));
+      setFav(updatedFavorites)
+
+    } else {
+      favorites.push(id);
+      localStorage.setItem("Favorites", JSON.stringify(favorites));
+      setFav([...isFav, id])
+    }
+  };
+
+
+  const cartHandler = async (id) => {
+    if (!token) {
+      router.push("/auth/login")
+    }
+    else {
+      try {
+
+        const res = await fetch("/api/cart/store", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ id, quantity: 1 })
+        })
+
+        const response = await res.json()
+
+        if (response?.status === 200) {
+          toast.success(response?.message)
+        }
+        else {
+          toast.error(response?.message)
+        }
+      }
+      catch (e) {
+        toast.error("Eror in adding cart", e.message)
+      }
+    }
+  }
 
   return (
     <div className="my-20">
@@ -92,22 +148,16 @@ const Flash_Sales = () => {
                   <p className="line-clamp-2 text-sm">{description} </p>
                 </div>
                 <div className="add-to-cart flex w-44 items-center gap-2">
-                  <button className="w-[152px] h-[30px] hover:bg-opacity-80 active:scale-90 active:bg-opacity-100 rounded text-sm bg-primary_blue text-white">
+                  <button className="w-[152px] h-[30px] hover:bg-opacity-80 active:scale-90 active:bg-opacity-100 rounded text-sm bg-primary_blue text-white" onClick={() => cartHandler(item.id)}>
                     Add To Cart
                   </button>
-                  {isFav ? (
-                    <button onClick={() => setIsFav(false)}>
-                      <FaHeart
-                        size={25}
-                        className="text-primary_blue cursor-pointer"
-                      />
-                    </button>
-                  ) : (
-                    <button onClick={() => setIsFav(true)}>
-                      <FiHeart
-                        size={25}
-                        className="text-primary_blue cursor-pointer"
-                      />
+                  {Array.isArray(isFav) && (
+                    <button onClick={() => setfavoriteHandler(id)}>
+                      {isFav.includes(id) ? (
+                        <FaHeart size={25} className="text-primary_blue cursor-pointer" />
+                      ) : (
+                        <FiHeart size={25} className="text-primary_blue cursor-pointer" />
+                      )}
                     </button>
                   )}
                 </div>

@@ -69,12 +69,16 @@ export const Logo_Account_Section = ({ token }) => {
             </div>
           </div>
           <div className="icons flex items-center gap-10 justify-between">
-            <div className="favorite relative cursor-pointer">
-              <MdOutlineFavoriteBorder size={30} color="gray" />
-              <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
-                0
-              </span>
-            </div>
+            <Link href="/settings/wishlist">
+
+              <div className="favorite relative cursor-pointer">
+                <MdOutlineFavoriteBorder size={30} color="gray" />
+                <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
+                  0
+                </span>
+
+              </div>
+            </Link>
             <div className="shopping_bag relative cursor-pointer">
               <Link href="/add_cart">
                 <HiOutlineShoppingBag size={30} color="gray" />
