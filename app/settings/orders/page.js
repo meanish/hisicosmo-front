@@ -1,9 +1,12 @@
+import { auth } from '@/auth'
 import Orders from '@/components/settings/orders'
 import React from 'react'
 
-const page = () => {
+const page = async () => {
+
+    const session = await auth()
     return (
-        <Orders />
+        <Orders token={session?.user.token} />
     )
 }
 
