@@ -14,8 +14,9 @@ export async function GET(req) {
             headers: myHeaders
         }
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/user/mydata`, requestOptions)
+        const res = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/order/myorder`, requestOptions)
         const data = await res.json()
+        console.log(data, "order data in route")
         return NextResponse.json({ data: data?.data, status: 200 })
 
     } catch (error) {
