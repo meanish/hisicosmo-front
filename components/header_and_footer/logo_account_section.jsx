@@ -33,7 +33,6 @@ export const Logo_Account_Section = ({ token }) => {
     }
   }, [token]);
 
-  console.log(userData, "userData slice");
   return (
     <div className="bg-white shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist">
       <div className="container w-full flex items-center">

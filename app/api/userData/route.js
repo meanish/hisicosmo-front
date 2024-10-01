@@ -16,7 +16,6 @@ export async function GET(req) {
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/user/mydata`, requestOptions)
         const data = await res.json()
-        console.log(data, "data in route")
         return NextResponse.json({ data: data?.data, status: 200 })
 
     } catch (error) {
