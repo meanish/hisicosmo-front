@@ -15,7 +15,8 @@ export const Product_List_Section = () => {
   const [sortByPrice, setSortByPrice] = useState("");
 
   // Natural sorting function
-  const handleSort = () => {
+  const handleSort = (name, value) => {
+
     let sortedList = [...filteredProductList];
 
     // Custom compare function for natural sorting
@@ -27,17 +28,27 @@ export const Product_List_Section = () => {
     };
 
     // Sort by name with natural sort (A-Z or Z-A)
-    if (sortByName === "A-Z") {
+    if (value === "A-Z") {
       sortedList.sort(naturalSort); // Ascending (natural order)
-    } else if (sortByName === "Z-A") {
+    } else if (value === "Z-A") {
       sortedList.sort((a, b) => naturalSort(b, a)); // Descending (natural order)
     }
 
     // Sort by price
-    if (sortByPrice === "low-to-high") {
+    if (value === "low-to-high") {
       sortedList.sort((a, b) => a.price - b.price); // Ascending price
-    } else if (sortByPrice === "high-to-low") {
+
+    } else if (value === "high-to-low") {
       sortedList.sort((a, b) => b.price - a.price); // Descending price
+    }
+    {
+      if (name == "sortByName"){
+        setSortByPrice("")
+      }
+      else{
+        setSortByName("")
+
+      }
     }
 
     dispatch(storeFilteredProductList(sortedList)); // Dispatch sorted list
@@ -49,14 +60,17 @@ export const Product_List_Section = () => {
 
   // Handle changes for name sort
   const handleSortByNameChange = (e) => {
+    const { name, value } = e.target
+
     setSortByName(e.target.value); // Update sort state
-    handleSort();
+    handleSort(name, value);
   };
 
   // Handle changes for price sort
   const handleSortByPriceChange = (e) => {
+    const { name, value } = e.target
     setSortByPrice(e.target.value); // Update sort state
-    handleSort();
+    handleSort(name, value);
   };
 
   return (

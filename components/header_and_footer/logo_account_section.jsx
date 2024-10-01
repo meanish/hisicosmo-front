@@ -33,6 +33,11 @@ export const Logo_Account_Section = ({ token }) => {
     }
   }, [token]);
 
+
+  const { cartNumber, showCartnumber } = useSelector((state) => state.cartData)
+  const { favNumber, showFav } = useSelector((state) => state.managefavorites)
+
+
   return (
     <div className="bg-white shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist">
       <div className="container w-full flex items-center">
@@ -72,18 +77,25 @@ export const Logo_Account_Section = ({ token }) => {
 
               <div className="favorite relative cursor-pointer">
                 <MdOutlineFavoriteBorder size={30} color="gray" />
-                <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
-                  0
-                </span>
+                {
+                  showFav ? <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
+
+                    {favNumber}
+                  </span> : null
+                }
+
 
               </div>
             </Link>
             <div className="shopping_bag relative cursor-pointer">
               <Link href="/add_cart">
                 <HiOutlineShoppingBag size={30} color="gray" />
-                <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
-                  0
-                </span>
+                {
+                  showCartnumber ? <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
+                    {cartNumber}
+                  </span> : null
+                }
+
               </Link>
             </div>
           </div>

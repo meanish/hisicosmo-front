@@ -18,16 +18,20 @@ import { ImageWithFallback } from "../ui/imageWithFallBack";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { activeCartDisplay } from "@/lib/store/slices/cartSlices";
+import { useDispatch } from "react-redux";
+import { activeFavDisplay } from "@/lib/store/slices/favouriteSlice";
 
 
 const Flash_Sales = ({ token }) => {
   const [isFav, setFav] = useState(JSON.parse(localStorage.getItem("Favorites")) || []);
 
-  console.log(isFav)
+
 
 
   const [allProducts, setAllProducts] = useState();
-const router =useRouter()
+  const router = useRouter()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const getProductLists = async () => {
@@ -48,13 +52,18 @@ const router =useRouter()
       const updatedFavorites = favorites.filter(favId => favId !== id);
       localStorage.setItem("Favorites", JSON.stringify(updatedFavorites));
       setFav(updatedFavorites)
+      dispatch(activeFavDisplay({ number: updatedFavorites.length }))
 
     } else {
       favorites.push(id);
       localStorage.setItem("Favorites", JSON.stringify(favorites));
       setFav([...isFav, id])
+      dispatch(activeFavDisplay({ number: favorites.length }))
+
     }
+
   };
+
 
 
   const cartHandler = async (id) => {
@@ -76,6 +85,8 @@ const router =useRouter()
 
         if (response?.status === 200) {
           toast.success(response?.message)
+          dispatch(activeCartDisplay())
+
         }
         else {
           toast.error(response?.message)
