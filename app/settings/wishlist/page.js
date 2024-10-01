@@ -1,6 +1,12 @@
 "use client"
+import ButtonBlue from '@/components/ui/buttonBlue';
+import HeadingTitle from '@/components/ui/header';
+import { activeCartDisplay } from '@/lib/store/slices/cartSlices';
 import { fetchActiveFavorites, removeFavorites } from '@/lib/store/slices/favouriteSlice';
+import { Delete, DeleteIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -11,8 +17,8 @@ const WishList = () => {
 
     const { status, allFavourites } = useSelector((state) => state.managefavorites);
 
-    const {data:session} = useSession()
-    console.log("session",session)
+    const { data: session } = useSession()
+    console.log("session", session)
 
 
 
@@ -44,7 +50,7 @@ const WishProducts = ({ status, allFavourites, token }) => {
 
     const [allProducts, setAllproducts] = useState(allFavourites)
 
-const router =useRouter()
+    const router = useRouter()
     console.log(allProducts)
 
     // Handle removal of a favorite
@@ -74,7 +80,7 @@ const router =useRouter()
                     toast.success(response?.message)
                     const favorites = JSON.parse(localStorage.getItem("Favorites")) || [];
                     setAllproducts((currVal) => currVal.filter(fav => fav.id !== id))
-
+                    dispatch(activeCartDisplay())
                     const updatedFavorites = favorites?.filter(fav => fav !== id);
                     localStorage.setItem("Favorites", JSON.stringify(updatedFavorites));
 
@@ -91,25 +97,35 @@ const router =useRouter()
 
 
     return (
-        <>
+        <div className="wishlist bg-white container">
+            <HeadingTitle title="wishlist" />
 
 
+            <div className="listing my-6">
+                {allProducts?.length > 0 ? (
+                    allProducts?.map((currProduct) => {
+                        const { id, featured_image, price, name, slug } = currProduct;
 
-            {allProducts?.length > 0 ? (
-                allProducts?.map((currProduct) => {
-                    const { id } = currProduct;
-                    return (
-                        <div className="flex flex-col gap-5" key={id}>
-                            <p>Name: {currProduct.name}</p>
-                            <button className="w-[152px] h-[30px] hover:bg-opacity-80 active:scale-90 active:bg-opacity-100 rounded text-sm bg-primary_blue text-white" onClick={() => cartHandler(id)}>
-                                Add To Cart
-                            </button>
-                            <button onClick={() => removefavoritesHandler(id)}>Remove It</button>
-                        </div>
-                    );
-                })
-            ) : null}
+                        return (
+                            <div className="flex items-center gap-5 justify-between py-5 border-b-4" key={id}>
+                                <div className="product_img">
+                                    <Image src={featured_image} alt={slug} width={200} height={200} />
+                                </div>
+                                <Link href={`/product/${id}`}><p className='text-xl'>{name}</p></Link>
+                                <p className='text-primary_blue text-2xl'>Rs: {price}</p>
+                                <div className="action flex items-center gap-5">
 
-        </>
+                                    <ButtonBlue onClick={() => cartHandler(id)}>
+                                        Add To Cart
+                                    </ButtonBlue>
+                                    <button onClick={() => removefavoritesHandler(id)}><DeleteIcon color="red" /></button>
+                                </div>
+                            </div>
+                        );
+                    })
+                ) : null}
+
+            </div>
+        </div>
     )
 }
