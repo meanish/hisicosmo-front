@@ -3,7 +3,7 @@ import ButtonBlue from '@/components/ui/buttonBlue';
 import HeadingTitle from '@/components/ui/header';
 import { activeCartDisplay } from '@/lib/store/slices/cartSlices';
 import { fetchActiveFavorites, removeFavorites } from '@/lib/store/slices/favouriteSlice';
-import { Delete, DeleteIcon } from 'lucide-react';
+import { Delete, DeleteIcon, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,12 +18,6 @@ const WishList = () => {
     const { status, allFavourites } = useSelector((state) => state.managefavorites);
 
     const { data: session } = useSession()
-    console.log("session", session)
-
-
-
-    console.log(status, allFavourites)
-
     useEffect(() => {
         dispatch(fetchActiveFavorites());
     }, []);
@@ -118,7 +112,7 @@ const WishProducts = ({ status, allFavourites, token }) => {
                                     <ButtonBlue onClick={() => cartHandler(id)}>
                                         Add To Cart
                                     </ButtonBlue>
-                                    <button onClick={() => removefavoritesHandler(id)}><DeleteIcon color="red" /></button>
+                                    <button onClick={() => removefavoritesHandler(id)}><Trash2 className="w-6 h-6" color="red" /></button>
                                 </div>
                             </div>
                         );
