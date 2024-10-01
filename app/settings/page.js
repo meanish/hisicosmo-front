@@ -1,9 +1,12 @@
-import SettingsHome from '@/components/profile/settingsHome'
+import SettingsHome from '@/components/settings/settingsHome'
 import React from 'react'
 
 const page = () => {
     return (
-        <SettingsHome />
+        <>
+            <OrderSidebar />
+            <SettingsHome />
+        </>
     )
 }
 

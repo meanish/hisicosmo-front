@@ -10,6 +10,7 @@ import { FaCheckCircle } from 'react-icons/fa'
 import esewa from "@/public/images/esewa.png";
 import cod from "@/public/images/cod.png";
 import toast from 'react-hot-toast'
+import HeadingTitle from '../ui/header'
 
 const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
     const activeCart = useSelector((state) => state.cartData.activeCart)
@@ -17,8 +18,6 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
     const orderPlacement = useSelector((state) => state.cartData.orderplacement)
     const [paymentType, setPaymentType] = useState()
     const dispatch = useDispatch()
-
-
 
 
 
@@ -87,9 +86,9 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
 
     return (
         <div className="md:col-span-1 bg-white p-4 ">
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
 
-                <h1 className="text-2xl font-bold mb-8">Order Summary</h1>
+                <HeadingTitle title="Order Summary" />
                 {/* add shiiping modal here */}
                 <div className="edit_shipping underline hover:text-primary_blue cursor-pointer">
                     {/* open modal */}
