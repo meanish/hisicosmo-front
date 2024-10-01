@@ -69,7 +69,10 @@ const SettingsHome = ({ token }) => {
             className={`${activeTab === 0 ? "block" : "hidden"}`}
           />
 
-          <Orders className={`${activeTab === 1 ? "block" : "hidden"}`} />
+          <Orders
+            token={token}
+            className={`${activeTab === 1 ? "block" : "hidden"}`}
+          />
 
           <Wishlist className={`${activeTab === 2 ? "block" : "hidden"}`} />
 
