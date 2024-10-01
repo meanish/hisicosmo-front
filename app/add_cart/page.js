@@ -1,6 +1,4 @@
 import { auth } from '@/auth'
-import ActiveCart from '@/components/cart/activecart'
-import CartHome from '@/components/cart/home'
 import MainCart from '@/components/cart/main'
 import React from 'react'
 
