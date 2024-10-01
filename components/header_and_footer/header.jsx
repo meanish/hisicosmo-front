@@ -7,7 +7,6 @@ import { auth } from "@/auth";
 const Header = async () => {
   const data = await getNavCategory();
   const session = await auth();
-  console.log(session, "sess in header");
 
   return (
     <div>

@@ -28,7 +28,7 @@ export const tabs = [
     icon: <FiPhoneCall size={24} />,
   },
 ];
-const SettingsHome = () => {
+const SettingsHome = ({ token }) => {
   const [activeTab, setActiveTab] = useState(0);
   return (
     <div className="bg-gray-200 w-full py-8">
@@ -64,9 +64,15 @@ const SettingsHome = () => {
         </div>
 
         <>
-          <BasicProfile className={`${activeTab === 0 ? "block" : "hidden"}`} />
+          <BasicProfile
+            token={token}
+            className={`${activeTab === 0 ? "block" : "hidden"}`}
+          />
 
-          <Orders className={`${activeTab === 1 ? "block" : "hidden"}`} />
+          <Orders
+            token={token}
+            className={`${activeTab === 1 ? "block" : "hidden"}`}
+          />
 
           <Wishlist className={`${activeTab === 2 ? "block" : "hidden"}`} />
 
