@@ -1,6 +1,6 @@
 "use client"
-import { auth } from '@/auth'
-import SettingsHome from '@/components/profile/settingsHome'
+
+
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 
