@@ -84,6 +84,8 @@ const Flash_Sales = ({ token }) => {
         const response = await res.json()
 
         if (response?.status === 200) {
+
+          console.log(response)
           toast.success(response?.message)
           dispatch(activeCartDisplay())
 
