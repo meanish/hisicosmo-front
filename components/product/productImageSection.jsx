@@ -13,6 +13,8 @@ import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { activeCartDisplay } from "@/lib/store/slices/cartSlices";
+import { useDispatch } from "react-redux";
 
 
 export const ProductImageSection = ({ data, token }) => {
@@ -27,7 +29,7 @@ export const ProductImageSection = ({ data, token }) => {
   } = data;
 
   const [displayImage, setDisplayImage] = useState(featured_image);
-  
+
 
 
   const [quantity, setQuantity] = useState("1")
@@ -46,7 +48,7 @@ export const ProductImageSection = ({ data, token }) => {
 
 
   const router = useRouter()
-
+  const dispatch = useDispatch()
 
   const addHandler = async () => {
     if (!token) {
@@ -67,6 +69,8 @@ export const ProductImageSection = ({ data, token }) => {
 
         if (response?.status === 200) {
           toast.success(response?.message)
+          dispatch(activeCartDisplay())
+
         }
         else {
           toast.error(response?.message)

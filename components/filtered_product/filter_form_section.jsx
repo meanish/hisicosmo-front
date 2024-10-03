@@ -91,14 +91,14 @@ export const PriceRangeSlider = () => {
   const dispatch = useDispatch();
   const { min, max } = useSelector(
     (state) => state.manageFilterSlice.priceRange
-  ); // Get min and max from Redux
+  ); 
   const STEP = 1;
   const MIN = 1;
   const MAX = 20000;
 
   const handlePriceChange = (values) => {
     const [minPrice, maxPrice] = values;
-    dispatch(setPriceRange({ min: minPrice, max: maxPrice })); // Dispatch the new range
+    dispatch(setPriceRange({ min: minPrice, max: maxPrice })); 
   };
 
   return (

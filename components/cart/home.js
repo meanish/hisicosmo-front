@@ -6,6 +6,11 @@ import { Trash2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCartData, modifyCart, modifyQuantity, removeCartItems, resetAllCart, storeCartDetails } from '@/lib/store/slices/cartSlices';
 import Link from 'next/link';
+import HeadingTitle from '../ui/header';
+import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci';
+import { ImageWithFallback } from '../ui/imageWithFallBack';
+import { MdOutlineCheckBoxOutlineBlank } from 'react-icons/md';
+import { FaCheckSquare } from 'react-icons/fa';
 
 
 
@@ -59,8 +64,9 @@ const CartHome = ({ token, checkoutStatus }) => {
     }
 
     return (
-        <div className="p-10 bg-white md:col-span-2">
-            <h1 className="text-3xl font-bold mb-8">Your Hisi Shopping Cart</h1>
+        <div className="p-5 bg-white md:col-span-2">
+            <HeadingTitle title="Your Hisi Shopping Cart" />
+
             {
                 status === "loading" ? <p className="text-gray-600">Loading your cart...</p> : <fieldset disabled={checkoutStatus}>
                     {
@@ -72,47 +78,59 @@ const CartHome = ({ token, checkoutStatus }) => {
                                         const { name, price, featured_image, id } = currData.product;
 
                                         return (
-                                            <div key={id} className="border-2 p-5 bg-white flex items-center gap-2 shadow-md hover:shadow-lg my-5 rounded-lg">
+                                            <div key={id} className="border-2 p-4 justify-between  bg-white flex items-center gap-2 shadow-md hover:shadow-lg my-10 rounded-lg">
 
-                                                <div className="isActive" onClick={() => addHandler(id)}>
-                                                    <input type="radio" id="radio" checked={isActive} className="w-6 h-6 accent-primary_blue"></input>
-                                                </div>
+                                                <div className="product_description flex  gap-14 items-center">
+
+                                                    <div className="isActive" onClick={() => addHandler(id)}>
+                                                        {isActive ? (
+                                                            <FaCheckSquare size={34} color="#110884" />
+                                                        ) : (
+                                                                <MdOutlineCheckBoxOutlineBlank size={34} color="#707B8A" />
+                                                        )}
+                                                    </div>
 
 
 
-                                                <div className="mr-4">
-                                                    <Image
+                                                    <ImageWithFallback
                                                         src={featured_image}
                                                         alt="image"
-                                                        width={80}
-                                                        height={120}
+                                                        width={150}
+                                                        height={150}
                                                         className="rounded-lg"
                                                     />
+                                                    <div className="flex flex-col gap-5">
+
+                                                        <h2 className="text-2xl font-medium">{name}</h2>
+                                                        <ItemsQuantity
+                                                            quantity={quantity}
+                                                            id={id}
+                                                            token={token}
+                                                        />
+                                                    </div>
                                                 </div>
 
-                                                <div className="flex-1">
-                                                    <h2 className="text-lg font-semibold">{name}</h2>
-                                                </div>
 
-                                                <div className="mr-8">
-                                                    <ItemsQuantity
-                                                        quantity={quantity}
-                                                        id={id}
-                                                        token={token}
-                                                    />
-                                                </div>
-
-                                                <div className="text-right mr-8">
+                                                {/* <div className="text-right mr-8">
                                                     <p className="text-blue-700 font-semibold">11% Off</p>
                                                     <p className="text-2xl font-bold text-gray-700">NPR {price}</p>
+                                                </div> */}
+                                                <div className="delete flex flex-col flex-end items-end gap-2">
+
+                                                    <div>
+                                                        <button
+                                                            className="delete_item bg-transparent hover:bg-red-100 text-red-500 hover:text-red-700 p-2 rounded-full ml-auto"
+                                                            onClick={() => deleteHandler(id)}
+                                                        >
+                                                            <Trash2 className="w-6 h-6" />
+                                                        </button>
+                                                    </div>
+                                                    <div className="price font-serif font-bold text-lg text-primary_blue">
+                                                        NPR. {price}
+                                                    </div>
+                                                    <div className="tax">(Inclusive of all taxes)</div>
                                                 </div>
 
-                                                <button
-                                                    className="delete_item bg-transparent hover:bg-red-100 text-red-500 hover:text-red-700 p-2 rounded-full"
-                                                    onClick={() => deleteHandler(id)}
-                                                >
-                                                    <Trash2 className="w-6 h-6" />
-                                                </button>
                                             </div>
                                         )
                                     })
@@ -184,15 +202,15 @@ const ItemsQuantity = ({ quantity, id, token }) => {
 
     return (
         <div className="quantity flex items-center gap-3">
-            <span className="text-text_gray">Quantity</span>
+            {/* <span className="text-text_gray">Quantity</span> */}
             <div className="flex  items-center">
-                <button className="h-8 w-8 border-2  rounded-full text-gray-800 " onClick={decreaseHandler}>-</button>
-                <span className="h-8 w-8 grid place-items-center">
+                <CiCircleMinus size={36} onClick={decreaseHandler} color="#b9b9b9" />
+                <span className="h-8 w-8 grid  text-lg place-items-center">
                     {quantity}
                 </span>
-                <button className="h-8 w-8 border-2 rounded-full  text-gray-800" onClick={increaseHandler}>+</button>
+                <CiCirclePlus size={36} onClick={increaseHandler} color="#b9b9b9" />
             </div>
-            <span className="text-orange-500">Out of stock</span>
+            {/* <span className="text-orange-500">Out of stock</span> */}
         </div>
     );
 };

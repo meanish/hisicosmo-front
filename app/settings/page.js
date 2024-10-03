@@ -1,14 +1,18 @@
-import { auth } from '@/auth'
-import SettingsHome from '@/components/profile/settingsHome'
-import React from 'react'
+"use client"
+
+
+import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
 
 const page = async () => {
 
-    const session = await auth()
+    const router = useRouter()
+    useEffect(() => {
+        router.push("/settings/profile")
+    }, [])
 
-    return (
-        <SettingsHome token={session?.user?.token} />
-    )
+
+
 }
 
 export default page

@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useEffect} from "react";
-
+import React, { useEffect, useState } from "react";
 import { BreadCrumb } from "./filterPage_breadCrumb";
 import { Filter_Form_Section } from "./filter_form_section";
 import { Product_List_Section } from "./product_list_section";
@@ -22,6 +21,11 @@ const Filtered_Product_Home = () => {
   const { min, max } = useSelector(
     (state) => state.manageFilterSlice.priceRange
   );
+
+  // for debouncing price api call
+  const [prevBrandIds, setPrevBrandIds] = useState(selectedBrandIds);
+  const [prevCategoryIds, setPrevCategoryIds] = useState(selectedCategoryIds);
+  let debounceTimeout;
 
   const updateURLWithFilters = () => {
     const query = new URLSearchParams();
@@ -45,6 +49,8 @@ const Filtered_Product_Home = () => {
     updateURLWithFilters();
 
     const fetchProductsFromAPI = async () => {
+      // for preventing price api chan on scroll adding debounce
+      // const prevtotal;
       try {
         // Fetch data from the API route
         const response = await fetch(
@@ -61,8 +67,20 @@ const Filtered_Product_Home = () => {
       }
     };
 
-    fetchProductsFromAPI();
-  }, [selectedBrandIds, selectedCategoryIds, min, max]); // Run the effect when any filter changes
+    if (prevBrandIds !== selectedBrandIds || prevCategoryIds !== selectedCategoryIds) {
+      fetchProductsFromAPI();
+      setPrevBrandIds(selectedBrandIds);
+      setPrevCategoryIds(selectedCategoryIds);
+    } else {
+      clearTimeout(debounceTimeout);
+      debounceTimeout = setTimeout(() => {
+        fetchProductsFromAPI(); 
+      }, 2000);
+    }
+
+    // cause i want to call only once api
+     return () => clearTimeout(debounceTimeout);
+  }, [selectedBrandIds, selectedCategoryIds, min, max, prevBrandIds, prevCategoryIds]); // Run the effect when any filter changes
 
   return (
     <div className="bg-ad_bg_gray py-5">
