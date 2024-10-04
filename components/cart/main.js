@@ -39,7 +39,7 @@ const MainCart = ({ token }) => {
     }, [])
 
 
-    console.log("Shipping Data", shippingData)
+    // console.log("Shipping Data", shippingData)
 
     return (
         <div className="container grid grid-cols-1 md:grid-cols-3 gap-6 mx-auto py-16 ">

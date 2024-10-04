@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import Confetti from 'react-confetti'
 
 export function AfterOrderPop({ showModal, setShowModal }) {
-    const [isExploding, setIsExploding] = useState(true);
+    const [isExploding, setIsExploding] = useState(false);
     const [dimensions, setDimensions] = useState({
         width: window.innerWidth,
         height: window.innerHeight,
@@ -31,18 +31,21 @@ export function AfterOrderPop({ showModal, setShowModal }) {
         };
 
         window.addEventListener("resize", handleResize);
-
+        if (showModal) {
+            setIsExploding(true)
+        }
+        else {
+            setIsExploding(false)
+        }
         return () => {
             window.removeEventListener("resize", handleResize);
         };
+
     }, [showModal]);
 
     return (
         <>
             <Dialog open={showModal} onOpenChange={setShowModal}>
-                <DialogTrigger asChild>
-                    <Button variant="outline">Share</Button>
-                </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle> Dear Sir/Mam, Thanks for placing you order.</DialogTitle>
@@ -51,7 +54,7 @@ export function AfterOrderPop({ showModal, setShowModal }) {
                         </DialogDescription>
                     </DialogHeader>
 
-                    <DialogFooter className="sm:justify-start">
+                    <DialogFooter className="sm:justify-start mt-4">
                         <DialogClose asChild>
                             <div className="grid flex-1 gap-2">
                                 <Link href="/settings/orders">
@@ -66,9 +69,6 @@ export function AfterOrderPop({ showModal, setShowModal }) {
                 </DialogContent>
             </Dialog>
             <Dialog open={showModal} onOpenChange={setShowModal}>
-                <DialogTrigger asChild>
-                    <Button variant="outline">Share</Button>
-                </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle> Dear Sir/Mam, Thanks for placing you order.</DialogTitle>

@@ -13,15 +13,14 @@ import toast from 'react-hot-toast'
 import HeadingTitle from '../ui/header'
 import { ShippingModal } from '../ui/shippingmodal'
 import { AfterOrderPop } from '../ui/afterorderPop'
+import { ImageWithFallback } from '../ui/imageWithFallBack'
 
 const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) => {
     const activeCart = useSelector((state) => state.cartData.activeCart)
     const totalAmount = useSelector((state) => state.cartData?.totalAmount)
     const orderPlacement = useSelector((state) => state.cartData.orderplacement)
 
-    console.log("Order placement", orderPlacement)
-
-
+   
     const [paymentType, setPaymentType] = useState()
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false);
@@ -119,7 +118,7 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
 
     return (
         <div className="md:col-span-1 bg-white p-4 ">
-            <AfterOrderPop showModal={showModal} setShowModal={setShowModal} />
+            <AfterOrderPop showModal={!showModal} setShowModal={setShowModal} />
             <div className="flex justify-between items-center">
 
                 <HeadingTitle title="Order Summary" />
@@ -161,13 +160,14 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                                         <>
                                             <div key={product_id} className="cart-item border-t-2 border-b-2 py-4 flex gap-5">
                                                 <div className="product-image">
-                                                    <Image
+                                                    <ImageWithFallback
                                                         src={featured_image}
                                                         alt="image"
-                                                        width={80}
+                                                        width={150}
                                                         height={150}
                                                         className="rounded-lg"
                                                     />
+                                                   
                                                 </div>
                                                 <div className="product-details flex-1">
                                                     <h2 className="text-lg font-semibold">{name}</h2>
