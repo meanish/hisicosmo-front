@@ -1,7 +1,7 @@
 "use client"
 
-import { removeActiveItem, setOrderPayment, storeOrderplacement } from '@/lib/store/slices/cartSlices'
-import React, { useState } from 'react'
+import { removeActiveItem, removeAfterOrder, setOrderPayment, storeOrderplacement } from '@/lib/store/slices/cartSlices'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import EsewaPayment from '../esewagateway/page'
 import { GrClose } from 'react-icons/gr'
@@ -11,18 +11,23 @@ import esewa from "@/public/images/esewa.png";
 import cod from "@/public/images/cod.png";
 import toast from 'react-hot-toast'
 import HeadingTitle from '../ui/header'
+import { ShippingModal } from '../ui/shippingmodal'
+import { AfterOrderPop } from '../ui/afterorderPop'
+import { ImageWithFallback } from '../ui/imageWithFallBack'
 
-const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
+const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) => {
     const activeCart = useSelector((state) => state.cartData.activeCart)
     const totalAmount = useSelector((state) => state.cartData?.totalAmount)
     const orderPlacement = useSelector((state) => state.cartData.orderplacement)
+
+
     const [paymentType, setPaymentType] = useState()
     const dispatch = useDispatch()
-
+    const [showModal, setShowModal] = useState(false);
 
 
     const removeHandler = (id) => {
-        dispatch(removeActiveItem({ id }))
+
     }
 
 
@@ -38,6 +43,10 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
             toast.error("Please select a payment type")
             return
         }
+        if (!shippingData) {
+            toast.error("Seems like your shipping details are missing. Set to place the order.")
+            return
+        }
         try {
             const res = await fetch("/api/order/new", {
                 method: "POST",
@@ -48,9 +57,33 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
             })
 
             const response = await res.json()
-            console.log(response)
+
             if (response?.status === 200) {
-                toast.success(response?.message)
+                setShowModal(true);
+
+                // remove from cart
+                try {
+                    let method = "remove"
+                    await Promise.all(orderPlacement?.products?.map(async (prod) => {
+
+                        dispatch(removeAfterOrder({ id: prod.product_id }))
+
+                        await fetch("/api/cart/async", {
+                            method: "POST",
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ id: prod.product_id, method }),
+                        });
+                    }));
+                }
+                catch (e) {
+                    alert("Error in removing from the cart", e)
+                }
+
+
+                // remove order id from cart and state
+                // clean activeCart
             }
         }
         catch (e) {
@@ -82,17 +115,17 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
         dispatch(setOrderPayment({ name }))
     }
 
-    console.log(paymentType)
 
     return (
         <div className="md:col-span-1 bg-white p-4 ">
+            <AfterOrderPop showModal={showModal} setShowModal={setShowModal} />
             <div className="flex justify-between items-center">
 
                 <HeadingTitle title="Order Summary" />
-                {/* add shiiping modal here */}
+
                 <div className="edit_shipping underline hover:text-primary_blue cursor-pointer">
-                    {/* open modal */}
-                    Edit your shipping address
+
+                    {shippingData ? <ShippingModal shippingData={shippingData} token={token} /> : null}
                 </div>
             </div>
             {
@@ -127,13 +160,14 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token }) => {
                                         <>
                                             <div key={product_id} className="cart-item border-t-2 border-b-2 py-4 flex gap-5">
                                                 <div className="product-image">
-                                                    <Image
+                                                    <ImageWithFallback
                                                         src={featured_image}
                                                         alt="image"
-                                                        width={80}
+                                                        width={150}
                                                         height={150}
                                                         className="rounded-lg"
                                                     />
+
                                                 </div>
                                                 <div className="product-details flex-1">
                                                     <h2 className="text-lg font-semibold">{name}</h2>

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { Trash2 } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCartData, modifyCart, modifyQuantity, removeCartItems, resetAllCart, storeCartDetails } from '@/lib/store/slices/cartSlices';
+import { fetchCartData, modifyCart, modifyQuantity, removeCartItems, resetAllCart } from '@/lib/store/slices/cartSlices';
 import Link from 'next/link';
 import HeadingTitle from '../ui/header';
 import { CiCircleMinus, CiCirclePlus } from 'react-icons/ci';
@@ -86,7 +86,7 @@ const CartHome = ({ token, checkoutStatus }) => {
                                                         {isActive ? (
                                                             <FaCheckSquare size={34} color="#110884" />
                                                         ) : (
-                                                                <MdOutlineCheckBoxOutlineBlank size={34} color="#707B8A" />
+                                                            <MdOutlineCheckBoxOutlineBlank size={34} color="#707B8A" />
                                                         )}
                                                     </div>
 

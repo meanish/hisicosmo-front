@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { OrderTabs } from "./orderTabs";
 
 const Orders = ({ className, token }) => {
   const [orders, setOrders] = useState(null);
@@ -56,21 +57,9 @@ const Orders = ({ className, token }) => {
   }
 
   return (
-    <div className={cn(`profile-form w-full bg-white px-16 py-10`, className)}>
-      <h2 className=" capitalize text-3xl tracking-wide leading-9 text-gray-600 font-medium">
-        Orders
-      </h2>
-      <p className="text-sm text-gray-600 leading-normal font-normal">
-        Manage your placed orders.
-      </p>
-      {orders && orders.length > 0 ? (
-        <ul>
-          {orders.map((order) => (
-            <li key={order.id}>
-              Order ID: {order.id}, Total: {order.total}, Status: {order.status}
-            </li>
-          ))}
-        </ul>
+    <div className={cn(`profile-form w-full shadow-lg rounded-md bg-white min-h-[45vh] px-16 py-10`, className)}>
+      {orders ? (
+        <OrderTabs orders={orders} />
       ) : (
         <p>No orders found.</p>
       )}
