@@ -1,5 +1,5 @@
 import { auth } from '@/auth'
-import Orders from '@/components/settings/orders'
+import Orders from '@/components/settings/order/orders'
 import React from 'react'
 
 const page = async () => {

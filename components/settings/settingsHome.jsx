@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 import BasicProfile from "./basicProfile";
-import Orders from "./orders";
+import Orders from "./order/orders";
 import Wishlist from "./wishlist";
 import Contact_Us from "./contact_us";
 import { signOut } from "@/auth";

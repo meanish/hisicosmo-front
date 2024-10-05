@@ -20,21 +20,28 @@ export async function POST(req) {
 
         const requestOptions = {
             method: "POST",
-            body: JSON.stringify({ product_id: id, quantity, "_method": method }),
+            body: JSON.stringify({ product_id: id, quantity }),
             headers: myHeaders,
             redirect: 'follow',
         }
 
 
+        let response
+        if (method === "update") {
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/cart/async/update`, requestOptions)
+            response = await res.json();
+        }
+        else if (method === "remove") {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/cart/async/remove`, requestOptions)
+            response = await res.json();
+
+        }
 
 
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/cart/async`, requestOptions)
-        const cartResponse = await response.json();
-
-
-        if (cartResponse.success) {
-            return NextResponse.json({ message: cartResponse.message, status: 200 })
+        if (response.success) {
+            return NextResponse.json({ message: response.message, status: 200 })
         }
         else {
             return NextResponse.json({ message: "failed to save on the cart", status: 500 })

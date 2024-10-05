@@ -1,7 +1,5 @@
 "use server"
 
-import { signIn } from "@/auth"
-import { AuthError } from "next-auth"
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
@@ -11,9 +9,11 @@ export async function GET(req) {
 
         const myHeaders = new Headers();
         const BearerToken = req.headers.get("Authorization");
+        const { searchParams } = new URL(req.url)
+        const order_id = searchParams.get('id')
 
         myHeaders.append("Authorization", BearerToken)
-
+        myHeaders.append("Content-Type", "application/json");
 
         const requestOptions = {
             method: "GET",
@@ -21,7 +21,7 @@ export async function GET(req) {
             redirect: 'follow',
         }
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/cart`, requestOptions, { cache: "no-store" })
+        const response = await fetch(`${process.env.NEXT_PUBLIC_HiSi_Server}/order/single/${order_id}`, requestOptions, { cache: "no-store" })
         const allCart = await response.json();
 
         return NextResponse.json({ data: allCart?.data, status: 200 })
