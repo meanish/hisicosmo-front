@@ -19,8 +19,9 @@ export const Logo_Account_Section = ({ token }) => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.manageUserData.userData);
   const [openDropDown, setOpenDropDown] = useState(false);
+  const dropDownRef = useRef();
+  useClickOutside(dropDownRef, () => setOpenDropDown(false));
 
-  console.log(openDropDown, "openDropDown");
   useEffect(() => {
     const getUserData = async () => {
       const res = await fetch(`/api/userData`, {
@@ -42,7 +43,10 @@ export const Logo_Account_Section = ({ token }) => {
   const { favNumber, showFav } = useSelector((state) => state.managefavorites);
 
   return (
-    <div className="bg-white relative shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist">
+    <div
+      ref={dropDownRef}
+      className="bg-white relative shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist"
+    >
       <div className="container w-full flex items-center">
         <div className="logo w-1/2 ">
           <Link href={"/"}>
@@ -63,15 +67,17 @@ export const Logo_Account_Section = ({ token }) => {
               onClick={() => router.push("/auth/login")}
               size={40}
               color="gray"
-              className="cursor-pointer"
+              className="cursor-pointer hover:text-black"
             />
-            <div className="flex justify-center flex-col">
-              <p className="text-[10px] text-gray-500">Hello, Sign In</p>
+            <div className="flex justify-center select-non flex-col">
+              <p className="text-[10px] text-gray-500 select-none">
+                Hello, Sign In
+              </p>
 
               {userData?.username ? (
                 <div
                   onClick={() => setOpenDropDown(!openDropDown)}
-                  className="text-sm flex items-center gap-2 font-semibold cursor-pointer hover:opacity-80"
+                  className="text-sm flex select-none items-center gap-2 font-semibold cursor-pointer hover:opacity-80 active:opacity-100"
                 >
                   {userData?.username}
                   <IoIosArrowDown />
@@ -79,7 +85,7 @@ export const Logo_Account_Section = ({ token }) => {
               ) : (
                 <Link
                   href={"/auth/login"}
-                  className="text-sm font-semibold cursor-pointer"
+                  className="text-sm font-semibold select-none cursor-pointer active:opacity-100  hover:opacity-80"
                 >
                   My Account
                 </Link>

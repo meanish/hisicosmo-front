@@ -41,8 +41,8 @@ const SidebarSettings = ({ setOpenDropDown, className }) => {
     const pathname = usePathname()
     const userData = useSelector((state) => state.manageUserData.userData);
     const { email, username, featured_image } = userData;
-    const dropDownRef = useRef();
-    useClickOutside(dropDownRef, () => setOpenDropDown(false));
+    // const dropDownRef = useRef();
+    // useClickOutside(dropDownRef, () => setOpenDropDown(false));
 
     function handleSignOut() {
         setOpenDropDown(false)
@@ -50,7 +50,7 @@ const SidebarSettings = ({ setOpenDropDown, className }) => {
     }
     return (
 
-        <div ref={dropDownRef}>
+        <div >
             <div className={cn(`sidebar h-fit py-4  bg-white  rounded-sm`, className)}>
                 {pathname === "/settings/profile" ?
                     <h2 className="font-medium  p-5 pl-6 text-sm">Hi, {username}</h2>
@@ -63,7 +63,7 @@ const SidebarSettings = ({ setOpenDropDown, className }) => {
                             alt="profile-image"
                             className="size-11 object-cover rounded-full border "
                         />
-                        <div className="names-email">
+                        <div className="names-email select-none">
                             <h1 className="font-medium text-base tracking-wide leading-relaxed">
                                 {username}
                             </h1>
