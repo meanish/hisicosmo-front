@@ -48,7 +48,7 @@ export function AfterOrderPop({ showModal, setShowModal }) {
             <Dialog open={showModal} onOpenChange={setShowModal}>
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle> Dear Sir/Mam, Thanks for placing you order.</DialogTitle>
+                        <DialogTitle> Dear Sir/Mam, Thanks for placing your order.</DialogTitle>
                         <DialogDescription>
                             You can view the order table to get updated of your order status.
                         </DialogDescription>
@@ -60,7 +60,7 @@ export function AfterOrderPop({ showModal, setShowModal }) {
                                 <Link href="/settings/orders">
 
                                     <Button type="button" size="sm" className="px-3">
-                                        <span > View Order Status</span>
+                                        View Order Status
                                     </Button>
                                 </Link>
                             </div>
