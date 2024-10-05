@@ -116,12 +116,10 @@ const SingleOrderModal = ({ showModal, setShowModal, activeOrder }) => {
                         </table>
                     </div>
 
-                    {/* Total Amount */}
                     <div className="total-amount mt-4 text-end">
                         <h3 className="text-lg font-semibold text-green-800">Total Amount: NPR. {allOrderData?.total_amount}</h3>
                     </div>
 
-                    {/* Order Date */}
                     <div className="order-dates mt-5 flex justify-end">
                         <p className=" font-bold"><strong className=" text-primary_gold">Order Placed On:</strong> {new Date(allOrderData.createdAt).toLocaleString()}</p>
                         {/* <p className="text-primary_blue"><strong className="text-black">Last Updated:</strong> {new Date(allOrderData.updatedAt).toLocaleString()}</p> */}

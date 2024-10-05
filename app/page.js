@@ -6,7 +6,7 @@ import { auth } from '@/auth'
 
 export default async function Home() {
   const session  = await auth()
-  const token =session.user?.token
+  const token =session?.user?.token
   return (
     <>
       <HomePage token={token}/>
