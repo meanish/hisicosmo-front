@@ -19,15 +19,25 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { activeCartDisplay } from "@/lib/store/slices/cartSlices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { activeFavDisplay } from "@/lib/store/slices/favouriteSlice";
+import { activeStatusLogin } from "@/lib/store/slices/loginStatusSlice";
+import { useSession } from "next-auth/react";
+import { storeToken } from "@/lib/store/slices/userDataSlice";
 
 
 const Flash_Sales = ({ token }) => {
   const [isFav, setFav] = useState(JSON.parse(localStorage.getItem("Favorites")) || []);
+  const storedUserToken = useSelector((state) => state.manageUserData.token)
 
 
 
+  console.log(storedUserToken)
+
+
+
+  const { data: session } = useSession()
+  console.log(session?.user?.token)
 
   const [allProducts, setAllProducts] = useState();
   const router = useRouter()
@@ -44,10 +54,17 @@ const Flash_Sales = ({ token }) => {
 
 
 
+  useEffect(() => {
+    if (token && !storedUserToken) {
+      dispatch(storeToken({ token }))
+    }
+  }, [token])
+
+
 
 
   const setfavoriteHandler = (id) => {
-    const favorites = JSON.parse(localStorage.getItem("Favorites")) || [];
+    const favorites = JSON.parse(window.localStorage.getItem("Favorites")) || [];
     if (favorites.includes(id)) {
       const updatedFavorites = favorites.filter(favId => favId !== id);
       localStorage.setItem("Favorites", JSON.stringify(updatedFavorites));
@@ -68,7 +85,8 @@ const Flash_Sales = ({ token }) => {
 
   const cartHandler = async (id) => {
     if (!token) {
-      router.push("/auth/login")
+      dispatch(activeStatusLogin())
+      // router.push("/auth/login")
     }
     else {
       try {
@@ -167,9 +185,9 @@ const Flash_Sales = ({ token }) => {
                   {Array.isArray(isFav) && (
                     <button onClick={() => setfavoriteHandler(id)}>
                       {isFav.includes(id) ? (
-                        <FaHeart size={25} className="text-primary_blue cursor-pointer" />
+                        <FaHeart size={25} className="text-red-500 cursor-pointer" />
                       ) : (
-                        <FiHeart size={25} className="text-primary_blue cursor-pointer" />
+                        <FiHeart size={25} className="text-red-500 cursor-pointer" />
                       )}
                     </button>
                   )}

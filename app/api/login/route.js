@@ -2,6 +2,7 @@
 
 import { signIn } from "@/auth"
 import { AuthError } from "next-auth"
+import { getSession } from "next-auth/react";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

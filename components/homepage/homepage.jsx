@@ -8,13 +8,15 @@ import Best_Seller_Product from "./best_seller_product";
 import Flash_Sales from "./flash_sales";
 import Price_varaint from "./price_variant";
 import Best_Deal_On_Brands from "./best_deal_on_brands";
+import CarousalSection from "./carousal_section";
 
-const HomePage = ({token}) => {
+const HomePage = ({ token }) => {
   return (
     <div>
       <HeroSection />
       <Best_Seller_Product />
-      <Flash_Sales token={token}/>
+      <CarousalSection />
+      <Flash_Sales token={token} />
       <Price_varaint />
       <Best_Deal_On_Brands />
     </div>

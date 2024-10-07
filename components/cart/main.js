@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react'
 import CartHome from './home'
 import ActiveCart from './activecart'
+import toast from 'react-hot-toast'
 
 const MainCart = ({ token }) => {
     const [checkoutStatus, setCheckoutStatus] = useState(false)
@@ -22,8 +23,7 @@ const MainCart = ({ token }) => {
                 })
 
                 const response = await res.json()
-
-
+                console.log(response?.data)
                 if (response.status === 200) {
                     setShippingData(response.data)
                 }

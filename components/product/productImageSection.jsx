@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { activeCartDisplay } from "@/lib/store/slices/cartSlices";
 import { useDispatch } from "react-redux";
+import { activeStatusLogin } from "@/lib/store/slices/loginStatusSlice";
 
 
 export const ProductImageSection = ({ data, token }) => {
@@ -52,7 +53,7 @@ export const ProductImageSection = ({ data, token }) => {
 
   const addHandler = async () => {
     if (!token) {
-      router.push("/auth/login")
+      dispatch(activeStatusLogin())
     }
     else {
       try {

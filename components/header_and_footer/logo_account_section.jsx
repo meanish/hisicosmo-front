@@ -56,17 +56,28 @@ export const Logo_Account_Section = ({ token }) => {
 
         <div className="account-avatar w-1/2 flex items-center gap-10 justify-end">
           <div className="account_icon flex items-center gap-1">
-            <RxAvatar
-              onClick={() => router.push("/auth/login")}
-              size={40}
-              color="gray"
-              className="cursor-pointer"
-            />
+            {
+              !userData.featured_image ? <RxAvatar
+                onClick={() => router.push("/auth/login")}
+                size={40}
+                color="gray"
+                className="cursor-pointer"
+              /> : (
+                <Image
+                  src={userData.featured_image || logo}
+                  width={40}
+                  height={40}
+                  alt="profile-image"
+                  className="size-8 object-cover relative rounded-full border "
+                ></Image>
+              )
+            }
             <div className="flex justify-center flex-col">
-              <p className="text-[10px] text-gray-500">Hello,Sign In</p>
+
+              {!userData && <p className="text-[10px] text-gray-500">Hello,Sign In</p>}
               <Link
                 href={"/auth/login"}
-                className="text-sm font-semibold cursor-pointer"
+                className="text-sm gray-700 font-semibold cursor-pointer"
               >
                 {userData?.username}
               </Link>
@@ -91,7 +102,7 @@ export const Logo_Account_Section = ({ token }) => {
               <Link href="/add_cart">
                 <HiOutlineShoppingBag size={30} color="gray" />
                 {
-                  showCartnumber ? <span  className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
+                  showCartnumber ? <span className=" absolute left-5 text-xs top-1 bg-red-500 w-3 h-3 rounded-full  flex items-center justify-center text-white p-2">
                     {cartNumber}
                   </span> : null
                 }

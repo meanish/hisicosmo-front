@@ -8,7 +8,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Book, Edit, Edit2 } from "lucide-react"
+import { Book, Edit, Edit2, ReceiptText } from "lucide-react"
 import { useState } from "react";
 import SingleOrderModal from "./singleorderModal";
 
@@ -35,7 +35,7 @@ export function TableStructure({ orders }) {
     console.log(orders)
     const [activeOrder, setActiveOrder] = useState(null)
 
-    
+
 
     const [showModal, setShowModal] = useState(false);
 
@@ -68,7 +68,7 @@ export function TableStructure({ orders }) {
                                 <TableCell>{order?.payment_type}</TableCell>
                                 <TableCell>{order.total_amount}</TableCell>
                                 <TableCell className={`font-bold uppercase ${getStatusWithColor(order.status)}`}>{order.status}</TableCell>
-                                <TableCell className="flex justify-center"><span title="order details" onClick={() => openModalHandler(order.id)}><Book color="green" /></span></TableCell>
+                                <TableCell className="flex justify-center"><span title="order details" onClick={() => openModalHandler(order.id)}><ReceiptText color="purple" /></span></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
