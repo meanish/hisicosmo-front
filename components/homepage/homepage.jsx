@@ -14,11 +14,11 @@ const HomePage = ({ token }) => {
   return (
     <div>
       {/* <HeroSection /> */}
-      <Best_Seller_Product />
-      <CarousalSection />
-      {/* <Flash_Sales token={token} />
+      {/* <Best_Seller_Product /> */}
+      {/* <CarousalSection /> */}
+      {/* {/* <Flash_Sales token={token} /> */}
       <Price_varaint />
-      <Best_Deal_On_Brands /> */}
+      {/* <Best_Deal_On_Brands /> */}
     </div>
   );
 };
