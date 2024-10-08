@@ -21,7 +21,7 @@ export default Login_Container;
 
 export const Login_Form = () => {
   const initialValues = {
-    email: "test100@gmail.com",
+    email: "admin@system.com",
     password: "",
   };
 

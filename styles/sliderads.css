@@ -1,0 +1,57 @@
+.slider {
+  padding-block: 12px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.list {
+  display: flex;
+  width: calc(var(--width) * var(--imageQuantity) * 2); /* Double the width for seamless looping */
+  gap: calc(var(--width) / 4);
+  animation: autoScroll 30s linear infinite;
+}
+
+.item {
+  width: var(--width);
+  height: var(--height);
+  flex-shrink: 0;
+}
+
+.item img {
+  width: 100%;
+  height: 100%;
+  transition: filter 0.5s ease-in-out;
+}
+
+@keyframes autoScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--width) * var(--imageQuantity)));
+  }
+}
+
+.slider[reverse="true"] .list {
+  animation: reverseScroll 20s linear infinite;
+}
+
+@keyframes reverseScroll {
+  0% {
+    transform: translateX(calc(-1 * var(--width) * var(--imageQuantity)));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.slider:hover .item img {
+  filter: grayscale(1);
+}
+
+.slider .item:hover img {
+  filter: grayscale(0);
+}

@@ -4,27 +4,15 @@
  * @type {string[]}
  */
 export const publicRoutes = [
-
-    "/auth/forget-password",
-    "/register",
-    "/login",
-    "/news",
-    "/subject",
-    "/auth/email-verification",
+    "/auth/login",
+    "/auth/register",
     "/faq",
     "/about_us",
-    "/what_we_offer",
-    "/methodology",
-    "/explore",
-    "/contact",
-    "/newsDetails",
-    "/home",
-    "/subjectDetail",
-    "/privacy_and_policy",
-    "/terms_and_conditions",
-    "/parallelroute",
-    "/participate",
-    "/participate/survey/"
+    "/contact_us",
+    "/settings/wishlist",
+    "/settings/contact_us",
+    "/product/",
+    "/filters"
 ];
 
 /**

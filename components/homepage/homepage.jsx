@@ -8,16 +8,22 @@ import Best_Seller_Product from "./best_seller_product";
 import Flash_Sales from "./flash_sales";
 import Price_varaint from "./price_variant";
 import Best_Deal_On_Brands from "./best_deal_on_brands";
-import HeroCarousel from "./hero_carousel";
+import CarousalSection from "./carousal_section";
+import ad1 from "../../public/images/ads/2.png"
+import ad2 from "../../public/images/ads/1.png"
+import CatSliderAds from "./catSliderads";
 
 const HomePage = ({ token }) => {
   return (
-    <div>
-      {/* <HeroSection /> */}
-      <HeroCarousel />
+    <div className="flex flex-col gap-10">
+      <HeroSection />
       <Best_Seller_Product />
       <Flash_Sales token={token} />
       <Price_varaint />
+      <StaticAds />
+      <CatSliderAds />
+      <CarousalSection />
+      <Flash_Sales token={token} />
       <Best_Deal_On_Brands />
     </div>
   );
@@ -46,7 +52,7 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      <div className="ad-section flex justify-between gap-3 bg-ad_bg_gray h-[98px] w-11/12 rounded mx-auto my-10 overflow-hidden">
+      {/* <div className="ad-section flex justify-between gap-3 bg-ad_bg_gray h-[98px] w-11/12 rounded mx-auto my-10 overflow-hidden">
         <div className="truck-image relative overflow-hidden px-[50px]">
           <Image src={truck} width={109} height={170} alt="truck-image" />
           <div className="rectangle-blue w-[112px] h-[112px] bg-ad_blue_circle rounded-full absolute -top-[60px] -left-[60px]">
@@ -98,7 +104,24 @@ export const HeroSection = () => {
             {" "}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
+
+
+const StaticAds = () => {
+  return (
+    <div className="container">
+      <div className="static_images_ads relative grid grid-cols-2 gap-10 h-[40vh] overflow-hidden">
+        <div className="relative overflow-hidden">
+          <Image src={ad1} fill alt="ad1" className="object-cover transition-transform  duration-300 ease-in-out transform hover:scale-110" />
+        </div>
+        <div className="relative overflow-hidden">
+          <Image src={ad2} fill alt="ad2" className="object-cover transition-transform overflow-hidden duration-300 ease-in-out transform hover:scale-110" />
+        </div>
+      </div>
+    </div>
+  )
+
+}
