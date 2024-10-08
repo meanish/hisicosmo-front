@@ -27,8 +27,8 @@ import { ArrowUpDown, Mouse } from 'lucide-react';
 const CarousalSection = () => {
     return (
 
-        <div className="flex h-[80vh] container gap-2 justify-center align-center ">
-            <div className="w-3/5 h-full flex flex-col gap-3">
+        <div className="flex h-[80vh] container gap-2 justify-center">
+            <div className="w-2/3 h-full flex flex-col gap-3">
                 <div className="h-1/2  flex justify-center items-center text-white text-xl font-bold">
                     <First />
                 </div>
@@ -37,11 +37,11 @@ const CarousalSection = () => {
                 </div>
             </div>
 
-            <div className="w-1/5 h-full flex flex-col gap-2">
-                <div className="h-2/5  flex justify-center relative items-center text-white text-xl font-bold">
-                    <Image src={B} fill alt="a1" />
+            <div className="w-1/3 h-full flex flex-col gap-2">
+                <div className="h-1/3  flex justify-center relative items-center text-white text-xl font-bold">
+                    <Image src={B} fill alt="a1" className="object-cover"/>
                 </div>
-                <div className="h-3/5 flex justify-center items-center text-white relative text-xl font-bold">
+                <div className="h-2/3 flex justify-center items-center text-white relative text-xl font-bold">
                     <div className="absolute text-white blink right-2 top-2 z-50 flex gap-1  items-center justify-end">
                         <Mouse size={30} />
                         <p className="text-white font-normal">On Scroll</p>

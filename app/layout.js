@@ -12,7 +12,6 @@ import LoginModal from "@/components/ui/loginModal";
 
 
 
-
 const inter = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",

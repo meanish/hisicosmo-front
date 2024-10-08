@@ -119,7 +119,7 @@ const Flash_Sales = ({ token }) => {
   }
 
   return (
-    <div className="my-20">
+    <div className="">
       <Carousel
         opts={{
           align: "start",

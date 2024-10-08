@@ -11,17 +11,20 @@ import Best_Deal_On_Brands from "./best_deal_on_brands";
 import CarousalSection from "./carousal_section";
 import ad1 from "../../public/images/ads/2.png"
 import ad2 from "../../public/images/ads/1.png"
+import CatSliderAds from "./catSliderads";
 
 const HomePage = ({ token }) => {
   return (
-    <div>
-      {/* <HeroSection /> */}
-      {/* <Best_Seller_Product /> */}
-      {/* <CarousalSection /> */}
-      {/* {/* <Flash_Sales token={token} /> */}
-      {/* <Price_varaint /> */}
+    <div className="flex flex-col gap-10">
+      <HeroSection />
+      <Best_Seller_Product />
+      <Flash_Sales token={token} />
+      <Price_varaint />
       <StaticAds />
-      {/* <Best_Deal_On_Brands /> */}
+      <CatSliderAds />
+      <CarousalSection />
+      <Flash_Sales token={token} />
+      <Best_Deal_On_Brands />
     </div>
   );
 };
@@ -49,7 +52,7 @@ export const HeroSection = () => {
         </div>
       </div>
 
-      <div className="ad-section flex justify-between gap-3 bg-ad_bg_gray h-[98px] w-11/12 rounded mx-auto my-10 overflow-hidden">
+      {/* <div className="ad-section flex justify-between gap-3 bg-ad_bg_gray h-[98px] w-11/12 rounded mx-auto my-10 overflow-hidden">
         <div className="truck-image relative overflow-hidden px-[50px]">
           <Image src={truck} width={109} height={170} alt="truck-image" />
           <div className="rectangle-blue w-[112px] h-[112px] bg-ad_blue_circle rounded-full absolute -top-[60px] -left-[60px]">
@@ -101,7 +104,7 @@ export const HeroSection = () => {
             {" "}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
