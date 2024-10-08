@@ -27,13 +27,13 @@ import { ArrowUpDown, Mouse } from 'lucide-react';
 const CarousalSection = () => {
     return (
 
-        <div className="flex h-[70vh] container gap-2 justify-center align-center ">
+        <div className="flex h-[80vh] container gap-2 justify-center align-center ">
             <div className="w-3/5 h-full flex flex-col gap-3">
                 <div className="h-1/2  flex justify-center items-center text-white text-xl font-bold">
                     <First />
                 </div>
                 <div className="h-1/2  flex relative justify-center items-center text-white text-xl font-bold">
-                    <Image src={C1} fill alt="a1" />
+                    <Image src={C1} fill alt="a1" className="object-cover" />
                 </div>
             </div>
 
@@ -87,11 +87,11 @@ const First = () => {
 
             </SwiperSlide>
             <SwiperSlide>
-                <Image src={A1} fill alt="a1" />
+                <Image src={C} fill alt="a1" />
 
             </SwiperSlide>
             <SwiperSlide>
-                <Image src={D1} fill alt="a1" />
+                <Image src={D2} fill alt="a1" />
 
             </SwiperSlide>
         </Swiper>
@@ -129,7 +129,7 @@ const Fourth = () => {
 
             </SwiperSlide>
             <SwiperSlide>
-                <Image src={A1} fill alt="a1" />
+                <Image src={C} fill alt="a1" />
 
             </SwiperSlide>
         </Swiper>

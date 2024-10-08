@@ -13,12 +13,12 @@ import CarousalSection from "./carousal_section";
 const HomePage = ({ token }) => {
   return (
     <div>
-      <HeroSection />
+      {/* <HeroSection /> */}
       <Best_Seller_Product />
       <CarousalSection />
-      <Flash_Sales token={token} />
+      {/* <Flash_Sales token={token} />
       <Price_varaint />
-      <Best_Deal_On_Brands />
+      <Best_Deal_On_Brands /> */}
     </div>
   );
 };
