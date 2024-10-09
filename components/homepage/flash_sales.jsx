@@ -24,6 +24,8 @@ import { activeFavDisplay } from "@/lib/store/slices/favouriteSlice";
 import { activeStatusLogin } from "@/lib/store/slices/loginStatusSlice";
 import { useSession } from "next-auth/react";
 import { storeToken } from "@/lib/store/slices/userDataSlice";
+import { ArrowRight } from "lucide-react";
+import MainPageHeaders from "../ui/mainHeaders";
 
 
 const Flash_Sales = ({ token }) => {
@@ -119,14 +121,15 @@ const Flash_Sales = ({ token }) => {
   }
 
   return (
-    <div className="">
+    <div className="container">
+      <MainPageHeaders main="Exclusive Deal" sub="Discover unbeatable offers you'll love"  />
       <Carousel
         opts={{
           align: "start",
         }}
-        className="container  px-8"
+        className=""
       >
-        <CarouselContent>
+        <CarouselContent>   
           {allProducts?.slice(0, 9).map((item, index) => {
             const {
               featured_image,
