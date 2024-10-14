@@ -29,7 +29,7 @@ export default auth((req) => {
 
     if (nextUrl.pathname === "/") { return null }
 
-    // if (!isLoggedIn && isPublicRoute) { return null }
+    if (!isLoggedIn && isPublicRoute) { return null }
 
 
 
@@ -45,9 +45,9 @@ export default auth((req) => {
 
 
 
-    // if (!isLoggedIn) {
-    //     return NextResponse.redirect(new URL(`/auth/login?callbackUrl=${encodeURIComponent(callbackUrl)}`, nextUrl));
-    // }
+    if (!isLoggedIn && !isPublicRoute) {
+        return NextResponse.redirect(new URL(`/auth/login?callbackUrl=${encodeURIComponent(callbackUrl)}`, nextUrl));
+    }
 
 
 

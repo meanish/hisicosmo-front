@@ -1,47 +1,52 @@
 import Image from "next/image";
 import React from "react";
-import productSeller from "@/public/images/best-seller-product.png";
+import productSeller from "@/public/images/flash-sales.png";
+import HeadingTitle from "../ui/header";
+import { ArrowRight } from "lucide-react";
 
 const Best_Seller_Product = () => {
   return (
-    <div className="text-center  mt-20">
-      <h3 className="text-bg_footer mb-3 text-2xl font-bold">
-        Bestseller products
-      </h3>
-      <div className="w-full h-[219px] px-[72px] py-[30px] bg-primary_blue/40 flex-col justify-start items-center inline-flex">
-        <div className="h-[159px] justify-end items-start inline-flex">
+    <div className="">
+      <div className="title_section flex justify-between items-center container" >
+        <HeadingTitle title="Bestseller products" />
+        <div className="explore flex items-center hover:underline ">
+          <div className="to_explore cursor-pointer ">Explore More</div>
+          <ArrowRight size={20} />
+        </div>
+      </div>
+
+
+      <div className="w-full py-8 bg-primary_blue/40 flex-col justify-start items-center">
+        <div className="container flex  justify-between gap-4">
           {Array(8)
             .fill(null)
             .map((item, index) => {
               return (
-                <div
-                  key={index}
-                  className="w-[144.98px] self-stretch pr-2.5 flex-col justify-center items-start inline-flex"
-                >
-                  <div className="w-[134.98px] h-[159px] flex-col justify-start items-start flex">
-                    <div className="self-stretch h-[159px] flex-col justify-start items-center gap-[13px] flex">
-                      <div className="w-[130px] h-[130px] px-[35.50px] pt-[6.06px] pb-[19.07px] bg-white rounded-[130px] flex-col justify-center items-center flex">
-                        <Image
-                          className="w-[59px] h-[104.87px] relative"
-                          src={productSeller}
-                          alt="product-image"
-                          width={60}
-                          height={105}
-                        />
-                      </div>
-                      <div className="self-stretch h-4 pl-[41.06px] pr-[41.07px] flex-col justify-start items-center flex">
-                        <p className="self-stretch text-center text-[13px] font-normal">
-                          Skincare
-                        </p>
-                      </div>
-                    </div>
+                <div className="flex flex-col items-center gap-3">
+                  <div
+                    key={index}
+                    className="bg-white p-3 flex justify-center items-center rounded-full w-28 h-28"
+                  >
+                    <Image
+                      className="w-24 h-24 object-cover rounded-full"
+                      src={productSeller}
+                      alt="product-image"
+                      width={60}
+                      height={60}
+                    />
+                  </div>
+                  <div className="flex-col justify-start items-center flex">
+                    <p className=" text-center text-sm font-normal">
+                      Skincare
+                    </p>
                   </div>
                 </div>
+
               );
             })}
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

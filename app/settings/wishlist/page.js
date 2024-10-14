@@ -3,6 +3,7 @@ import ButtonBlue from '@/components/ui/buttonBlue';
 import HeadingTitle from '@/components/ui/header';
 import { activeCartDisplay } from '@/lib/store/slices/cartSlices';
 import { fetchActiveFavorites, removeFavorites } from '@/lib/store/slices/favouriteSlice';
+import { activeStatusLogin } from '@/lib/store/slices/loginStatusSlice';
 import { Delete, DeleteIcon, Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -55,7 +56,8 @@ const WishProducts = ({ status, allFavourites, token }) => {
 
     const cartHandler = async (id) => {
         if (!token) {
-            router.push("/auth/login")
+            dispatch(activeStatusLogin())
+            // router.push("/auth/login")
         }
         else {
             try {

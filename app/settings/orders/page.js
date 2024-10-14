@@ -6,7 +6,7 @@ const page = async () => {
 
     const session = await auth()
     return (
-        <Orders token={session?.user.token} />
+        <Orders token={session?.user?.token} />
     )
 }
 

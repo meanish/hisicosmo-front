@@ -7,7 +7,7 @@ import { Inter as FontSans } from "next/font/google"
 import AuthContextProvider from "../context/AuthContext";
 import NextTopLoader from "nextjs-toploader";
 import { ReduxProvider } from "@/lib/store/provider";
-
+import LoginModal from "@/components/ui/loginModal";
 
 
 
@@ -27,29 +27,33 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <ReduxProvider>
-        <Toaster position="top-right" />
-        <AuthContextProvider>
-          <NextTopLoader
-            color="#ffa600"
-            initialPosition={0.08}
-            crawlSpeed={200}
-            height={5}
-            crawl={true}
-            showSpinner={true}
-            easing="ease"
-            speed={200}
-            shadow={false}
-            template='<div class="bar" role="bar"><div class="peg"></div></div> 
+          <Toaster position="top-right" />
+          <AuthContextProvider>
+            <NextTopLoader
+              color="#ffa600"
+              initialPosition={0.08}
+              crawlSpeed={200}
+              height={5}
+              crawl={true}
+              showSpinner={true}
+              easing="ease"
+              speed={200}
+              shadow={false}
+              template='<div class="bar" role="bar"><div class="peg"></div></div> 
             <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
-            zIndex={1600}
-            showAtBottom={false}
-          />
-          <Header />
-          <main>
-            {children}
-          </main>
-        </AuthContextProvider>
-        <Footer />
+              zIndex={1600}
+              showAtBottom={false}
+            />
+            <Header />
+            <main>
+              {children}
+            </main>
+            {/* .login_modal */}
+
+
+            <LoginModal />
+          </AuthContextProvider>
+          <Footer />
         </ReduxProvider>
       </body>
     </html>
