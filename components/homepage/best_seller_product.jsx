@@ -7,13 +7,13 @@ import { ArrowRight } from "lucide-react";
 const Best_Seller_Product = () => {
   return (
     <div className="">
-      <div className="title_section flex justify-between items-center container" >
+      {/* <div className="title_section flex justify-between items-center container" >
         <HeadingTitle title="Bestseller products" />
         <div className="explore flex items-center hover:underline ">
           <div className="to_explore cursor-pointer ">Explore More</div>
           <ArrowRight size={20} />
         </div>
-      </div>
+      </div> */}
 
 
       <div className="w-full py-8 bg-primary_blue/40 flex-col justify-start items-center">

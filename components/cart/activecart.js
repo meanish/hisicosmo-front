@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import EsewaPayment from '../esewagateway/page'
 import { GrClose } from 'react-icons/gr'
 import Image from 'next/image'
+import CryptoJS from 'crypto-js';
+
 import { FaCheckCircle } from 'react-icons/fa'
 import esewa from "@/public/images/esewa.png";
 import cod from "@/public/images/cod.png";
@@ -24,6 +26,19 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
     const [paymentType, setPaymentType] = useState()
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false);
+    const [esewaPaymentData, setEsewaPaymentData] = useState({
+        totalAmount: totalAmount,
+        productCode: "EPAYTEST",
+        orderId: ""
+    })
+    const secret = `${process.env.NEXT_PUBLIC_ESEWA_KEY}`;
+
+    // const [signature, setSignature] = useState('');
+    // const [transactionUuid, setTransactionUuid] = useState('');
+
+
+
+    console.log(esewaPaymentData)
 
 
     const removeHandler = (id) => {
@@ -38,6 +53,19 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
 
 
     const orderHandler = async () => {
+
+        console.log(paymentType)
+
+        setEsewaPaymentData({
+            ...esewaPaymentData, totalAmount: totalAmount, productCode: "EPAYTEST"
+        })
+
+
+
+
+
+
+
 
         if (!paymentType) {
             toast.error("Please select a payment type")
@@ -58,7 +86,9 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
 
             const response = await res.json()
 
-            if (response?.status === 200) {
+
+            console.log("response", response)
+            if (response?.status === 200 && paymentType === "1") {
                 setShowModal(true);
 
                 // remove from cart
@@ -81,16 +111,50 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                     alert("Error in removing from the cart", e)
                 }
 
-
-                // remove order id from cart and state
-                // clean activeCart
             }
+
+
+            else if (response?.status === 200 && paymentType === "2") {
+                let orderId = response?.data?.id
+                if (totalAmount > 0) {
+                    console.log("1", totalAmount)
+                    const cleanAmount = Number(parseFloat(totalAmount.toString().replace(/,/g, '')).toFixed(0));
+
+                    console.log(cleanAmount, esewaPaymentData.productCode)
+
+                    const currentTime = new Date();
+                    const formattedTime =
+                        currentTime.toISOString().slice(2, 10).replace(/-/g, '') +
+                        '-' +
+                        currentTime.getHours() +
+                        currentTime.getMinutes() +
+                        currentTime.getSeconds();
+                    document.getElementById('transaction_uuid').value = formattedTime;
+                    console.log(cleanAmount, formattedTime, esewaPaymentData?.productCode)
+                    console.log(typeof cleanAmount, typeof formattedTime, typeof esewaPaymentData?.productCode)
+                    const message = `total_amount=${cleanAmount},transaction_uuid=${formattedTime},product_code=${esewaPaymentData?.productCode}`;
+
+                    console.log(message)
+                    const hash = CryptoJS.HmacSHA256(message, secret);
+                    const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
+                    console.log(hashInBase64)
+                    document.getElementById('signature').value = hashInBase64;
+
+                }
+                document.getElementById('success_url').value = `${process.env.NEXT_PUBLIC_HiSi_Server}/transaction/verify/${orderId}`;
+                document.getElementById("esewaForm").submit();
+
+            }
+
+
         }
         catch (e) {
             toast.error("Failed", e.message)
 
         }
     }
+
+
 
 
     const payementmethod = [
@@ -260,10 +324,12 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
 
                                 </div>
 
-                                <div className="checkout py-4">
+                                <div className="checkout py-4 flex flex-col">
                                     <button className="bg-primary_blue text-white py-3 w-full rounded-lg" onClick={orderHandler}>
                                         Place Order
                                     </button>
+                                    <EsewaPayment props={esewaPaymentData} />
+
                                 </div>
                             </>
                         }
@@ -291,6 +357,8 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                                         <div className="remove_active">
                                             <button onClick={() => removeHandler(currCart.product_id)}>Delete</button>
                                         </div>
+                <EsewaPayment />
+
 
                                     </>
                                 )

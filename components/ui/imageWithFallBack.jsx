@@ -10,7 +10,7 @@ export const ImageWithFallback = (props) => {
   return (
     <Image
       {...rest}
-      src={imgSrc}
+      src={imgSrc || logo}
       alt={alt || "hisi-logo"}
       onError={() => {
         setImgSrc(logo);
