@@ -42,7 +42,7 @@ const Orders = ({ className, token }) => {
 
   if (loading) {
     return (
-      <div className={cn(`profile-form w-full bg-white p-5`, className)}>
+      <div className={cn(`profile-form w-full min-h-[45vh] bg-white p-5`, className)}>
         Loading orders...
       </div>
     );
@@ -50,7 +50,7 @@ const Orders = ({ className, token }) => {
 
   if (error) {
     return (
-      <div className={cn(`profile-form w-full bg-white p-5`, className)}>
+      <div className={cn(`profile-form w-full bg-white min-h-[45vh] p-5`, className)}>
         Error: {error}
       </div>
     );

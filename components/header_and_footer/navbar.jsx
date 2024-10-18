@@ -119,15 +119,11 @@ export const MenuItem = ({ category }) => {
   }
 
   return (
-    <li>
+    <li className="flex items-center capitalize">
       {category.subcategories?.length ? (
-        <div>
-          <button
-            onClick={handleDropDownOpen}
-            className="hover:text-primary_blue pb-1 hover:font-medium border-b-2 border-transparent hover:border-primary_blue "
-          >
-            {category.name}
-          </button>
+        <div className="hover:text-primary_blue capitalize hover:font-medium border-b-2 border-transparent hover:border-primary_blue " onClick={handleDropDownOpen}>
+
+          {category.name}
           <Dropdown
             openSubCat={openSubCat}
             handleDropdownClose={handleDropdownClose}
@@ -136,10 +132,10 @@ export const MenuItem = ({ category }) => {
           />
         </div>
       ) : (
-        <div>
+        <div className="hover:text-primary_blue capitalize  hover:font-medium border-b-2 border-transparent hover:border-primary_blue ">
           <Link
-            href={category.slug}
-            className="hover:text-primary_blue pb-1 hover:font-medium border-b-2 border-transparent hover:border-primary_blue "
+            className="m-0 p-0 h-full"
+            href={`/filters?category=${category.id}`}
           >
             {category.name}
           </Link>
