@@ -33,10 +33,11 @@ export async function POST(req) {
         const orderResponse = await response.json();
 
 
+        console.log(orderResponse)
 
         if (orderResponse.success) {
 
-            return NextResponse.json({ message: orderResponse?.message, status: 200 })
+            return NextResponse.json({ message: orderResponse?.message, status: 200, data: orderResponse?.data })
         }
         else {
             return NextResponse.json({ message: orderResponse?.message, status: 500 })
