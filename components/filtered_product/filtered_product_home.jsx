@@ -49,7 +49,7 @@ const Filtered_Product_Home = () => {
     updateURLWithFilters();
 
     const fetchProductsFromAPI = async () => {
-      // for preventing price api chan on scroll adding debounce
+      // for preventing price api call on scroll adding debounce
       // const prevtotal;
       try {
         // Fetch data from the API route
