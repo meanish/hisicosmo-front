@@ -2,6 +2,7 @@
 import { setPriceRange } from "@/lib/store/slices/filterSlice";
 import Link from "next/link";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 const Price_varaint = () => {
   const productsPriceRange = [
@@ -61,6 +62,7 @@ const Price_varaint = () => {
     },
   ];
 
+  const dispatch = useDispatch();
   const handlePriceFilter = (price) => {
     dispatch(setPriceRange({ min: 1, max: price }));
   };
@@ -81,8 +83,8 @@ const Price_varaint = () => {
                       return (
                         <Link
                           key={index}
+                          href={`/filters?category=13&minPrice=1&maxPrice=${currRange.price}`}
                           onClick={() => handlePriceFilter(currRange.price)}
-                          href={`/filters?minPrice=1&maxPrice=${currRange.price}`}
                         >
                           <div
                             className={`rounded-full w-24 h-24 flex justify-center items-center hover:bg-opacity-50 transition-all`}
