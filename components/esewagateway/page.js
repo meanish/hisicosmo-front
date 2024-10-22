@@ -3,9 +3,6 @@ import React, { useEffect, useState } from 'react';
 const EsewaPayment = ({ props }) => {
   const { totalAmount, productCode } = props
 
-  const secret = '8gBm/:&EnhH.1/q';
-
-
 
 
   const handleSubmit = (e) => {

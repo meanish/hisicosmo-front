@@ -4,9 +4,10 @@ import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  resetFilters, setPriceRange, 
+  resetFilters, setPriceRange,
   toggleBrand,
-  toggleCategory, } from "@/lib/store/slices/filterSlice";
+  toggleCategory,
+} from "@/lib/store/slices/filterSlice";
 
 import { Range } from "react-range";
 import { BrandAccordionContainer } from "./brandAccordion";
@@ -91,15 +92,28 @@ export const PriceRangeSlider = () => {
   const dispatch = useDispatch();
   const { min, max } = useSelector(
     (state) => state.manageFilterSlice.priceRange
-  ); 
-  const STEP = 1;
+  );
+
+  const STEP = 10;
   const MIN = 1;
   const MAX = 20000;
 
   const handlePriceChange = (values) => {
+    console.log("Changes")
     const [minPrice, maxPrice] = values;
-    dispatch(setPriceRange({ min: minPrice, max: maxPrice })); 
+    dispatch(setPriceRange({ min: parseInt(minPrice), max: parseInt(maxPrice) }));
   };
+
+
+  // on page relaod and place the params prices
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const minPrice = parseInt(searchParams.get('minPrice')) || MIN;
+    const maxPrice = parseInt(searchParams.get('maxPrice')) || MAX;
+    dispatch(setPriceRange({ min: minPrice, max: maxPrice }));
+  }, []);
+
+
 
   return (
     <div className="price-range grid gap-4 mt-9">
@@ -124,10 +138,10 @@ export const PriceRangeSlider = () => {
             {...props}
             style={{
               ...props.style,
-              height: "6px",
+              height: "10px",
               width: "100%",
-              backgroundColor: "gray",
-              borderRadius: "10px",
+              backgroundColor: "#E7B453",
+              borderRadius: "5px",
             }}
           >
             {children}
@@ -139,9 +153,9 @@ export const PriceRangeSlider = () => {
             {...props}
             style={{
               ...props.style,
-              height: "24px",
-              width: "24px",
-              borderRadius: "12px",
+              height: "20px",
+              width: "20px",
+              borderRadius: "5px",
               backgroundColor: "#110884",
               boxShadow: "0px 2px 6px #AAA",
             }}
