@@ -71,7 +71,7 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
             toast.error("Please select a payment type")
             return
         }
-        if (!shippingData) {
+        if (!shippingData && shippingData.length > 0) {
             toast.error("Seems like your shipping details are missing. Set to place the order.")
             return
         }
@@ -130,7 +130,7 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                         currentTime.getMinutes() +
                         currentTime.getSeconds();
                     document.getElementById('transaction_uuid').value = formattedTime;
-                 
+
                     const message = `total_amount=${cleanAmount},transaction_uuid=${formattedTime},product_code=${esewaPaymentData?.productCode}`;
 
                     const hash = CryptoJS.HmacSHA256(message, secret);

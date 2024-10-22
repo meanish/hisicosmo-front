@@ -24,8 +24,9 @@ const MainCart = ({ token }) => {
 
                 const response = await res.json()
                 console.log(response?.data)
+
                 if (response.status === 200) {
-                    setShippingData(response.data)
+                    setShippingData(response?.data || [])
                 }
                 else {
                     console.log("Eroor in the fetching shipping Data")

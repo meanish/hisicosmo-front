@@ -34,12 +34,10 @@ const Flash_Sales = ({ token }) => {
 
 
 
-  console.log(storedUserToken)
 
 
 
   const { data: session } = useSession()
-  console.log(session?.user?.token)
 
   const [allProducts, setAllProducts] = useState();
   const router = useRouter()

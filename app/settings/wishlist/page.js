@@ -4,7 +4,7 @@ import HeadingTitle from '@/components/ui/header';
 import { activeCartDisplay } from '@/lib/store/slices/cartSlices';
 import { fetchActiveFavorites, removeFavorites } from '@/lib/store/slices/favouriteSlice';
 import { activeStatusLogin } from '@/lib/store/slices/loginStatusSlice';
-import { Delete, DeleteIcon, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,14 +23,16 @@ const WishList = () => {
         dispatch(fetchActiveFavorites());
     }, []);
 
-    { status === "loading" && <p>Loading...</p> }
+    {
+        status === "loading" && <div className="min-h-[35vh] bg-white text-center p-4"><span className="text-gray-400 text-center ">Loading...</span></div>
+    }
 
 
     return (
         <div>
             {
                 allFavourites.length > 0 ? <WishProducts status={status} allFavourites={allFavourites} token={session?.user?.token} /> : (
-                    <p>No favorites found</p>
+                    <div className="min-h-[35vh] bg-white text-center p-4"><span className="text-gray-400 text-center ">No favorites found</span></div>
                 )
             }
         </div>
