@@ -130,14 +130,11 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                         currentTime.getMinutes() +
                         currentTime.getSeconds();
                     document.getElementById('transaction_uuid').value = formattedTime;
-                    console.log(cleanAmount, formattedTime, esewaPaymentData?.productCode)
-                    console.log(typeof cleanAmount, typeof formattedTime, typeof esewaPaymentData?.productCode)
+                 
                     const message = `total_amount=${cleanAmount},transaction_uuid=${formattedTime},product_code=${esewaPaymentData?.productCode}`;
 
-                    console.log(message)
                     const hash = CryptoJS.HmacSHA256(message, secret);
                     const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
-                    console.log(hashInBase64)
                     document.getElementById('signature').value = hashInBase64;
 
                 }

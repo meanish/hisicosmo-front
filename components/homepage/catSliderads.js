@@ -43,7 +43,7 @@ const CatSliderAds = () => {
     ]
 
     return (
-        <div id="sliderads" className="container">
+        <div id="sliderads" className="mx-6">
             <div
                 className="slider"
                 style={{

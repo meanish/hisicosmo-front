@@ -27,7 +27,7 @@ import { ArrowUpDown, Mouse } from 'lucide-react';
 const CarousalSection = () => {
     return (
 
-        <div className="flex h-[80vh] container gap-2 justify-center">
+        <div className="flex h-[90vh] mx-6 gap-2 justify-center">
             <div className="w-2/3 h-full flex flex-col gap-3">
                 <div className="h-1/2  flex justify-center items-center text-white text-xl font-bold">
                     <First />

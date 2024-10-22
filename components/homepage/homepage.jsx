@@ -22,8 +22,8 @@ const HomePage = ({ token }) => {
       <Price_varaint />
       <StaticAds />
       <CatSliderAds />
-      <CarousalSection />
       <Flash_Sales token={token} />
+      <CarousalSection />
       <Best_Deal_On_Brands />
     </div>
   );
@@ -112,8 +112,8 @@ export const HeroSection = () => {
 
 const StaticAds = () => {
   return (
-    <div className="container">
-      <div className="static_images_ads relative grid grid-cols-2 gap-10 h-[40vh] overflow-hidden">
+    <div className="mx-6">
+      <div className="static_images_ads relative grid grid-cols-2 gap-8 h-[50vh] overflow-hidden">
         <div className="relative overflow-hidden">
           <Image src={ad1} fill alt="ad1" className="object-cover transition-transform  duration-300 ease-in-out transform hover:scale-110" />
         </div>
