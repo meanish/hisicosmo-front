@@ -31,7 +31,7 @@ export const CategoryAccordionContainer = ({ title }) => {
     if (query.length > 0) {
       try {
         const response = await fetch(
-          `http://tranquilbytes.com/hisicosmetics/category/search?text=${query}`
+          `${process.env.NEXT_PUBLIC_HiSi_Server}/category/search?text=${query}`
         );
         const data = await response.json();
         // setSearchedProduct(data.data);

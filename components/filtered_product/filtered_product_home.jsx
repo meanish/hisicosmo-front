@@ -74,14 +74,16 @@ const Filtered_Product_Home = () => {
     } else {
       clearTimeout(debounceTimeout);
       debounceTimeout = setTimeout(() => {
-        fetchProductsFromAPI(); 
+        fetchProductsFromAPI();
       }, 2000);
     }
 
     // cause i want to call only once api
-     return () => clearTimeout(debounceTimeout);
+    return () => clearTimeout(debounceTimeout);
   }, [selectedBrandIds, selectedCategoryIds, min, max, prevBrandIds, prevCategoryIds]); // Run the effect when any filter changes
 
+
+  
   return (
     <div className="bg-ad_bg_gray py-5">
       <div className="container">
