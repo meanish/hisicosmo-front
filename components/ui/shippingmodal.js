@@ -18,14 +18,12 @@ import toast from "react-hot-toast"
 
 export function ShippingModal({ shippingData, token }) {
 
-    const { fullname, address, province, district, phone_number } = shippingData
-
     const [formData, setFormData] = useState({
-        fullname: fullname || "",
-        address: address || "",
-        province: province || "",
-        district: district || "",
-        phone_number: phone_number || ""
+        fullname: shippingData?.fullname || "",
+        address: shippingData?.address || "",
+        province: shippingData?.province || "",
+        district: shippingData?.district || "",
+        phone_number: shippingData?.phone_number || ""
     })
 
     const [shipError, setShipError] = useState(null)

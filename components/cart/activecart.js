@@ -39,7 +39,7 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
 
 
     console.log(esewaPaymentData)
-
+    console.log(shippingData)
 
     const removeHandler = (id) => {
 
@@ -71,7 +71,10 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
             toast.error("Please select a payment type")
             return
         }
-        if (!shippingData && shippingData.length > 0) {
+
+
+        if (shippingData.length === 0) {
+            console.log("Here")
             toast.error("Seems like your shipping details are missing. Set to place the order.")
             return
         }
@@ -186,7 +189,7 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
 
                 <div className="edit_shipping underline hover:text-primary_blue cursor-pointer">
 
-                    {shippingData ? <ShippingModal shippingData={shippingData} token={token} /> : null}
+                    <ShippingModal shippingData={shippingData} token={token} />
                 </div>
             </div>
             {
