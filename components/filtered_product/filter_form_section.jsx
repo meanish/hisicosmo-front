@@ -4,9 +4,11 @@ import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  resetFilters, setPriceRange, 
+  resetFilters,
+  setPriceRange,
   toggleBrand,
-  toggleCategory, } from "@/lib/store/slices/filterSlice";
+  toggleCategory,
+} from "@/lib/store/slices/filterSlice";
 
 import { Range } from "react-range";
 import { BrandAccordionContainer } from "./brandAccordion";
@@ -18,6 +20,7 @@ import {
 import { getBrandBasedProducts } from "@/app/api/brands/route";
 import { getNavCategory } from "@/app/api/nav_category/route";
 import { useRouter } from "next/navigation";
+import { PriceRangeSlider } from "./priceRangeSlider";
 
 export const Filter_Form_Section = () => {
   const dispatch = useDispatch();
@@ -87,67 +90,68 @@ export const Circular_Search_Box = ({ value, onChange }) => {
   );
 };
 
-export const PriceRangeSlider = () => {
-  const dispatch = useDispatch();
-  const { min, max } = useSelector(
-    (state) => state.manageFilterSlice.priceRange
-  ); 
-  const STEP = 1;
-  const MIN = 1;
-  const MAX = 20000;
+// export const PriceRangeSlider = () => {
+//   const dispatch = useDispatch();
+//   const { min, max } = useSelector(
+//     (state) => state.manageFilterSlice.priceRange
+//   );
 
-  const handlePriceChange = (values) => {
-    const [minPrice, maxPrice] = values;
-    dispatch(setPriceRange({ min: minPrice, max: maxPrice })); 
-  };
+//   const STEP = 1;
+//   const MIN = min;
+//   const MAX = max;
 
-  return (
-    <div className="price-range grid gap-4 mt-9">
-      <h2 className="text-base font-medium text-primary_blue">Price</h2>
-      <p className="tracking-wide leading-normal text-xs">Select Price Range</p>
+//   const handlePriceChange = (values) => {
+//     const [minPrice, maxPrice] = values;
+//     dispatch(setPriceRange({ min: minPrice, max: maxPrice }));
+//   };
 
-      {/* Display the selected min and max values */}
-      <div className="flex justify-between ">
-        <span>NPR.{min}</span> <span>NPR.{max}</span>
-      </div>
+//   return (
+//     <div className="price-range grid gap-4 mt-9">
+//       <h2 className="text-base font-medium text-primary_blue">Price</h2>
+//       <p className="tracking-wide leading-normal text-xs">Select Price Range</p>
 
-      {/* Dual Handle Slider */}
-      <Range
-        step={STEP}
-        min={MIN}
-        max={MAX}
-        values={[min, max]}
-        onChange={handlePriceChange} // Handle slider change
-        renderTrack={({ props, children }) => (
-          <div
-            key={props.key}
-            {...props}
-            style={{
-              ...props.style,
-              height: "6px",
-              width: "100%",
-              backgroundColor: "gray",
-              borderRadius: "10px",
-            }}
-          >
-            {children}
-          </div>
-        )}
-        renderThumb={({ props, isDragged }) => (
-          <div
-            key={props.key}
-            {...props}
-            style={{
-              ...props.style,
-              height: "24px",
-              width: "24px",
-              borderRadius: "12px",
-              backgroundColor: "#110884",
-              boxShadow: "0px 2px 6px #AAA",
-            }}
-          />
-        )}
-      />
-    </div>
-  );
-};
+//       {/* Display the selected min and max values */}
+//       <div className="flex justify-between">
+//         <span>NPR.{min}</span> <span>NPR.{max}</span>
+//       </div>
+
+//       {/* Dual Handle Slider */}
+//       <Range
+//         step={STEP}
+//         min={MIN}
+//         max={MAX}
+//         values={[min, max]} // Use the updated values
+//         onChange={handlePriceChange} // Handle slider change
+//         renderTrack={({ props, children }) => (
+//           <div
+//             key={props.key}
+//             {...props}
+//             style={{
+//               ...props.style,
+//               height: "6px",
+//               width: "100%",
+//               backgroundColor: "gray",
+//               borderRadius: "10px",
+//             }}
+//           >
+//             {children}
+//           </div>
+//         )}
+//         renderThumb={({ props }) => (
+//           <div
+//             key={props.key}
+//             {...props}
+//             style={{
+//               ...props.style,
+//               height: "24px",
+//               width: "24px",
+//               borderRadius: "12px",
+//               backgroundColor: "#110884",
+//               boxShadow: "0px 2px 6px #AAA",
+//             }}
+//           />
+//         )}
+//       />
+//     </div>
+//   );
+// };
