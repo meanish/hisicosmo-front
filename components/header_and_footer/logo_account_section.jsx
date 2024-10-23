@@ -74,10 +74,10 @@ export const Logo_Account_Section = ({ token }) => {
             }
             <div className="flex justify-center flex-col">
 
-              {!userData && <p className="text-[10px] text-gray-500">Hello,Sign In</p>}
+              {!userData && <p className="text-[10px] text-gray-500">Hello User, Sign In</p>}
               <Link
                 href={"/auth/login"}
-                className="text-sm gray-700 font-semibold cursor-pointer"
+                className="text-sm gray-700 font-semibold capitalize cursor-pointer"
               >
                 {userData?.username}
               </Link>

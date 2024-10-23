@@ -20,7 +20,7 @@ export const Nav_Content = ({ nav_category }) => {
     if (query.length > 0) {
       try {
         const response = await fetch(
-          `https://tranquilbytes.com/hisicosmetics/product/search?text=${query}`
+          `${process.env.NEXT_PUBLIC_HiSi_Server}/product/search?text=${query}`
         );
         const data = await response.json();
         setSearchedProduct(data.data);
@@ -71,32 +71,33 @@ export const SearchResults = ({ searchedProduct }) => {
   return (
     <div
       style={{ scrollbarWidth: "thin" }}
-      className="absolute z-40 top-full max-h-96 h-auto border overflow-y-auto  overflow-x-hidden  bg-white p-4 w-full"
+      className="absolute z-40 top-full max-h-96 h-auto border overflow-y-auto  overflow-x-hidden  bg-white  w-full"
     >
       {searchedProduct?.length ? (
-        <ul className="grid gap-2 w-full ">
+        <ul className=" w-full ">
           {searchedProduct?.map((product, index) => {
-
-            console.log(searchedProduct)
             const { name, id, featured_image, price } = product;
             return (
               <Link
                 href={`product/${id}`}
-                className="block overflow-x-clip hover:text-primary_gold text-nowrap w-full border-b p-2"
+                className="block   text-nowrap w-full border-b hover:bg-gray-100"
               >
-                <li key={index} className="w-full flex items-center gap-3" >
+                <li key={index} className="flex items-center hover:text-primary_gold   p-2 justify-between gap-3" >
                   <div className="prod_images relative" style={{ width: "40px", height: "40px" }}>
                     <ImageWithFallback src={featured_image} fill className="w-10 h-10" alt={name} />
                   </div>
+                  <div className="details flex flex-col items-end  ">
+                    <span title={name} className="text-primary_blue text-sm max-w-20">{name}</span>
+                    <span className="text-gray-400  text-[10px]">RS.{price}</span>
+                  </div>
 
-                  <span className="text-primary_blue text-sm">{name}</span>
                 </li>
               </Link>
             );
           })}
         </ul>
       ) : (
-        <p className="w-full text-center font-semibold">No Results</p>
+        <p className="w-full text-center text-gray-400 p-4">No Results</p>
       )}
     </div>
   );

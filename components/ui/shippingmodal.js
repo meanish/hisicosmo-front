@@ -13,18 +13,34 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet"
 import { Button } from "./button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 export function ShippingModal({ shippingData, token }) {
 
+
+    console.log(shippingData)
+
     const [formData, setFormData] = useState({
-        fullname: shippingData?.fullname || "",
-        address: shippingData?.address || "",
-        province: shippingData?.province || "",
-        district: shippingData?.district || "",
-        phone_number: shippingData?.phone_number || ""
+        fullname: "",
+        address: "",
+        province: "",
+        district: "",
+        phone_number: ""
     })
+
+
+    useEffect(() => {
+        if (shippingData)
+            setFormData({
+                fullname: shippingData?.fullname,
+                address: shippingData?.address,
+                province: shippingData?.province,
+                district: shippingData?.district,
+                phone_number: shippingData?.phone_number
+            })
+    }, [shippingData])
+
 
     const [shipError, setShipError] = useState(null)
     const [isOpen, setIsOpen] = useState(false)
@@ -66,7 +82,7 @@ export function ShippingModal({ shippingData, token }) {
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-                <Button variant="outline" className="underline">Edit your shipping address</Button>
+                <Button variant="outline" className="hover:underline hover:text-primary_gold">Edit shipping address</Button>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
@@ -78,12 +94,12 @@ export function ShippingModal({ shippingData, token }) {
                 <div className="grid gap-4 py-4">
                     <form className="grid gap-4 py-10">
                         <div className="flex flex-col">
-                            <label htmlFor="fullname" className="mb-2 font-medium">Full Name</label>
+                            <label htmlFor="fullname" className="mb-2  text-gray-600 font-medium">Full Name:</label>
                             <input
                                 type="text"
                                 id="fullname"
                                 name="fullname"
-                                className="border border-gray-300 rounded-md p-2"
+                                className="border border-gray-300 text-gray-700 rounded-md p-2"
                                 placeholder="Enter your full name"
                                 value={formData.fullname}
                                 onChange={changeHandler}
@@ -95,12 +111,12 @@ export function ShippingModal({ shippingData, token }) {
                         </div>
 
                         <div className="flex flex-col">
-                            <label htmlFor="phone_number" className="mb-2 font-medium">Phone Number</label>
+                            <label htmlFor="phone_number" className="mb-2 text-gray-600 font-medium">Phone Number:</label>
                             <input
                                 type="tel"
                                 id="phone_number"
                                 name="phone_number"
-                                className="border border-gray-300 rounded-md p-2"
+                                className="border border-gray-300  text-gray-700 rounded-md p-2"
                                 placeholder="Enter your phone number"
                                 value={formData.phone_number}
                                 onChange={changeHandler}
@@ -112,12 +128,12 @@ export function ShippingModal({ shippingData, token }) {
                         </div>
 
                         <div className="flex flex-col">
-                            <label htmlFor="district" className="mb-2 font-medium">District</label>
+                            <label htmlFor="district" className="mb-2 text-gray-600 font-medium">District:</label>
                             <input
                                 type="text"
                                 id="district"
                                 name="district"
-                                className="border border-gray-300 rounded-md p-2"
+                                className="border border-gray-300 text-gray-700 rounded-md p-2"
                                 placeholder="Enter your district"
                                 value={formData.district}
                                 onChange={changeHandler}
@@ -129,12 +145,12 @@ export function ShippingModal({ shippingData, token }) {
                         </div>
 
                         <div className="flex flex-col">
-                            <label htmlFor="province" className="mb-2 font-medium">Province</label>
+                            <label htmlFor="province" className="mb-2 text-gray-600 font-medium">Province:</label>
                             <input
                                 type="text"
                                 id="province"
                                 name="province"
-                                className="border border-gray-300 rounded-md p-2"
+                                className="border border-gray-300  text-gray-700 rounded-md p-2"
                                 placeholder="Enter your province"
                                 onChange={changeHandler}
                                 value={formData.province}
@@ -146,12 +162,12 @@ export function ShippingModal({ shippingData, token }) {
                         </div>
 
                         <div className="flex flex-col">
-                            <label htmlFor="address" className="mb-2 font-medium">Address</label>
+                            <label htmlFor="address" className="mb-2 text-gray-600 font-medium">Address:</label>
                             <input
                                 type="text"
                                 id="address"
                                 name="address"
-                                className="border border-gray-300 rounded-md p-2"
+                                className="border border-gray-300 text-gray-700 rounded-md p-2"
                                 placeholder="Enter your address"
                                 onChange={changeHandler}
                                 value={formData.address}

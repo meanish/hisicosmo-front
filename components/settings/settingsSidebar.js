@@ -53,7 +53,7 @@ const SidebarSettings = ({ setOpenDropDown, className }) => {
         <div >
             <div className={cn(`sidebar h-fit py-4  bg-white  rounded-sm`, className)}>
                 {pathname === "/settings/profile" ?
-                    <h2 className="font-medium  p-5 pl-6 text-sm">Hi, {username}</h2>
+                    <h2 className="font-medium  p-5 pl-6 text-sm capitalize">Hi, {username}</h2>
                     :
                     <div className="user-info w-full min-w-fit bg-primary_blue/20 px-5 py-2  flex gap-6 items-center">
                         <ImageWithFallback
@@ -78,7 +78,7 @@ const SidebarSettings = ({ setOpenDropDown, className }) => {
                         const { title, icon, href } = tab;
                         return (
                             <Link
-                                onClick={() => setOpenDropDown(false)}
+                                // onClick={() => setOpenDropDown(false)}
                                 href={href}
                                 key={index}
                                 className={`py-3 px-5 flex gap-2 items-center hover:cursor-pointer w-full hover:bg-primary_blue/20  border-b ${pathname === href ? 'bg-primary_blue text-white hover:bg-opacity-100' : null}`}

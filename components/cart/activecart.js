@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import EsewaPayment from '../esewagateway/page'
 import { GrClose } from 'react-icons/gr'
 import Image from 'next/image'
-import CryptoJS from 'crypto-js';
 
 import { FaCheckCircle } from 'react-icons/fa'
 import esewa from "@/public/images/esewa.png";
@@ -16,6 +15,7 @@ import HeadingTitle from '../ui/header'
 import { ShippingModal } from '../ui/shippingmodal'
 import { AfterOrderPop } from '../ui/afterorderPop'
 import { ImageWithFallback } from '../ui/imageWithFallBack'
+import { ConfirmOrderPop } from '../settings/order/confirmOrder'
 
 const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) => {
     const activeCart = useSelector((state) => state.cartData.activeCart)
@@ -23,27 +23,22 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
     const orderPlacement = useSelector((state) => state.cartData.orderplacement)
 
 
+
     const [paymentType, setPaymentType] = useState()
     const dispatch = useDispatch()
     const [showModal, setShowModal] = useState(false);
+    const [showConfirmOrder, setShowConfirmOrder] = useState(false);
     const [esewaPaymentData, setEsewaPaymentData] = useState({
         totalAmount: totalAmount,
         productCode: "EPAYTEST",
         orderId: ""
     })
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+
     const secret = `${process.env.NEXT_PUBLIC_ESEWA_KEY}`;
 
     // const [signature, setSignature] = useState('');
     // const [transactionUuid, setTransactionUuid] = useState('');
-
-
-
-    console.log(esewaPaymentData)
-    console.log(shippingData)
-
-    const removeHandler = (id) => {
-
-    }
 
 
     const checkoutHandler = () => {
@@ -53,31 +48,22 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
 
 
     const orderHandler = async () => {
-
-        console.log(paymentType)
-
-        setEsewaPaymentData({
-            ...esewaPaymentData, totalAmount: totalAmount, productCode: "EPAYTEST"
-        })
-
-
-
-
-
-
-
-
         if (!paymentType) {
-            toast.error("Please select a payment type")
-            return
+            toast.error("Please select a payment type");
+            return;
         }
-
 
         if (shippingData.length === 0) {
-            console.log("Here")
-            toast.error("Seems like your shipping details are missing. Set to place the order.")
-            return
+            toast.error("Seems like your shipping details are missing.");
+            return;
         }
+
+        // Show the confirmation modal
+        setShowConfirmModal(true);
+    };
+
+
+    const confirmOrderHandler = async () => {
         try {
             const res = await fetch("/api/order/new", {
                 method: "POST",
@@ -85,21 +71,18 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({ ...orderPlacement })
-            })
+            });
 
-            const response = await res.json()
+            const response = await res.json();
+            console.log("response", response);
 
-
-            console.log("response", response)
             if (response?.status === 200 && paymentType === "1") {
                 setShowModal(true);
-
-                // remove from cart
+                // Remove from cart
                 try {
-                    let method = "remove"
+                    let method = "remove";
                     await Promise.all(orderPlacement?.products?.map(async (prod) => {
-
-                        dispatch(removeAfterOrder({ id: prod.product_id }))
+                        dispatch(removeAfterOrder({ id: prod.product_id }));
 
                         await fetch("/api/cart/async", {
                             method: "POST",
@@ -109,22 +92,13 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                             body: JSON.stringify({ id: prod.product_id, method }),
                         });
                     }));
+                } catch (e) {
+                    alert("Error in removing from the cart", e);
                 }
-                catch (e) {
-                    alert("Error in removing from the cart", e)
-                }
-
-            }
-
-
-            else if (response?.status === 200 && paymentType === "2") {
-                let orderId = response?.data?.id
+            } else if (response?.status === 200 && paymentType === "2") {
+                let orderId = response?.data?.id;
                 if (totalAmount > 0) {
-                    console.log("1", totalAmount)
                     const cleanAmount = Number(parseFloat(totalAmount.toString().replace(/,/g, '')).toFixed(0));
-
-                    console.log(cleanAmount, esewaPaymentData.productCode)
-
                     const currentTime = new Date();
                     const formattedTime =
                         currentTime.toISOString().slice(2, 10).replace(/-/g, '') +
@@ -135,25 +109,19 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                     document.getElementById('transaction_uuid').value = formattedTime;
 
                     const message = `total_amount=${cleanAmount},transaction_uuid=${formattedTime},product_code=${esewaPaymentData?.productCode}`;
-
                     const hash = CryptoJS.HmacSHA256(message, secret);
                     const hashInBase64 = CryptoJS.enc.Base64.stringify(hash);
                     document.getElementById('signature').value = hashInBase64;
-
                 }
                 document.getElementById('success_url').value = `${process.env.NEXT_PUBLIC_HiSi_Server}/transaction/verify/${orderId}`;
                 document.getElementById("esewaForm").submit();
-
             }
-
-
+        } catch (e) {
+            toast.error("Failed", e.message);
         }
-        catch (e) {
-            toast.error("Failed", e.message)
 
-        }
-    }
-
+        setShowConfirmModal(false); // Close the confirmation modal after placing the order
+    };
 
 
 
@@ -182,7 +150,8 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
 
     return (
         <div className="md:col-span-1 bg-white p-4 ">
-            <AfterOrderPop showModal={showModal} setShowModal={setShowModal} />
+            <AfterOrderPop showModal={showModal} setShowModal={setShowModal} showConfirmOrder={showConfirmOrder} setShowConfirmOrder={setShowConfirmOrder} />
+            {/* <ConfirmOrderPop showConfirmOrder={showConfirmOrder} setShowConfirmOrder={setShowConfirmOrder} showModal={showModal} token={token} esewaPaymentData={esewaPaymentData} paymentType={paymentType} /> */}
             <div className="flex justify-between items-center">
 
                 <HeadingTitle title="Order Summary" />
@@ -213,7 +182,7 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                                     <button className="bg-primary_blue text-white py-3 w-full" onClick={checkoutHandler}>Checkout</button>
                                 </div>
                             </> : <>
-                                <div className="cancel_checkout flex flex-end" title="Cancel Checkout" onClick={() => setCheckoutStatus(!checkoutStatus)}>
+                                <div className="cancel_checkout cursor-pointer bg-primary_blue p-3 text-white text-center my-4" title="Cancel Checkout" onClick={() => setCheckoutStatus(!checkoutStatus)}>
                                     Cancel
                                 </div>
                                 {activeCart?.map((currCart) => {
@@ -338,36 +307,28 @@ const ActiveCart = ({ setCheckoutStatus, checkoutStatus, token, shippingData }) 
                 ) : <div className="my-5 py-4"><span className="border-t-2 border-b-2 py-4 text-gray-600  w-full">No product to checkout.</span></div>
             }
 
+            {showConfirmModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg transform transition-all duration-300 scale-100">
+                        <p className="text-lg font-semibold mb-4 text-primary_blue">Confirm Order</p>
+                        <p className="mb-6">Are you sure you want to place this order?</p>
+                        <div className="flex justify-end">
+                            <button
+                                className="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded mr-2"
+                                onClick={() => setShowConfirmModal(false)}>
+                                Cancel
+                            </button>
+                            <button
+                                className="bg-green-500 hover:bg-green-700 text-white px-4 py-2 rounded"
+                                onClick={confirmOrderHandler}>
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
-            {/* <div className="active_carts">
-
-                {
-                    activeCart ? <>
-                        {
-                            activeCart.map((currCart) => {
-                                const { quantity, product_id, totalprice } = currCart
-                                return (
-                                    <>
-
-                                        {currCart.product_id} {currCart.product.name}
-                                        <div className="quantity">
-                                            {quantity}
-                                        </div>
-                                        <div className="amount">Amount:{totalprice}</div>
-                                        <div className="remove_active">
-                                            <button onClick={() => removeHandler(currCart.product_id)}>Delete</button>
-                                        </div>
-                <EsewaPayment />
-
-
-                                    </>
-                                )
-                            })
-                        }
-                    </> : <span>Nothing to show</span>
-                }
-            </div> */}
-        </div >
+        </div>
     )
 }
 
