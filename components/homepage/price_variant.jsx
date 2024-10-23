@@ -1,6 +1,9 @@
 "use client";
-import { setPriceRange } from "@/lib/store/slices/filterSlice";
+
+import { setPriceRange, toggleCategory } from "@/lib/store/slices/filterSlice";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { useDispatch } from "react-redux";
 
@@ -9,6 +12,7 @@ const Price_varaint = () => {
     {
       name: "skincare",
       bg: "#B1AFCF",
+      id: "27",
       ranges: [
         {
           id: 1,
@@ -25,8 +29,9 @@ const Price_varaint = () => {
       ],
     },
     {
-      name: "haircare",
+      name: "makeup",
       bg: "#E8f9f9",
+      id: "13",
       ranges: [
         {
           id: 1,
@@ -43,7 +48,8 @@ const Price_varaint = () => {
       ],
     },
     {
-      name: "makeup",
+      name: "haircare",
+      id: "29",
       bg: "#e7b453",
       ranges: [
         {
@@ -62,16 +68,25 @@ const Price_varaint = () => {
     },
   ];
 
+  const router = useRouter();
   const dispatch = useDispatch();
-  const handlePriceFilter = (price) => {
-    dispatch(setPriceRange({ min: 1, max: price }));
-  };
+
+
+  const handlePriceFilter = (id, price) => {
+    dispatch(toggleCategory(id));
+    router.push(`/filters?category=${id}&minPrice=1&maxPrice=${price}`)
+  }
+
+
+
+
   return (
     <div className="bg-gray-50 py-4">
       <div className="container">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
           {productsPriceRange.map((currCat) => {
-            const { name, ranges, bg } = currCat;
+            const { name, ranges, bg, id } = currCat;
+
             return (
               <>
                 <div className="skincare_price  flex flex-col gap-5">
@@ -81,13 +96,14 @@ const Price_varaint = () => {
                   <div className="price_range flex justify-around items-center">
                     {ranges.map((currRange, index) => {
                       return (
-                        <Link
+                        <div
                           key={index}
-                          href={`/filters?category=13&minPrice=1&maxPrice=${currRange.price}`}
-                          onClick={() => handlePriceFilter(currRange.price)}
+                          className="cursor-pointer"
+                          onClick={() => handlePriceFilter(id, currRange.price)}
                         >
                           <div
-                            className={`rounded-full w-24 h-24 flex justify-center items-center hover:bg-opacity-50 transition-all`}
+                            className={`rounded-full w-24 h-24 cursor-pointer flex justify-center items-center hover:bg-opacity-50 transition-all`}
+
                             style={{ backgroundColor: bg || "gray" }}
                           >
                             <div className="text-center">
@@ -97,7 +113,8 @@ const Price_varaint = () => {
                               </p>
                             </div>
                           </div>
-                        </Link>
+                        </div>
+
                       );
                     })}
                   </div>

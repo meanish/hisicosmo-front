@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import { Circular_Search_Box } from "./filter_form_section";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { storeBrandData } from "@/lib/store/slices/brand_category_slice";
 import { getBrandBasedProducts } from "@/app/api/brands/route";
 
@@ -31,7 +31,7 @@ export const BrandAccordionContainer = ({ title, itemLists }) => {
     if (query.length > 0) {
       try {
         const response = await fetch(
-          `http://tranquilbytes.com/hisicosmetics/brand/search?text=${query}`
+          `${process.env.NEXT_PUBLIC_HiSi_Server}/brand/search?text=${query}`
         );
         const data = await response.json();
         dispatch(storeBrandData(data?.data));
@@ -47,6 +47,13 @@ export const BrandAccordionContainer = ({ title, itemLists }) => {
   const handleCheckboxChange = (id) => {
     dispatch(toggleBrand(id));
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const brand = parseInt(searchParams.get('brand'))
+    console.log(brand)
+  }, [])
+
 
   return (
     <Accordion type="single" collapsible defaultValue="item-1">
