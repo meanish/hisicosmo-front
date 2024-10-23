@@ -89,13 +89,13 @@ export const Text_And_CTA = () => {
 export const Blue_Service_Section = () => {
   return (
     <div className="bg-blue_gray">
-      <ul className="py-10 container  flex justify-between">
+      <ul className="py-10 container  flex max-md:gap-4 max-md:flex-wrap max-md:justify-center justify-between">
         {list.map((item, index) => {
           const { title, subtitle, icon } = item;
           return (
             <div
               key={index}
-              className="h-11 flex justify-center items-center gap-2"
+              className="max-md:min-h-fit h-11 flex  justify-center items-center gap-2"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

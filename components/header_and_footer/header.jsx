@@ -21,10 +21,12 @@ export default Header;
 
 export const Header_CTA = () => {
   return (
-    <div className="cta w-full h-12 bg-gradient-to-r from-gradient_first via-gradient_middle to-gradient_last">
-      <div className="container h-full text-white text-sm flex items-center gap-6 justify-between">
-        <p className="font-medium  w-1/2">WELCOME TO HISI COSMO STUDIO</p>
-        <div className="w-1/2 flex justify-end gap-4 lg:w-1/3  md:justify-between">
+    <div className="cta w-full max-md:py-2 md:h-12 bg-gradient-to-r from-gradient_first via-gradient_middle to-gradient_last">
+      <div className="container h-full text-white text-sm flex max-md:flex-col  items-center gap-1 md:gap-6 justify-between">
+        <p className="font-medium w-full max-md:text-center md:w-1/2 ">
+          WELCOME TO HISI COSMO STUDIO
+        </p>
+        <div className=" w-full md:w-1/2 flex   gap-4 lg:w-1/3 justify-between">
           <span>800-877-4758</span>
           <span>info@gisicosmocom</span>
         </div>
