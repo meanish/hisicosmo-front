@@ -12,11 +12,13 @@ import CarousalSection from "./carousal_section";
 import ad1 from "../../public/images/ads/2.png";
 import ad2 from "../../public/images/ads/1.png";
 import CatSliderAds from "./catSliderads";
+import HeroCarousel from "./hero_carousel";
 
 const HomePage = ({ token }) => {
   return (
     <div className="flex flex-col gap-10">
-      <HeroSection />
+      {/* <HeroSection /> */}
+      <HeroCarousel />
       {/* <Best_Seller_Product />
       <Flash_Sales token={token} />
       <Price_varaint />

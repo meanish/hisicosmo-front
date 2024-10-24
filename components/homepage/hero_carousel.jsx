@@ -15,7 +15,7 @@ function SampleNextArrow(props) {
   return (
     <div
       className={
-        " max-md:hidden  absolute right-1 top-1/2 bg-black/70 text-gray-400 border grid place-items-center  rounded-full size-10 z-50 cursor-pointer hover:text-white "
+        " max-md:hidden  absolute right-1 top-1/2 bg-white/15 text-white grid place-items-center  rounded-full size-10 z-50 cursor-pointer hover:text-gray-400 shadow-lg "
       }
       onClick={onClick}
     >
@@ -29,7 +29,7 @@ function SamplePrevArrow(props) {
   return (
     <div
       className={
-        " max-md:hidden absolute left-1 top-1/2 bg-black/70 text-gray-400 border grid place-items-center  rounded-full size-10 z-50 cursor-pointer hover:text-white "
+        " max-md:hidden absolute left-1 top-1/2 bg-white/15 text-white border grid place-items-center  rounded-full size-10 z-50 cursor-pointer hover:text-gray-400 shadow-lg "
       }
       onClick={onClick}
     >
@@ -60,7 +60,7 @@ const HeroCarousel = () => {
 
   return (
     <>
-      <div className="slider-carausel min-h-fit slide-container w-full relative">
+      <div className="slider-carausel min-h-fit slide-container w-full relative 2xl:container ">
         <Slider {...settings}>
           <div className="slide-one relative w-full h-[420px] bg-fixed bg-no-repeat overflow-hidden">
             <ImageWithFallback
