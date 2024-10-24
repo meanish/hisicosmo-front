@@ -19,14 +19,14 @@ const HomePage = ({ token }) => {
     <div className="flex flex-col gap-10">
       {/* <HeroSection /> */}
       <HeroCarousel />
-      {/* <Best_Seller_Product />
+      <Best_Seller_Product />
       <Flash_Sales token={token} />
       <Price_varaint />
       <StaticAds />
       <CatSliderAds />
       <Flash_Sales token={token} />
       <CarousalSection />
-      <Best_Deal_On_Brands /> */}
+      <Best_Deal_On_Brands />
     </div>
   );
 };
@@ -113,8 +113,8 @@ export const HeroSection = () => {
 
 const StaticAds = () => {
   return (
-    <div className="mx-6">
-      <div className="static_images_ads relative grid grid-cols-2 gap-8 h-[50vh] overflow-hidden">
+    <div className="container">
+      <div className="static_images_ads relative grid md:grid-cols-2 gap-8 h-[50vh] overflow-hidden">
         <div className="relative overflow-hidden">
           <Image
             src={ad1}

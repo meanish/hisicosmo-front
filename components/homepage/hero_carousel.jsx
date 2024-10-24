@@ -15,7 +15,7 @@ function SampleNextArrow(props) {
   return (
     <div
       className={
-        " max-md:hidden  absolute right-1 top-1/2 bg-white/15 text-white grid place-items-center  rounded-full size-10 z-50 cursor-pointer hover:text-gray-400 shadow-lg "
+        " max-md:hidden  absolute right-1 top-1/2 bg-white/15 text-white border grid place-items-center  rounded-full size-10 z-50 cursor-pointer hover:text-gray-400 shadow-lg "
       }
       onClick={onClick}
     >

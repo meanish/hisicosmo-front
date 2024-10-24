@@ -102,7 +102,7 @@ const Price_varaint = () => {
                           onClick={() => handlePriceFilter(id, currRange.price)}
                         >
                           <div
-                            className={`rounded-full w-24 h-24 cursor-pointer flex justify-center items-center hover:bg-opacity-50 transition-all`}
+                            className={`rounded-full w-20 h-20 md:w-24 md:h-24 cursor-pointer flex justify-center items-center hover:bg-opacity-50 transition-all`}
 
                             style={{ backgroundColor: bg || "gray" }}
                           >
