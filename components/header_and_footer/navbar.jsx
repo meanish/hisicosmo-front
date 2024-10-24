@@ -10,8 +10,11 @@ import { IoIosClose } from "react-icons/io";
 export const Nav_Content = ({ nav_category }) => {
   const [userInput, setUserInput] = useState("");
   const [searchedProduct, setSearchedProduct] = useState(null);
+  const [openDropDown, setOpenDropDown] = useState(false);
   const [openSearchBox, setOpenSearchBox] = useState(false);
   const searhRef = useRef();
+  const mobileMenuRef = useRef();
+  useClickOutside(mobileMenuRef, () => setOpenDropDown(false));
   useClickOutside(searhRef, () => setOpenSearchBox(false));
 
   const handleSearch = async (e) => {
@@ -41,15 +44,27 @@ export const Nav_Content = ({ nav_category }) => {
     <div className="w-full  border-b-4">
       <div className="nav-section container max-md:px-2">
         <div className="py-4 flex max-md:gap-2 items-center justify-between">
-          <div className="nav_links relative">
-            <p className=" md:hidden font-semibold text-center">Categories:</p>
-            <ul className="flex items-center gap-7 max-md:flex-col max-md:absolute max-md:top-full w-full min-w-fit max-md:py-1 max-md:gap-2 max-md:bg-white max-md:shadow-lg max-md:rounded-md max-md:rounded-t-none">
+          <div ref={mobileMenuRef} className="nav_links relative">
+            <p
+              onClick={() => setOpenDropDown(!openDropDown)}
+              className=" md:hidden text-base font-medium text-center active:font-semibold"
+            >
+              Categories:
+            </p>
+            <ul
+              className={`flex items-center gap-7 max-md:flex-col max-md:absolute max-md:top-full w-full min-w-fit max-md:py-1 max-md:gap-2 max-md:bg-white max-md:shadow-lg max-md:rounded-md max-md:rounded-t-none ${
+                openDropDown ? "max-md:block" : "max-md:hidden"
+              }`}
+            >
               {nav_category?.map((category, index) => (
                 <MenuItem key={index} category={category} />
               ))}
             </ul>
           </div>
-          <div ref={searhRef} className="search_box relative max-w-[350px] max-md:w-[60%]">
+          <div
+            ref={searhRef}
+            className="search_box relative max-w-[350px] max-md:w-[60%]"
+          >
             <input
               value={userInput}
               name="userInput"
@@ -132,7 +147,9 @@ export const MenuItem = ({ category }) => {
     <li className="md:flex items-center capitalize min-w-fit w-full">
       {category.subcategories?.length ? (
         <div className="hover:text-primary_blue capitalize hover:font-medium border-b-2 border-transparent hover:border-primary_blue min-w-fit max-md:px-1 max-md:rounded-sm hover:cursor-pointer max-md:active:bg-gray-200 ">
-          <span className="select-none" onClick={handleDropDownOpen}>{category.name}</span>
+          <span className="select-none" onClick={handleDropDownOpen}>
+            {category.name}
+          </span>
           <Dropdown
             setOpenSubCat={setOpenSubCat}
             openSubCat={openSubCat}
@@ -213,7 +230,7 @@ export const Dropdown = ({
               </button> */}
             </ul>
             <button
-              onClick={() => setOpenSubCat(false)}
+              onClick={handleDropdownClose}
               className="close-modal absolute md:hidden z-50 active:font-semibold top-0 right-0"
             >
               <IoIosClose size={20} />
