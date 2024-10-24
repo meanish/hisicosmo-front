@@ -20,7 +20,7 @@ const Best_Deal_On_Brands = () => {
   }, []);
 
   return (
-    <div className="p-5 bg-ad_bg_gray">
+    <div className="md:p-5 bg-ad_bg_gray">
       <div className="container">
         <div className="header flex flex-wrap gap-2 items-center justify-between">
           <h3 className="text-bg_footer md:text-nowrap text-xl md:text-3xl font-bold">
