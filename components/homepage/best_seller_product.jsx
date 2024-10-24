@@ -15,18 +15,14 @@ const Best_Seller_Product = () => {
         </div>
       </div> */}
 
-
       <div className="w-full py-8 bg-primary_blue/40 flex-col justify-start items-center">
-        <div className="container flex  justify-between gap-4">
+        <div className="container flex flex-wrap justify-evenly gap-4">
           {Array(8)
             .fill(null)
             .map((item, index) => {
               return (
-                <div className="flex flex-col items-center gap-3">
-                  <div
-                    key={index}
-                    className="bg-white p-3 flex justify-center items-center rounded-full w-28 h-28"
-                  >
+                <div key={index} className="flex flex-col items-center gap-3">
+                  <div className="bg-white p-3 flex justify-center items-center rounded-full w-28 h-28">
                     <Image
                       className="w-24 h-24 object-cover rounded-full"
                       src={productSeller}
@@ -36,17 +32,14 @@ const Best_Seller_Product = () => {
                     />
                   </div>
                   <div className="flex-col justify-start items-center flex">
-                    <p className=" text-center text-sm font-normal">
-                      Skincare
-                    </p>
+                    <p className=" text-center text-sm font-normal">Skincare</p>
                   </div>
                 </div>
-
               );
             })}
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

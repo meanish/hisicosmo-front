@@ -27,23 +27,20 @@ import { storeToken } from "@/lib/store/slices/userDataSlice";
 import { ArrowRight } from "lucide-react";
 import MainPageHeaders from "../ui/mainHeaders";
 
-
 const Flash_Sales = ({ token }) => {
-  const [isFav, setFav] = useState(JSON.parse(localStorage.getItem("Favorites")) || []);
-  const storedUserToken = useSelector((state) => state.manageUserData.token)
+  const [isFav, setFav] = useState(
+    JSON.parse(localStorage.getItem("Favorites")) || []
+  );
+  const storedUserToken = useSelector((state) => state.manageUserData.token);
 
+  console.log(storedUserToken);
 
-
-  console.log(storedUserToken)
-
-
-
-  const { data: session } = useSession()
-  console.log(session?.user?.token)
+  const { data: session } = useSession();
+  console.log(session?.user?.token);
 
   const [allProducts, setAllProducts] = useState();
-  const router = useRouter()
-  const dispatch = useDispatch()
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProductLists = async () => {
@@ -54,82 +51,70 @@ const Flash_Sales = ({ token }) => {
     getProductLists();
   }, []);
 
-
-
   useEffect(() => {
     if (token && !storedUserToken) {
-      dispatch(storeToken({ token }))
+      dispatch(storeToken({ token }));
     }
-  }, [token])
-
-
-
+  }, [token]);
 
   const setfavoriteHandler = (id) => {
-    const favorites = JSON.parse(window.localStorage.getItem("Favorites")) || [];
+    const favorites =
+      JSON.parse(window.localStorage.getItem("Favorites")) || [];
     if (favorites.includes(id)) {
-      const updatedFavorites = favorites.filter(favId => favId !== id);
+      const updatedFavorites = favorites.filter((favId) => favId !== id);
       localStorage.setItem("Favorites", JSON.stringify(updatedFavorites));
-      setFav(updatedFavorites)
-      dispatch(activeFavDisplay({ number: updatedFavorites.length }))
-
+      setFav(updatedFavorites);
+      dispatch(activeFavDisplay({ number: updatedFavorites.length }));
     } else {
       favorites.push(id);
       localStorage.setItem("Favorites", JSON.stringify(favorites));
-      setFav([...isFav, id])
-      dispatch(activeFavDisplay({ number: favorites.length }))
-
+      setFav([...isFav, id]);
+      dispatch(activeFavDisplay({ number: favorites.length }));
     }
-
   };
-
-
 
   const cartHandler = async (id) => {
     if (!token) {
-      dispatch(activeStatusLogin())
+      dispatch(activeStatusLogin());
       // router.push("/auth/login")
-    }
-    else {
+    } else {
       try {
-
         const res = await fetch("/api/cart/store", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ id, quantity: 1 })
-        })
+          body: JSON.stringify({ id, quantity: 1 }),
+        });
 
-        const response = await res.json()
+        const response = await res.json();
 
         if (response?.status === 200) {
-
-          console.log(response)
-          toast.success(response?.message)
-          dispatch(activeCartDisplay())
-
+          console.log(response);
+          toast.success(response?.message);
+          dispatch(activeCartDisplay());
+        } else {
+          toast.error(response?.message);
         }
-        else {
-          toast.error(response?.message)
-        }
-      }
-      catch (e) {
-        toast.error("Eror in adding cart", e.message)
+      } catch (e) {
+        toast.error("Eror in adding cart", e.message);
       }
     }
-  }
+  };
 
   return (
     <div className="container">
-      <MainPageHeaders main="Exclusive Deal" sub="Discover unbeatable offers you'll love"  />
+      <MainPageHeaders
+        main="Exclusive Deal"
+        sub="Discover unbeatable offers you'll love"
+      />
       <Carousel
         opts={{
           align: "start",
         }}
         className=""
       >
-        <CarouselContent>   
+        <CarouselContent>
           {allProducts?.slice(0, 9).map((item, index) => {
             const {
               featured_image,
@@ -182,15 +167,24 @@ const Flash_Sales = ({ token }) => {
                   <p className="line-clamp-2 text-sm">{description} </p>
                 </div>
                 <div className="add-to-cart flex w-44 items-center gap-2">
-                  <button className="w-[152px] h-[30px] hover:bg-opacity-80 active:scale-90 active:bg-opacity-100 rounded text-sm bg-primary_blue text-white" onClick={() => cartHandler(item.id)}>
+                  <button
+                    className="w-[152px] h-[30px] hover:bg-opacity-80 active:scale-90 active:bg-opacity-100 rounded text-sm bg-primary_blue text-white"
+                    onClick={() => cartHandler(item.id)}
+                  >
                     Add To Cart
                   </button>
                   {Array.isArray(isFav) && (
                     <button onClick={() => setfavoriteHandler(id)}>
                       {isFav.includes(id) ? (
-                        <FaHeart size={25} className="text-red-500 cursor-pointer" />
+                        <FaHeart
+                          size={25}
+                          className="text-red-500 cursor-pointer"
+                        />
                       ) : (
-                        <FiHeart size={25} className="text-red-500 cursor-pointer" />
+                        <FiHeart
+                          size={25}
+                          className="text-red-500 cursor-pointer"
+                        />
                       )}
                     </button>
                   )}
@@ -200,8 +194,8 @@ const Flash_Sales = ({ token }) => {
           })}
         </CarouselContent>
 
-        <CarouselPrevious className="left-5" />
-        <CarouselNext className="right-12" />
+        <CarouselPrevious className="left-5 max-md:hidden" />
+        <CarouselNext className="right-12 max-md:hidden" />
       </Carousel>
     </div>
   );

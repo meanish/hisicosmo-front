@@ -158,12 +158,9 @@ export const Logo_Account_Section = ({ token }) => {
   const { favNumber, showFav } = useSelector((state) => state.managefavorites);
 
   return (
-    <div
-      ref={dropDownRef}
-      className="bg-white relative shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist"
-    >
-      <div className="container w-full flex items-center">
-        <div className="logo w-1/2 ">
+    <div className="bg-white relative shadow-[inset_0px_-15px_10px_20px_rgb(0,0,0,0.05)] border-b h-20 account-wishlist">
+      <div className="container w-full h-full md:flex items-center">
+        <div className="logo w-1/2 max-md:hidden ">
           <Link href={"/"}>
             <Image
               className="logo_image ml-auto cursor-pointer"
@@ -176,8 +173,11 @@ export const Logo_Account_Section = ({ token }) => {
           </Link>
         </div>
 
-        <div className="account-avatar  w-1/2 flex items-center gap-10 justify-end">
-          <div className="account_icon flex items-center gap-1">
+        <div className="account-avatar h-full md:w-1/2 flex items-center justify-between gap-2 md:gap-10 md:justify-end">
+          <div
+            ref={dropDownRef}
+            className="account_icon relative h-full flex items-center gap-1"
+          >
             <RxAvatar
               onClick={() => router.push("/auth/login")}
               size={40}
@@ -206,9 +206,17 @@ export const Logo_Account_Section = ({ token }) => {
                 </Link>
               )}
             </div>
+
+            <SidebarSettings
+              setOpenDropDown={setOpenDropDown}
+              className={`${
+                openDropDown ? "block" : "hidden"
+              } absolute border shadow top-full py-0 z-[55] min-w-fit md:w-80 left-0 max-md:min-w-max max-md:w-full`}
+            />
           </div>
+
           <div
-            className="icons flex items-center gap-10 justify-between"
+            className="icons flex items-center gap-2 md:gap-10 justify-between"
             title="Wishlist"
           >
             <Link href="/settings/wishlist">
@@ -237,12 +245,6 @@ export const Logo_Account_Section = ({ token }) => {
           </div>
         </div>
       </div>
-      <SidebarSettings
-        setOpenDropDown={setOpenDropDown}
-        className={`${
-          openDropDown ? "block" : "hidden"
-        } absolute border shadow top-full py-0 z-[55] min-w-fit w-80 right-4`}
-      />
     </div>
   );
 };

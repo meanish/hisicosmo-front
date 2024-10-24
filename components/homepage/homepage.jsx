@@ -9,14 +9,16 @@ import Flash_Sales from "./flash_sales";
 import Price_varaint from "./price_variant";
 import Best_Deal_On_Brands from "./best_deal_on_brands";
 import CarousalSection from "./carousal_section";
-import ad1 from "../../public/images/ads/2.png"
-import ad2 from "../../public/images/ads/1.png"
+import ad1 from "../../public/images/ads/2.png";
+import ad2 from "../../public/images/ads/1.png";
 import CatSliderAds from "./catSliderads";
+import HeroCarousel from "./hero_carousel";
 
 const HomePage = ({ token }) => {
   return (
     <div className="flex flex-col gap-10">
-      <HeroSection />
+      {/* <HeroSection /> */}
+      <HeroCarousel />
       <Best_Seller_Product />
       <Flash_Sales token={token} />
       <Price_varaint />
@@ -109,19 +111,27 @@ export const HeroSection = () => {
   );
 };
 
-
 const StaticAds = () => {
   return (
-    <div className="mx-6">
-      <div className="static_images_ads relative grid grid-cols-2 gap-8 h-[50vh] overflow-hidden">
+    <div className="container">
+      <div className="static_images_ads relative grid md:grid-cols-2 gap-8 h-[50vh] overflow-hidden">
         <div className="relative overflow-hidden">
-          <Image src={ad1} fill alt="ad1" className="object-cover transition-transform  duration-300 ease-in-out transform hover:scale-110" />
+          <Image
+            src={ad1}
+            fill
+            alt="ad1"
+            className="object-cover transition-transform  duration-300 ease-in-out transform hover:scale-110"
+          />
         </div>
         <div className="relative overflow-hidden">
-          <Image src={ad2} fill alt="ad2" className="object-cover transition-transform overflow-hidden duration-300 ease-in-out transform hover:scale-110" />
+          <Image
+            src={ad2}
+            fill
+            alt="ad2"
+            className="object-cover transition-transform overflow-hidden duration-300 ease-in-out transform hover:scale-110"
+          />
         </div>
       </div>
     </div>
-  )
-
-}
+  );
+};

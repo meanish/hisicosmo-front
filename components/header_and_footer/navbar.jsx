@@ -5,12 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { useClickOutside } from "@/utils/useClickOutside";
 import { ImageWithFallback } from "../ui/imageWithFallBack";
+import { IoIosClose } from "react-icons/io";
 
 export const Nav_Content = ({ nav_category }) => {
   const [userInput, setUserInput] = useState("");
   const [searchedProduct, setSearchedProduct] = useState(null);
+  const [openDropDown, setOpenDropDown] = useState(false);
   const [openSearchBox, setOpenSearchBox] = useState(false);
   const searhRef = useRef();
+  const mobileMenuRef = useRef();
+  useClickOutside(mobileMenuRef, () => setOpenDropDown(false));
   useClickOutside(searhRef, () => setOpenSearchBox(false));
 
   const handleSearch = async (e) => {
@@ -38,21 +42,34 @@ export const Nav_Content = ({ nav_category }) => {
   }, [userInput]);
   return (
     <div className="w-full  border-b-4">
-      <div className="nav-section container">
-        <div className="py-4 flex items-center justify-between">
-          <div className="nav_links">
-            <ul className="flex items-center gap-7">
+      <div className="nav-section container max-md:px-2">
+        <div className="py-4 flex max-md:gap-2 items-center justify-between">
+          <div ref={mobileMenuRef} className="nav_links relative">
+            <p
+              onClick={() => setOpenDropDown(!openDropDown)}
+              className=" md:hidden text-base font-medium text-center active:font-semibold"
+            >
+              Categories:
+            </p>
+            <ul
+              className={`flex items-center gap-7 max-md:flex-col max-md:absolute max-md:top-full w-full min-w-fit max-md:py-1 max-md:gap-2 max-md:bg-white max-md:shadow-lg max-md:rounded-md max-md:rounded-t-none ${
+                openDropDown ? "max-md:block" : "max-md:hidden"
+              }`}
+            >
               {nav_category?.map((category, index) => (
                 <MenuItem key={index} category={category} />
               ))}
             </ul>
           </div>
-          <div ref={searhRef} className="search_box relative max-w-[350px]">
+          <div
+            ref={searhRef}
+            className="search_box relative max-w-[350px] max-md:w-[60%]"
+          >
             <input
               value={userInput}
               name="userInput"
               onChange={handleSearch}
-              className="border text-sm w-full outline-primary_blue py-3 px-4 h-10 placeholder:text-gray-700 bg-gray-100"
+              className="border text-sm w-full outline-primary_blue py-3 pl-4 pr-9 h-10 placeholder:text-gray-700 bg-gray-100"
               type="text"
               placeholder="Search products..."
             />
@@ -76,17 +93,24 @@ export const SearchResults = ({ searchedProduct }) => {
       {searchedProduct?.length ? (
         <ul className="grid gap-2 w-full ">
           {searchedProduct?.map((product, index) => {
-
-            console.log(searchedProduct)
+            console.log(searchedProduct);
             const { name, id, featured_image, price } = product;
             return (
               <Link
                 href={`product/${id}`}
                 className="block overflow-x-clip hover:text-primary_gold text-nowrap w-full border-b p-2"
               >
-                <li key={index} className="w-full flex items-center gap-3" >
-                  <div className="prod_images relative" style={{ width: "40px", height: "40px" }}>
-                    <ImageWithFallback src={featured_image} fill className="w-10 h-10" alt={name} />
+                <li key={index} className="w-full flex items-center gap-3">
+                  <div
+                    className="prod_images relative"
+                    style={{ width: "40px", height: "40px" }}
+                  >
+                    <ImageWithFallback
+                      src={featured_image}
+                      fill
+                      className="w-10 h-10"
+                      alt={name}
+                    />
                   </div>
 
                   <span className="text-primary_blue text-sm">{name}</span>
@@ -117,14 +141,17 @@ export const MenuItem = ({ category }) => {
     setOpenSubCat(false);
     document.body.style.overflow = "auto";
   }
+  console.log(openSubCat, "subCat");
 
   return (
-    <li className="flex items-center capitalize">
+    <li className="md:flex items-center capitalize min-w-fit w-full">
       {category.subcategories?.length ? (
-        <div className="hover:text-primary_blue capitalize hover:font-medium border-b-2 border-transparent hover:border-primary_blue " onClick={handleDropDownOpen}>
-
-          {category.name}
+        <div className="hover:text-primary_blue capitalize hover:font-medium border-b-2 border-transparent hover:border-primary_blue min-w-fit max-md:px-1 max-md:rounded-sm hover:cursor-pointer max-md:active:bg-gray-200 ">
+          <span className="select-none" onClick={handleDropDownOpen}>
+            {category.name}
+          </span>
           <Dropdown
+            setOpenSubCat={setOpenSubCat}
             openSubCat={openSubCat}
             handleDropdownClose={handleDropdownClose}
             category={category}
@@ -134,7 +161,7 @@ export const MenuItem = ({ category }) => {
       ) : (
         <div className="hover:text-primary_blue capitalize  hover:font-medium border-b-2 border-transparent hover:border-primary_blue ">
           <Link
-            className="m-0 p-0 h-full"
+            className="m-0 p-0 select-none h-full min-w-fit max-md:px-1 max-md:rounded-sm"
             href={`/filters?category=${category.id}`}
           >
             {category.name}
@@ -150,6 +177,7 @@ export const Dropdown = ({
   openSubCat,
   dropDownRef,
   handleDropdownClose,
+  setOpenSubCat,
 }) => {
   return (
     <>
@@ -160,23 +188,23 @@ export const Dropdown = ({
           <div
             onMouseLeave={handleDropdownClose}
             ref={dropDownRef}
-            className={` relative top-[197px]  flex gap-4 justify-between border overflow-hidden z-50 bg-white w-10/12  h-[420px] shadow p-5`}
+            className={` relative top-[197px]  flex gap-4 justify-between border overflow-hidden z-50 bg-white w-10/12  md:h-[420px] min-h-fit h-fit shadow p-5`}
           >
-            <div className=" relative w-[330px] h-full overflow-hidden">
-              <div className="absolute flex items-end w-full h-full p-8 bg-fixed bg-primary_blue/50 top-0 left-0 bottom-0 right-0">
+            <div className=" relative md:w-[330px] w-full h-full overflow-hidden">
+              <div className="absolute flex items-end w-full h-full md:p-8 bg-fixed bg-primary_blue/50 top-0 left-0 bottom-0 right-0">
                 <div className="h-fit w-full text-start space-y-3">
-                  <h4 className="text-3xl capitalize text-white font-bold">
+                  <h4 className="md:text-3xl text-xl capitalize text-white font-bold">
                     {category.name}
                   </h4>
                   <Link
                     href={category.slug}
-                    className="text-lg border-b-2 border-transparent hover:border-b-white block w-fit scale-95 hover:scale-100 text-white"
+                    className="md:text-lg text-base border-b-2 border-transparent hover:border-b-white block w-fit scale-95 hover:scale-100 text-white"
                   >
                     Explore All
                   </Link>
                 </div>
               </div>
-              <Image
+              <ImageWithFallback
                 src={category.featured_image}
                 alt="category-image"
                 style={{ objectFit: "contain" }}
@@ -185,7 +213,7 @@ export const Dropdown = ({
               />
             </div>
             <ul className="w-full flex  justify-between">
-              <div className="flex flex-col py-4 gap-4">
+              <div className="flex flex-col py-4 gap-2 md:gap-4">
                 {category?.subcategories.map((subLink, index) => (
                   <li key={index}>
                     <Link
@@ -201,6 +229,12 @@ export const Dropdown = ({
                 <X />
               </button> */}
             </ul>
+            <button
+              onClick={handleDropdownClose}
+              className="close-modal absolute md:hidden z-50 active:font-semibold top-0 right-0"
+            >
+              <IoIosClose size={20} />
+            </button>
           </div>
         </div>
       )}
