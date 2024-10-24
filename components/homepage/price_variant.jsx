@@ -1,5 +1,7 @@
 "use client";
+
 import { setPriceRange, toggleCategory } from "@/lib/store/slices/filterSlice";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -77,12 +79,14 @@ const Price_varaint = () => {
 
 
 
+
   return (
     <div className="bg-gray-50 py-4">
       <div className="container">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
           {productsPriceRange.map((currCat) => {
             const { name, ranges, bg, id } = currCat;
+
             return (
               <>
                 <div className="skincare_price  flex flex-col gap-5">
@@ -99,6 +103,7 @@ const Price_varaint = () => {
                         >
                           <div
                             className={`rounded-full w-24 h-24 cursor-pointer flex justify-center items-center hover:bg-opacity-50 transition-all`}
+
                             style={{ backgroundColor: bg || "gray" }}
                           >
                             <div className="text-center">
@@ -109,6 +114,7 @@ const Price_varaint = () => {
                             </div>
                           </div>
                         </div>
+
                       );
                     })}
                   </div>
