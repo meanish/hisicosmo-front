@@ -71,7 +71,7 @@ export const CategoryAccordionContainer = ({ title }) => {
                         value={`item-${id}`}
                         className="border-b-0"
                       >
-                        <AccordionTrigger className="font-semibold text-base text-black">
+                        <AccordionTrigger className="font-semibold text-base xl:text-xl text-black">
                           {name}
                         </AccordionTrigger>
                         <AccordionContent>

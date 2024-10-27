@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { storeFilteredProductList } from "@/lib/store/slices/filterSlice";
+import { CiFilter } from "react-icons/ci";
+import { Filter_Form_Section } from "./filter_form_section";
 
 export const Product_List_Section = () => {
   const dispatch = useDispatch();
@@ -13,10 +15,10 @@ export const Product_List_Section = () => {
 
   const [sortByName, setSortByName] = useState("");
   const [sortByPrice, setSortByPrice] = useState("");
+  const [openFilterSection, setOpenFilterSection] = useState(false);
 
   // Natural sorting function
   const handleSort = (name, value) => {
-
     let sortedList = [...filteredProductList];
 
     // Custom compare function for natural sorting
@@ -37,17 +39,14 @@ export const Product_List_Section = () => {
     // Sort by price
     if (value === "low-to-high") {
       sortedList.sort((a, b) => a.price - b.price); // Ascending price
-
     } else if (value === "high-to-low") {
       sortedList.sort((a, b) => b.price - a.price); // Descending price
     }
     {
-      if (name == "sortByName"){
-        setSortByPrice("")
-      }
-      else{
-        setSortByName("")
-
+      if (name == "sortByName") {
+        setSortByPrice("");
+      } else {
+        setSortByName("");
       }
     }
 
@@ -60,7 +59,7 @@ export const Product_List_Section = () => {
 
   // Handle changes for name sort
   const handleSortByNameChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
     setSortByName(e.target.value); // Update sort state
     handleSort(name, value);
@@ -68,50 +67,68 @@ export const Product_List_Section = () => {
 
   // Handle changes for price sort
   const handleSortByPriceChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setSortByPrice(e.target.value); // Update sort state
     handleSort(name, value);
   };
-
+  console.log(openFilterSection, "filtersection");
   return (
-    <div className="w-full">
-      <div className="head-section  w-full flex justify-between gap-3 items-center">
+    <div className="w-full relative">
+      <div
+        className={`filter-form-sidebar ${
+          openFilterSection ? "md:block" : "md:hidden"
+        } absolute top-0 right-0  min-w-fit w-10/12 bg-black/60`}
+      >
+        <Filter_Form_Section
+          setOpenFilterSection={setOpenFilterSection}
+          className={`  bg-white border rounded-sm shadow-lg min-w-fit w-full `}
+        />
+      </div>
+      <div className="head-section  w-full flex max-lg:flex-col justify-between gap-3 items-center">
         <div className="left-title-section">
           <p>Categories</p>
           <h4 className="text-primary_blue  text-lg font-medium">Facewash</h4>
         </div>
-        <div className="sort-section flex gap-4">
-          <select
-            value={sortByName}
-            onChange={handleSortByNameChange}
-            name="sortByName"
-            id="sortByName"
-            className=" text-center text-black py-2 w-48 border rounded-full"
+        <div>
+          <button
+            onClick={() => setOpenFilterSection(true)}
+            className="lg:hidden w-full hover:cursor-pointer mb-2  font-medium flex gap-1 justify-end items-center"
           >
-            <option disabled selected className="text-black" value="">
-              Sort By Name
-            </option>
-            <option value="A-Z">A-Z</option>
-            <option value="Z-A">Z-A</option>
-          </select>
+            Filter <CiFilter />
+          </button>
+          <div className="sort-section flex gap-4">
+            <select
+              value={sortByName}
+              onChange={handleSortByNameChange}
+              name="sortByName"
+              id="sortByName"
+              className=" text-center text-black py-2 w-48 border rounded-full"
+            >
+              <option disabled selected className="text-black" value="">
+                Sort By Name
+              </option>
+              <option value="A-Z">A-Z</option>
+              <option value="Z-A">Z-A</option>
+            </select>
 
-          <select
-            value={sortByPrice}
-            name="sortByPrice"
-            onChange={handleSortByPriceChange}
-            id="sortByPrice"
-            className="text-center text-black py-2 w-48 border rounded-full"
-          >
-            <option disabled selected className="text-black" value="">
-              Sort By Price
-            </option>
-            <option value="low-to-high">Low to High</option>
-            <option value="high-to-low">High to Low</option>
-          </select>
+            <select
+              value={sortByPrice}
+              name="sortByPrice"
+              onChange={handleSortByPriceChange}
+              id="sortByPrice"
+              className="text-center text-black py-2 w-48 border rounded-full"
+            >
+              <option disabled selected className="text-black" value="">
+                Sort By Price
+              </option>
+              <option value="low-to-high">Low to High</option>
+              <option value="high-to-low">High to Low</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div className="productList py-4 flex flex-wrap gap-2 overflow-y-auto">
+      <div className="productList py-4 grid grid-cols-2  md:grid-cols-3 xl:grid-cols-4 gap-2 overflow-y-auto">
         {filteredProductList.map((item, index) => {
           const {
             brand_id,
@@ -127,8 +144,11 @@ export const Product_List_Section = () => {
             updatedAt,
           } = item;
           return (
-            <div key={index} className="card-item border rounded-md ">
-              <div className="max-w-60 w-auto h-[312px] bg-white relative overflow-hidden rounded-t-lg">
+            <div
+              key={index}
+              className="card-item border rounded-md w-full h-full "
+            >
+              <div className="w-full h-[312px] bg-white relative overflow-hidden rounded-t-lg">
                 <Image
                   src={deal_product_image}
                   fill
@@ -137,17 +157,17 @@ export const Product_List_Section = () => {
                   alt="deal-product-image"
                 />
               </div>
-              <div className="text-title p-5 bg-white rounded-b-lg w-[231px] h-fit">
+              <div className="text-title p-5 bg-white rounded-b-lg w-full h-[117px]">
                 <Link href={`/product/${id}`}>
-                  <p className="text-primary_blue font-base leading-snug tracking-wide line-clamp-2  mb-2 hover:underline">
+                  <p className="text-primary_blue text-wrap font-base leading-snug tracking-wide line-clamp-2  mb-2 hover:underline">
                     {name}
                   </p>
                 </Link>
-                <p className="text-xl font-normal  tracking-wide leading-tight text-primary_blue line-clamp-2">
+                <p className="text-xl font-normal text-wrap  tracking-wide leading-tight text-primary_blue line-clamp-2">
                   {price}
                 </p>
 
-                <div className="discount flex gap-2">
+                <div className="discount flex gap-2 text-wrap">
                   <span className="line-through leading-none tracking-wide text-xs">
                     NPR. 638.4
                   </span>

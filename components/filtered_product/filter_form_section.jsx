@@ -4,7 +4,8 @@ import { GrPowerReset } from "react-icons/gr";
 import { FaRegCircle } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  resetFilters, setPriceRange,
+  resetFilters,
+  setPriceRange,
   toggleBrand,
   toggleCategory,
 } from "@/lib/store/slices/filterSlice";
@@ -19,8 +20,10 @@ import {
 import { getBrandBasedProducts } from "@/app/api/brands/route";
 import { getNavCategory } from "@/app/api/nav_category/route";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
 
-export const Filter_Form_Section = () => {
+export const Filter_Form_Section = ({ className, setOpenFilterSection }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -47,7 +50,7 @@ export const Filter_Form_Section = () => {
   }, [dispatch]);
 
   return (
-    <div className="w-1/4 p-4">
+    <div className={cn(`lg:w-1/4 p-4 max-lg:hidden`, className)}>
       <div className="head-section mb-5 flex justify-between items-center">
         <p className="font-medium text-base">Filter</p>
         <button
@@ -67,6 +70,12 @@ export const Filter_Form_Section = () => {
       </div>
       <div className="price-range">
         <PriceRangeSlider />
+      </div>
+      <div
+        className="save lg:hidden my-5"
+        onClick={() => setOpenFilterSection(false)}
+      >
+        <Button className="border">Save</Button>
       </div>
     </div>
   );
@@ -99,21 +108,20 @@ export const PriceRangeSlider = () => {
   const MAX = 20000;
 
   const handlePriceChange = (values) => {
-    console.log("Changes")
+    console.log("Changes");
     const [minPrice, maxPrice] = values;
-    dispatch(setPriceRange({ min: parseInt(minPrice), max: parseInt(maxPrice) }));
+    dispatch(
+      setPriceRange({ min: parseInt(minPrice), max: parseInt(maxPrice) })
+    );
   };
-
 
   // on page relaod and place the params prices
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const minPrice = parseInt(searchParams.get('minPrice')) || MIN;
-    const maxPrice = parseInt(searchParams.get('maxPrice')) || MAX;
+    const minPrice = parseInt(searchParams.get("minPrice")) || MIN;
+    const maxPrice = parseInt(searchParams.get("maxPrice")) || MAX;
     dispatch(setPriceRange({ min: minPrice, max: maxPrice }));
   }, []);
-
-
 
   return (
     <div className="price-range grid gap-4 mt-9">
