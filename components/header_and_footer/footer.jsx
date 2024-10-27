@@ -15,7 +15,7 @@ const Footer = () => {
     <div className="bg-bg_footer w-full text-white">
       <div className="container py-14">
         <div className="top flex flex-col items-center">
-          <ul className="flex gap-9">
+          <ul className="flex flex-wrap justify-center gap-4  md:gap-9">
             <li>
               <Link href={"#"}>Our Shop</Link>
             </li>
@@ -44,8 +44,8 @@ const Footer = () => {
           />
         </div>
 
-        <div className="bottom grid grid-cols-3 gap-4 py-5 border-y">
-          <div className="about_us min-h-[367px] flex flex-col gap-4">
+        <div className="bottom grid sm:grid-cols-2 md:grid-cols-3 gap-4 py-5 border-y">
+          <div className="about_us min-h-fit flex flex-col gap-4">
             <h3 className="text-2xl">About Us</h3>
             <p className="text-pretty pr-6">
               Obsession Cosmetics was born in 2014 .A beauty brand store is one
